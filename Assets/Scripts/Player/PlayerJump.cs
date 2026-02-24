@@ -51,19 +51,6 @@ public class PlayerJump : MonoBehaviour
         _defaultGravityScale = 1f;
     }
 
-    private void OnEnable()
-    {
-        if (!InputActions.FindActionMap("Player").enabled)
-        {
-            InputActions.FindActionMap("Player").Enable();
-        }
-    }
-
-    private void OnDisable()
-    {
-        InputActions.FindActionMap("Player").Disable();
-    }
-
     private void Update()
     {
         // Check the frame-based press here and set a flag for physics step

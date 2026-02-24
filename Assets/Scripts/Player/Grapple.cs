@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.WSA;
 
 public class Grapple : MonoBehaviour
 {
@@ -13,11 +12,9 @@ public class Grapple : MonoBehaviour
     private bool _isGrounded;
     private bool _isGrappling;
 
-
     [SerializeField] private Rigidbody2D _rigidbody;
     public GameObject Player;
     public LineRenderer _lineRenderer;
-    public DistanceJoint2D _distanceJoint;
 
     private List<Collider2D> _collidersList = new List<Collider2D>();
 
@@ -27,7 +24,7 @@ public class Grapple : MonoBehaviour
 
     public GameObject GrappleTip;
 
-    public float GrappleTime = 10f;
+    public float GrappleSpeed = 10f;
     public float LaunchForce = 10f;
 
     private void Awake()
@@ -35,23 +32,8 @@ public class Grapple : MonoBehaviour
         _jump = InputActions.FindAction("Jump");
 
         _lineRenderer.enabled = false;
-        _distanceJoint.enabled = false;
         GrappleTip.SetActive(false);
     }
-
-    private void OnEnable()
-    {
-        if (!InputActions.FindActionMap("Player").enabled)
-        {
-            InputActions.FindActionMap("Player").Enable();
-        }
-    }
-
-    private void OnDisable()
-    {
-        InputActions.FindActionMap("Player").Disable();
-    }
-
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -63,12 +45,6 @@ public class Grapple : MonoBehaviour
             {
                 _collidersList.Add(collision);
             }
-
-            //_lineRenderer.enabled = true;
-            //_distanceJoint.enabled = true;
-
-            //_distanceJoint.connectedBody = _closestGrapplePoint.GetComponent<Rigidbody2D>();
-            //_distanceJoint.distance = Vector2.Distance(transform.position, _closestGrapplePoint.transform.position);
 
             GrappleTip.SetActive(_collidersList.Count > 0);
         }
@@ -95,17 +71,11 @@ public class Grapple : MonoBehaviour
         UpdateClosestGrapplePoint();
 
         _isGrounded = _playerGround.GetOnGround();
-        if (_jump.WasPressedThisFrame() && !_isGrounded)
+        if (_jump.WasPressedThisFrame() && !_isGrounded && _closestGrapplePoint != null)
         {
-            // launch player towards closest grapple point
-            if (_closestGrapplePoint != null)
-            {
-                StartCoroutine(GrappleCoroutine());
-                _isGrappling = true;
-            }
+            StartCoroutine(GrappleCoroutine());
+            _isGrappling = true;
         }
-
-
     }
 
     private void UpdateClosestGrapplePoint()
@@ -147,13 +117,17 @@ public class Grapple : MonoBehaviour
     {
         Vector3 desiredGrapplePosition = _closestGrapplePoint.transform.position;
         float originalGravityScale = _rigidbody.gravityScale;
-        while (Player.transform.position != desiredGrapplePosition) 
+        while (Player.transform.position != desiredGrapplePosition)
         {
+            _lineRenderer.enabled = true;
+            _lineRenderer.SetPosition(0, transform.position);
+            _lineRenderer.SetPosition(1, desiredGrapplePosition);
             _rigidbody.linearVelocity = Vector2.zero; // reset velocity to prevent physics interference
             _rigidbody.gravityScale = 0f; // disable gravity while grappling
-            Player.transform.position = Vector3.MoveTowards(transform.position, desiredGrapplePosition, GrappleTime * Time.deltaTime);
+            Player.transform.position = Vector3.MoveTowards(transform.position, desiredGrapplePosition, GrappleSpeed * Time.deltaTime);
             yield return null;
         }
+        _lineRenderer.enabled = false;
         _rigidbody.gravityScale = originalGravityScale; // re-enable gravity after grappling
         LaunchPlayer();
         _isGrappling = false;

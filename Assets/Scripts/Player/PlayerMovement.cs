@@ -27,16 +27,6 @@ public class PlayerMovement : MonoBehaviour
         _playerGround = GetComponent<PlayerGround>();
     }
 
-    private void OnEnable()
-    {
-        InputActions.FindActionMap("Player").Enable();
-    }
-
-    private void OnDisable()
-    {
-        InputActions.FindActionMap("Player").Disable();
-    }
-
     private void Update()
     {
         _onGround = _playerGround.GetOnGround();
