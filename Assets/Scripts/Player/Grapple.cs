@@ -9,19 +9,21 @@ public class Grapple : MonoBehaviour
     public InputActionAsset InputActions;
     private InputAction _jump;
     public PlayerGround _playerGround;
+    public PlayerJump _playerJump;
+    public WallJump _wallJump;
+    public GameObject Player;
+    private Rigidbody2D _playerRigidbody;
+    public LineRenderer _lineRenderer;
+
     private bool _isGrounded;
     private bool _isGrappling;
 
-    [SerializeField] private Rigidbody2D _rigidbody;
-    public GameObject Player;
-    public LineRenderer _lineRenderer;
 
     private List<Collider2D> _collidersList = new List<Collider2D>();
 
     private GameObject _closestGrapplePoint;
 
-    public LayerMask GrappleLayerMask;
-
+    [Header("Grapple Settings")]
     public GameObject GrappleTip;
 
     public float GrappleSpeed = 10f;
@@ -30,10 +32,13 @@ public class Grapple : MonoBehaviour
     private void Awake()
     {
         _jump = InputActions.FindAction("Jump");
+        _playerRigidbody = Player.GetComponent<Rigidbody2D>();
 
         _lineRenderer.enabled = false;
         GrappleTip.SetActive(false);
     }
+
+    
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -71,7 +76,10 @@ public class Grapple : MonoBehaviour
         UpdateClosestGrapplePoint();
 
         _isGrounded = _playerGround.GetOnGround();
-        if (_jump.WasPressedThisFrame() && !_isGrounded && _closestGrapplePoint != null)
+        if (_jump.WasPressedThisFrame() 
+            && !_isGrounded 
+            && _closestGrapplePoint != null 
+            && !_wallJump.GetOnWall())
         {
             StartCoroutine(GrappleCoroutine());
             _isGrappling = true;
@@ -116,26 +124,28 @@ public class Grapple : MonoBehaviour
     private IEnumerator GrappleCoroutine()
     {
         Vector3 desiredGrapplePosition = _closestGrapplePoint.transform.position;
-        float originalGravityScale = _rigidbody.gravityScale;
+        float originalGravityScale = _playerRigidbody.gravityScale;
         while (Player.transform.position != desiredGrapplePosition)
         {
             _lineRenderer.enabled = true;
             _lineRenderer.SetPosition(0, transform.position);
             _lineRenderer.SetPosition(1, desiredGrapplePosition);
-            _rigidbody.linearVelocity = Vector2.zero; // reset velocity to prevent physics interference
-            _rigidbody.gravityScale = 0f; // disable gravity while grappling
+            _playerRigidbody.linearVelocity = Vector2.zero; // reset velocity to prevent physics interference
+            _playerRigidbody.gravityScale = 0f; // disable gravity while grappling
             Player.transform.position = Vector3.MoveTowards(transform.position, desiredGrapplePosition, GrappleSpeed * Time.deltaTime);
             yield return null;
         }
         _lineRenderer.enabled = false;
-        _rigidbody.gravityScale = originalGravityScale; // re-enable gravity after grappling
+        _playerRigidbody.gravityScale = originalGravityScale; // re-enable gravity after grappling
         LaunchPlayer();
         _isGrappling = false;
+        _playerJump.ResetAirJump();
+
     }
 
     private void LaunchPlayer()
     {
-        _rigidbody.AddForce(Vector2.up * LaunchForce, ForceMode2D.Impulse);
+        _playerRigidbody.AddForce(new Vector2(_playerRigidbody.linearVelocityX, 1 * LaunchForce), ForceMode2D.Impulse);
     }
 
     public bool IsGrappling()

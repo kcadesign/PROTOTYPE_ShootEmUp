@@ -33,22 +33,21 @@ public class PlayerMovement : MonoBehaviour
 
         _moveAmount = _move.ReadValue<Vector2>();
 
-        PlayerAnimator.SetBool("Grounded", _onGround );
+        PlayerAnimator.SetBool("Grounded", _onGround);
+
+        if (Grapple.IsGrappling()) return;
+        Move();
+
     }
 
-    private void FixedUpdate()
-    {
-        if(Grapple.IsGrappling()) return;
-        Move();
-    }
 
     private void Move()
     {
         Vector2 movement = new Vector2(_moveAmount.x * MoveSpeed, _playerRigidbody.linearVelocity.y);
-        _playerRigidbody.linearVelocity = movement;
 
         if (movement.x != 0)
         {
+            _playerRigidbody.linearVelocity = movement;
             // play walking animation
             PlayerAnimator.SetBool("Walking", true);
         }
@@ -57,6 +56,7 @@ public class PlayerMovement : MonoBehaviour
             // stop walking animation
             PlayerAnimator.SetBool("Walking", false);
         }
+
     }
 
 }

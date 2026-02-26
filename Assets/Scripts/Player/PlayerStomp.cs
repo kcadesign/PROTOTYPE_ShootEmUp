@@ -12,9 +12,9 @@ public class PlayerStomp : MonoBehaviour
         {
             // debug the collision object name
             //Debug.Log("Collided with: " + collision.gameObject.name);
+            _playerRigidbody.linearVelocityY = 0f; // Reset the player's Y velocity before applying the bounce
+            _playerRigidbody.linearVelocity = new Vector2(_playerRigidbody.linearVelocity.x, BounceForce);
 
-            _playerRigidbody.linearVelocity = new Vector2(_playerRigidbody.linearVelocity.x, BounceForce); // Adjust the bounce force as needed
-            // You can also add code here to damage the enemy or trigger an animation
             Health enemyHealth = collision.GetComponentInParent<Health>();
             if (enemyHealth != null)
             {

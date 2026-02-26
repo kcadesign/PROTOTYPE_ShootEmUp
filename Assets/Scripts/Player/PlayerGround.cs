@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class PlayerGround : MonoBehaviour
 {
-    private bool _onGround;
+    [SerializeField] private bool _onGround;
+
 
     [Header("Collider Settings")]
     [SerializeField][Tooltip("Length of the ground-checking collider")] private float groundLength = 0.95f;
