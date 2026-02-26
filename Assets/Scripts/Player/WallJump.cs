@@ -10,7 +10,6 @@ public class WallJump : MonoBehaviour
     private Rigidbody2D _playerRigidbody;
     private PlayerGround _playerGround;
 
-
     [Header("Ray Settings")]
     [SerializeField][Tooltip("Length of the ground-checking collider")] private float _rayLength = 0.95f;
     [SerializeField][Tooltip("Distance between the ground-checking colliders")] private Vector3 _rayOffset;
@@ -52,18 +51,14 @@ public class WallJump : MonoBehaviour
             //Debug.Log("Can wall jump: " + _canWallJump);
             _canWallJump = false;
 
-            //_playerRigidbody.linearVelocity = Vector2.zero; // Reset the player's velocity before applying the bounce
             _playerRigidbody.linearVelocity = new Vector2(-WallJumpForceX, WallJumpForceY);
-            //_playerRigidbody.AddForce(Vector2.left * WallJumpForce, ForceMode2D.Impulse);
         }
         else if (_jump.WasPressedThisFrame() && _onWallLeft && !_playerGround.GetOnGround() && _canWallJump)
         {
             //Debug.Log("Can wall jump: " + _canWallJump);
             _canWallJump = false;
 
-            //_playerRigidbody.linearVelocity = Vector2.zero; // Reset the player's velocity before applying the bounce
             _playerRigidbody.linearVelocity = new Vector2(WallJumpForceX, WallJumpForceY);
-            //_playerRigidbody.AddForce(Vector2.right * WallJumpForce, ForceMode2D.Impulse);
         }
 
     }

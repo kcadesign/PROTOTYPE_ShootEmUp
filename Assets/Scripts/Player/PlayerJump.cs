@@ -175,7 +175,15 @@ public class PlayerJump : MonoBehaviour
             _coyoteTimeCounter = 0;
 
             //If we have double jump on, allow us to jump again (but only once) and reset our jump count after grappling
-            _canJumpAgain = (MaxAirJumps == 1 && !_canJumpAgain && !_wallJump.GetOnWall());
+            if (MaxAirJumps == 1 && !_canJumpAgain && !_wallJump.GetOnWall())
+            {
+                _canJumpAgain = true;
+            }
+            else
+            {
+                _canJumpAgain = false;
+            }
+            //_canJumpAgain = (MaxAirJumps == 1 && !_canJumpAgain && !_wallJump.GetOnWall());
 
             //Determine the power of the jump, based on our gravity and stats
             _jumpSpeed = Mathf.Sqrt(-2f * Physics2D.gravity.y * _playerRigidbody.gravityScale * JumpHeight);

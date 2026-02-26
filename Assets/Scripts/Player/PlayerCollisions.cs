@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class PlayerCollisions : MonoBehaviour
 {
-    private Health _health;
+    private PlayerHealth _health;
     public Grapple PlayerGrapple;
 
     private void Awake()
     {
-        _health = GetComponent<Health>();
+        _health = GetComponent<PlayerHealth>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -21,7 +21,7 @@ public class PlayerCollisions : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Enemy") && PlayerGrapple.IsGrappling())
         {
-            Health enemyHealth = collision.gameObject.GetComponent<Health>();
+            PlayerHealth enemyHealth = collision.gameObject.GetComponent<PlayerHealth>();
             if (enemyHealth != null)
             {
                 enemyHealth.Damage(1); // Assuming the enemy also has a Health component
