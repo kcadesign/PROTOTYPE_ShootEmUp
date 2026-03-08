@@ -145,6 +145,8 @@ public class Grapple : MonoBehaviour
 
     private void LaunchPlayer()
     {
+        Debug.Log("Launching player from grapple!");
+        _playerRigidbody.linearVelocity = Vector2.zero; // reset velocity before applying launch force
         _playerRigidbody.AddForce(new Vector2(_playerRigidbody.linearVelocityX, 1 * LaunchForce), ForceMode2D.Impulse);
     }
 

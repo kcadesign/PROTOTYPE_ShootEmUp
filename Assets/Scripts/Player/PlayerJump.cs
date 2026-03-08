@@ -160,6 +160,7 @@ public class PlayerJump : MonoBehaviour
         }
 
         // Apply clamped velocity back to the Rigidbody (preserves horizontal velocity)
+        _playerRigidbody.linearVelocityY = 0; // reset vertical velocity to prevent physics interference
         _playerRigidbody.linearVelocity = new Vector3(_velocity.x, Mathf.Clamp(_velocity.y, -SpeedLimit, 100));
     }
 

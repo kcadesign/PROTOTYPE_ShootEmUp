@@ -21,6 +21,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool _facingRight = true;
 
+    private bool _moveButtonPressed;
+
     private void Awake()
     {
         // Use the assigned asset instead of InputSystem.actions
@@ -34,6 +36,15 @@ public class PlayerMovement : MonoBehaviour
         _onGround = _playerGround.GetOnGround();
 
         _moveAmount = _move.ReadValue<Vector2>();
+        if (_move.WasPressedThisFrame())
+        {
+            _moveButtonPressed = true;
+        }
+        else if (_move.WasReleasedThisFrame())
+        {
+            _moveButtonPressed = false;
+        }
+        //Debug.Log($"Move Input: {_moveAmount}, Button Pressed: {_moveButtonPressed}");
 
         PlayerAnimator.SetBool("Grounded", _onGround);
 
@@ -65,6 +76,15 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             PlayerAnimator.SetBool("Walking", false);
+        }
+
+        if(_playerRigidbody.linearVelocityX > 0 && _move.WasReleasedThisFrame()) 
+        { 
+            _playerRigidbody.linearVelocityX = 0;
+        }
+        else
+        {
+            _playerRigidbody.linearVelocityX = movement.x;
         }
 
     }

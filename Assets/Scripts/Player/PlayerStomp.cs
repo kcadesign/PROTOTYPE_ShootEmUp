@@ -10,6 +10,7 @@ public class PlayerStomp : MonoBehaviour
     {
         if (collision.CompareTag("Enemy"))
         {
+            Debug.Log("Player stomped on an enemy!");
             // debug the collision object name
             //Debug.Log("Collided with: " + collision.gameObject.name);
             _playerRigidbody.linearVelocityY = 0f; // Reset the player's Y velocity before applying the bounce
