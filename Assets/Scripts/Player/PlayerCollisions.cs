@@ -1,14 +1,23 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerCollisions : MonoBehaviour
 {
+    private PlayerMovement _playerMovement;
     private PlayerHealth _health;
     public Grapple PlayerGrapple;
+    private Rigidbody2D _playerRigidbody;
     private Collider2D _playerBodyCollider;
+
+    [Header("Knockback Settings")]
+    public float KnockbackDuration = 0.5f;
+    public float KnockbackPower = 5f;
 
     private void Awake()
     {
+        _playerMovement = GetComponent<PlayerMovement>();
         _health = GetComponent<PlayerHealth>();
+        _playerRigidbody = GetComponent<Rigidbody2D>();
         _playerBodyCollider = GetComponent<Collider2D>();
     }
 
@@ -22,8 +31,10 @@ public class PlayerCollisions : MonoBehaviour
                 Debug.Log("Player Body Collided with: " + collision.gameObject.name);
                 if (_health != null)
                 {
-                    _health.Damage(1); // Assuming the player has a Health component
-                                       // push player away after damaging them
+                    _health.Damage(1);
+                    // push the player away in the opposite direction of the collision
+                    Vector2 pushDirection = (transform.position - collision.transform.position).normalized;
+                    StartCoroutine(Knockback(KnockbackDuration, KnockbackPower, pushDirection));
                 }
             }
             else if (collision.gameObject.CompareTag("Enemy") && PlayerGrapple.IsGrappling())
@@ -36,4 +47,16 @@ public class PlayerCollisions : MonoBehaviour
         }
     }
 
+    private IEnumerator Knockback(float duration, float power, Vector2 direction)
+    {
+        float timer = 0;
+        while (timer < duration)
+        {
+            _playerRigidbody.AddForce(direction * power, ForceMode2D.Impulse);
+            _playerMovement.DisableMovementInput();
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        _playerMovement.EnableMovementInput();
+    }
 }

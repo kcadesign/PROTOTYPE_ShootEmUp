@@ -2752,7 +2752,7 @@ MonoBehaviour:
   InputActions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   Grapple: {fileID: 1266598861}
   PlayerAnimator: {fileID: 1450188577}
-  MoveSpeed: 3.85
+  MoveSpeed: 4
 --- !u!114 &1939151828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2809,6 +2809,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   PlayerGrapple: {fileID: 1266598861}
+  KnockbackDuration: 0.25
+  KnockbackPower: 0.75
 --- !u!120 &1939151835
 LineRenderer:
   serializedVersion: 3
@@ -3156,7 +3158,7 @@ MonoBehaviour:
   MaxAirJumps: 1
   CoyoteTime: 0.15
   JumpBuffer: 0.15
-  SpeedLimit: 0
+  SpeedLimit: 12.5
   CurrentlyJumping: 0
 --- !u!1001 &1975599496
 PrefabInstance:

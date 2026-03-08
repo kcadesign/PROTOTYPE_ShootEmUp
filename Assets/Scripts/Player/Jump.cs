@@ -75,6 +75,8 @@ public class Jump : MonoBehaviour
         HandleCoyoteTime();
 
         //SetPhysics();
+
+        LimitFallSpeed();
     }
 
     private void SetPhysics()
@@ -219,5 +221,13 @@ public class Jump : MonoBehaviour
         CurrentlyJumping = true;
 
         PlayerAnimator.SetTrigger("Jump");
+    }
+
+    private void LimitFallSpeed()
+    {
+        if (_playerRigidbody.linearVelocityY < -SpeedLimit)
+        {
+            _playerRigidbody.linearVelocityY = -SpeedLimit;
+        }
     }
 }

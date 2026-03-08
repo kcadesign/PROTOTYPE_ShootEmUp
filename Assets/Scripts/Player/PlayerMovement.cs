@@ -29,6 +29,8 @@ public class PlayerMovement : MonoBehaviour
         _move = InputActions.FindAction("Move");
         _playerRigidbody = GetComponent<Rigidbody2D>();
         _playerGround = GetComponent<PlayerGround>();
+
+        // disbale player movement input system until the player is ready
     }
 
     private void Update()
@@ -50,6 +52,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (Grapple.IsGrappling()) return;
         Move();
+
+
 
     }
 
@@ -78,8 +82,8 @@ public class PlayerMovement : MonoBehaviour
             PlayerAnimator.SetBool("Walking", false);
         }
 
-        if(_playerRigidbody.linearVelocityX > 0 && _move.WasReleasedThisFrame()) 
-        { 
+        if (_playerRigidbody.linearVelocityX > 0 && _move.WasReleasedThisFrame())
+        {
             _playerRigidbody.linearVelocityX = 0;
         }
         else
@@ -98,4 +102,13 @@ public class PlayerMovement : MonoBehaviour
         transform.localScale = scale;
     }
 
+    public void DisableMovementInput()
+    {
+        _move.Disable();
+    }
+
+    public void EnableMovementInput()
+    {
+        _move.Enable();
+    }
 }
