@@ -195,7 +195,7 @@ public class Jump : MonoBehaviour
         }
     }
 
-    private void ResetAirJumps()
+    public void ResetAirJumps()
     {
         if (_onGround && AllowAirJump)
         {
@@ -203,7 +203,7 @@ public class Jump : MonoBehaviour
         }
     }
 
-    private void DoJump()
+    public void DoJump()
     {
         // Compute using the engine gravity and the default gravityScale so buffered jumps
         // don't inherit a high "falling" gravityScale and become overpowered.

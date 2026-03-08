@@ -4,27 +4,34 @@ public class PlayerCollisions : MonoBehaviour
 {
     private PlayerHealth _health;
     public Grapple PlayerGrapple;
+    private Collider2D _playerBodyCollider;
 
     private void Awake()
     {
         _health = GetComponent<PlayerHealth>();
+        _playerBodyCollider = GetComponent<Collider2D>();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy") && !PlayerGrapple.IsGrappling())
+
+        if (_playerBodyCollider.IsTouching(collision))
         {
-            if (_health != null)
+            if (collision.gameObject.CompareTag("Enemy") && !PlayerGrapple.IsGrappling())
             {
-                _health.Damage(1); // Assuming the player has a Health component
+                Debug.Log("Player Body Collided with: " + collision.gameObject.name);
+                if (_health != null)
+                {
+                    _health.Damage(1); // Assuming the player has a Health component
+                                       // push player away after damaging them
+                }
             }
-        }
-        else if (collision.gameObject.CompareTag("Enemy") && PlayerGrapple.IsGrappling())
-        {
-            PlayerHealth enemyHealth = collision.gameObject.GetComponent<PlayerHealth>();
-            if (enemyHealth != null)
+            else if (collision.gameObject.CompareTag("Enemy") && PlayerGrapple.IsGrappling())
             {
-                enemyHealth.Damage(1); // Assuming the enemy also has a Health component
+                if (collision.GetComponent<Health>() != null)
+                {
+                    collision.GetComponent<Health>().Damage(1); // Assuming the enemy has a Health component
+                }
             }
         }
     }
