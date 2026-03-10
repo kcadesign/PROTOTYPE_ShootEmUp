@@ -26,7 +26,7 @@ public class PlayerCollisions : MonoBehaviour
 
         if (_playerBodyCollider.IsTouching(collision))
         {
-            if (collision.gameObject.CompareTag("Enemy") && !PlayerGrapple.IsGrappling())
+            if (collision.gameObject.CompareTag("Enemy") && !PlayerGrapple.GetIsGrappling())
             {
                 Debug.Log("Player Body Collided with: " + collision.gameObject.name);
                 if (_health != null)
@@ -37,7 +37,7 @@ public class PlayerCollisions : MonoBehaviour
                     StartCoroutine(Knockback(KnockbackDuration, KnockbackPower, pushDirection));
                 }
             }
-            else if (collision.gameObject.CompareTag("Enemy") && PlayerGrapple.IsGrappling())
+            else if (collision.gameObject.CompareTag("Enemy") && PlayerGrapple.GetIsGrappling())
             {
                 if (collision.GetComponent<Health>() != null)
                 {

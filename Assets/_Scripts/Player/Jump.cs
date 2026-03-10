@@ -230,4 +230,14 @@ public class Jump : MonoBehaviour
             _playerRigidbody.linearVelocityY = -SpeedLimit;
         }
     }
+
+    public bool GetJumping()
+    {
+        return CurrentlyJumping;
+    }
+
+    public bool IsDescending()
+    {
+        return _playerRigidbody.linearVelocityY < 0;
+    }
 }
