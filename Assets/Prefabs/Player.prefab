@@ -165,7 +165,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.15
+    widthMultiplier: 0.1
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -184,7 +184,7 @@ LineRenderer:
     colorGradient:
       serializedVersion: 2
       key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 0.7058824, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -445,7 +445,7 @@ MonoBehaviour:
   TimeToJumpApex: 0.15
   AscendingGravity: 1.5
   DescendingGravity: 5
-  AllowAirJump: 0
+  AllowAirJump: 1
   MaxAirJumps: 1
   CoyoteTime: 0.15
   JumpBuffer: 0.15
@@ -496,7 +496,7 @@ MonoBehaviour:
     m_Bits: 128
   _wallSlideSpeed: 2
   WallJumpDuration: 0.35
-  WallJumpPower: {x: 8, y: 10}
+  WallJumpPower: {x: 7, y: 8}
 --- !u!1 &4487037368558467100
 GameObject:
   m_ObjectHideFlags: 0
@@ -714,6 +714,7 @@ GameObject:
   - component: {fileID: 608459753055633598}
   - component: {fileID: 884290505570046805}
   - component: {fileID: 1424036403405198950}
+  - component: {fileID: 5175015298320852301}
   m_Layer: 0
   m_Name: GrappleTip
   m_TagString: Untagged
@@ -817,6 +818,23 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5175015298320852301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5478127425193696310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d5b0ca54f0c7b040a28ff6268de7a71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Rotate
+  RotateX: 0
+  RotateY: 0
+  RotateZ: 1
+  _rotationSpeed: 500
+  _triggerEntered: 0
 --- !u!1 &5998184586222801642
 GameObject:
   m_ObjectHideFlags: 0

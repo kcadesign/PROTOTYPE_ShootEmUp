@@ -1,8 +1,12 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Jump : MonoBehaviour
 {
+    public static event Action<bool> OnAirJump;
+    public static event Action<bool> OnPlayerDescending;
+
     [Header("Input References")]
     private HandlePlayerInput _handlePlayerInput;
     private InputActionAsset _inputActions;
@@ -46,6 +50,8 @@ public class Jump : MonoBehaviour
     private bool _desireJump;
     //private bool _canJump = false;
     public bool CurrentlyJumping;
+    private bool _AirJumping;
+    private bool _isDescending;
     private bool _onGround;
 
     private void Awake()
@@ -64,6 +70,17 @@ public class Jump : MonoBehaviour
 
     void Update()
     {
+        if(_playerRigidbody.linearVelocityY < 0)
+        {
+            _isDescending = true;
+            OnPlayerDescending?.Invoke(_isDescending);
+        }
+        else
+        {
+            _isDescending = false;
+            OnPlayerDescending?.Invoke(_isDescending);
+        }
+
         _onGround = _playerGround.GetOnGround();
 
         ResetAirJumps();
@@ -104,7 +121,6 @@ public class Jump : MonoBehaviour
             // instantiate a 2D object to show where the player pressed jump for testing purposes
             GameObject jumpPressIndicator = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             jumpPressIndicator.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-            jumpPressIndicator.GetComponent<Renderer>().material.color = Color.red;
             jumpPressIndicator.transform.position = transform.position;
             Destroy(jumpPressIndicator, 0.5f);
         }
@@ -186,6 +202,8 @@ public class Jump : MonoBehaviour
             CurrentlyJumping = true;
             if (!_onGround)
             {
+                _AirJumping = true;
+                OnAirJump?.Invoke(true);
                 _airJumps--;
             }
 
@@ -201,6 +219,8 @@ public class Jump : MonoBehaviour
     {
         if (_onGround && AllowAirJump)
         {
+            _AirJumping = false;
+            OnAirJump?.Invoke(false);
             _airJumps = MaxAirJumps;
         }
     }
@@ -221,6 +241,7 @@ public class Jump : MonoBehaviour
         CurrentlyJumping = true;
 
         PlayerAnimator.SetTrigger("Jump");
+
     }
 
     private void LimitFallSpeed()
@@ -234,6 +255,11 @@ public class Jump : MonoBehaviour
     public bool GetJumping()
     {
         return CurrentlyJumping;
+    }
+
+    public bool GetAirJumping()
+    {
+        return _AirJumping;
     }
 
     public bool IsDescending()
