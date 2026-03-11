@@ -70,18 +70,9 @@ public class Jump : MonoBehaviour
 
     void Update()
     {
-        if(_playerRigidbody.linearVelocityY < 0)
-        {
-            _isDescending = true;
-            OnPlayerDescending?.Invoke(_isDescending);
-        }
-        else
-        {
-            _isDescending = false;
-            OnPlayerDescending?.Invoke(_isDescending);
-        }
-
         _onGround = _playerGround.GetOnGround();
+
+        CheckDescending();
 
         ResetAirJumps();
 
@@ -94,6 +85,20 @@ public class Jump : MonoBehaviour
         //SetPhysics();
 
         LimitFallSpeed();
+    }
+
+    private void CheckDescending()
+    {
+        if (_playerRigidbody.linearVelocityY < 0)
+        {
+            _isDescending = true;
+            OnPlayerDescending?.Invoke(_isDescending);
+        }
+        else
+        {
+            _isDescending = false;
+            OnPlayerDescending?.Invoke(_isDescending);
+        }
     }
 
     private void SetPhysics()
@@ -192,10 +197,10 @@ public class Jump : MonoBehaviour
 
     private void CheckCanJump()
     {
-        if (!_desireJump)
-            return;
+        if (!_desireJump) return;
+        // Don't allow the regular DoJump to run while wall-sliding or during a wall-jump
+        if (_wallJump != null && (_wallJump.GetIsWallSLiding() || _wallJump.GetIsWallJumping())) return;
 
-        // cleaned up redundant condition and keep intended behavior:
         // allow jump when on ground, during coyote time, or if air jumps remain
         if (_onGround || _coyoteTimer > 0f || _airJumps > 0)
         {
@@ -227,6 +232,7 @@ public class Jump : MonoBehaviour
 
     public void DoJump()
     {
+        Debug.Log("Jumping from jump script");
         // Compute using the engine gravity and the default gravityScale so buffered jumps
         // don't inherit a high "falling" gravityScale and become overpowered.
         float gravity = Physics2D.gravity.y * _defaultGravityScale; // negative

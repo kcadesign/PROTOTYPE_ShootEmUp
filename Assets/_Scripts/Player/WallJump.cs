@@ -31,6 +31,7 @@ public class WallJump : MonoBehaviour
     private float _wallJumpCounter;
     public float WallJumpDuration = 0.5f;
     public Vector2 WallJumpPower;
+    private bool _jumpPressedThisFrame = false;
     //public float GravityScaleOnWall = 0.1f;
     //public float WallJumpForceX = 10f;
     //public float WallJumpForceY = 10f;
@@ -45,17 +46,31 @@ public class WallJump : MonoBehaviour
         _playerRigidbody = GetComponent<Rigidbody2D>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         //Debug.Log("Can wall jump: " + _canWallJump);
 
         // fire a ray to the right and left of the player to check for walls
         _onWallRight = Physics2D.Raycast(transform.position + _rayOffset, Vector2.right, _rayLength, _wallLayer);
         _onWallLeft = Physics2D.Raycast(transform.position - _rayOffset, Vector2.left, _rayLength, _wallLayer);
-
+        //Debug.Log("On wall right: " + _onWallRight);
+        //Debug.Log("On wall left: " + _onWallLeft);
+        //if (!_onWallLeft || !_onWallRight) return;
         WallSlide();
         DoWallJump();
 
+        // reset the captured jump press so it doesn't carry over to the next FixedUpdate
+        _jumpPressedThisFrame = false;
+
+    }
+
+    private void Update()
+    {
+        // capture the jump press in Update (input is frame-based). FixedUpdate can then consume it.
+        if (_jump != null && _jump.WasPressedThisFrame())
+        {
+            _jumpPressedThisFrame = true;
+        }
     }
 
     private void OnDrawGizmos()
@@ -95,7 +110,7 @@ public class WallJump : MonoBehaviour
             _wallJumpCounter -= Time.deltaTime;
         }
 
-        if (_jump.WasPressedThisFrame() && _wallJumpCounter > 0)
+        if (_jumpPressedThisFrame && _wallJumpCounter > 0)
         {
             _isWallJumping = true;
             _playerMove.DisableMovementInput();
@@ -114,8 +129,15 @@ public class WallJump : MonoBehaviour
     public bool GetOnWall()
     {
         bool onWall = _onWallRight || _onWallLeft;
+        //Debug.Log("On wall: " + onWall);
         return onWall;
     }
+
+    public bool GetIsWallSLiding()
+    {
+        //Debug.Log("Is wall sliding: " + _isWallSliding);
+        return _isWallSliding;
+    }   
 
     private void StopWallJumping()
     {
