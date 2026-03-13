@@ -365,7 +365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a807d90c3c993824fac6306f340ea771, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  MaxHealth: 200
+  MaxHealth: 3
 --- !u!114 &4547085137779413665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -496,7 +496,7 @@ MonoBehaviour:
     m_Bits: 128
   _wallSlideSpeed: 2
   WallJumpDuration: 0.35
-  WallJumpPower: {x: 7, y: 8}
+  WallJumpPower: {x: 9, y: 6.7}
 --- !u!1 &4487037368558467100
 GameObject:
   m_ObjectHideFlags: 0

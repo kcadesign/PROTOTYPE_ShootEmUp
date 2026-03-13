@@ -9,7 +9,7 @@ public class PlayerHealth : MonoBehaviour
     public int MaxHealth = 3;
     private int _currentHealth;
 
-    private void Awake()
+    private void Start()
     {
         _currentHealth = MaxHealth;
         OnCurrentHealthChanged?.Invoke(_currentHealth); // Notify initial health
@@ -18,7 +18,6 @@ public class PlayerHealth : MonoBehaviour
 
     public void Damage(int damageAmount)
     {
-        OnCurrentHealthChanged?.Invoke(_currentHealth);
 
         if (_currentHealth == 0)
         {
@@ -29,12 +28,37 @@ public class PlayerHealth : MonoBehaviour
         {
             _currentHealth -= damageAmount;
             Debug.Log($"{gameObject.name} took {damageAmount} damage. Current health: {_currentHealth}");
+            OnCurrentHealthChanged?.Invoke(_currentHealth);
 
             if (_currentHealth == 0)
             {
                 Debug.Log($"{gameObject.name} has died.");
                 return; // Already at 0 health, do nothing
             }
+        }
+    }
+
+    public void IncreaseMaxHealth()
+    {
+        // Increase max health by 1
+    }
+
+    public void Heal(int healAmount)
+    {
+        if (_currentHealth == MaxHealth)
+        {
+            Debug.Log($"{gameObject.name} is already at max health.");
+            return; // Already at max health, do nothing
+        }
+        else if (_currentHealth != MaxHealth)
+        {
+            _currentHealth += healAmount;
+            if (_currentHealth > MaxHealth)
+            {
+                _currentHealth = MaxHealth; // Cap health at max
+            }
+            Debug.Log($"{gameObject.name} healed {healAmount} health. Current health: {_currentHealth}");
+            OnCurrentHealthChanged?.Invoke(_currentHealth);
         }
     }
 

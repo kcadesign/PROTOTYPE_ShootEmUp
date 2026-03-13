@@ -232,7 +232,7 @@ public class Jump : MonoBehaviour
 
     public void DoJump()
     {
-        Debug.Log("Jumping from jump script");
+        //Debug.Log("Jumping from jump script");
         // Compute using the engine gravity and the default gravityScale so buffered jumps
         // don't inherit a high "falling" gravityScale and become overpowered.
         float gravity = Physics2D.gravity.y * _defaultGravityScale; // negative
