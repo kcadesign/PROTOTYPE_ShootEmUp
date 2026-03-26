@@ -19,7 +19,7 @@ public class PlayerHealth : MonoBehaviour
     public void Damage(int damageAmount)
     {
 
-        if (_currentHealth == 0)
+        if (_currentHealth <= 0)
         {
             Debug.Log($"{gameObject.name} has died.");
             return; // Already at 0 health, do nothing
@@ -30,7 +30,7 @@ public class PlayerHealth : MonoBehaviour
             Debug.Log($"{gameObject.name} took {damageAmount} damage. Current health: {_currentHealth}");
             OnCurrentHealthChanged?.Invoke(_currentHealth);
 
-            if (_currentHealth == 0)
+            if (_currentHealth <= 0)
             {
                 Debug.Log($"{gameObject.name} has died.");
                 return; // Already at 0 health, do nothing
@@ -40,7 +40,9 @@ public class PlayerHealth : MonoBehaviour
 
     public void IncreaseMaxHealth()
     {
-        // Increase max health by 1
+        // Increase max health by 1 but also heal 1
+        MaxHealth += 1;
+        Heal(1); // Heal the player by 1 to increase current health
     }
 
     public void Heal(int healAmount)

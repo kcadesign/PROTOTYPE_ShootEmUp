@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     public Grapple Grapple;
     private WallJump _wallJump;
     private Jump _jump;
+    private PlayerCollisions _playerCollisions;
 
     public Animator PlayerAnimator;
 
@@ -35,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
         _playerGround = GetComponent<PlayerGround>();
         _wallJump = GetComponent<WallJump>();
         _jump = GetComponent<Jump>();
+        _playerCollisions = GetComponent<PlayerCollisions>();
 
     }
 
@@ -53,6 +55,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Grapple.GetIsGrappling()) return;
         if (_wallJump.GetIsWallJumping()) return;
+        if(_playerCollisions.GetIsKnockbackActive()) return;
         Move();
     }
 

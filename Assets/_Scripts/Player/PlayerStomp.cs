@@ -6,7 +6,7 @@ public class PlayerStomp : MonoBehaviour
     public Jump JumpScript;
     public Grapple GrappleScript;
     [SerializeField] private Rigidbody2D _playerRigidbody;
-    private Collider2D _stompZoneCollider; // Assign the stomp zone collider in the inspector
+    private Collider2D _stompZoneCollider;
 
     //public float BounceForce = 10f; // Adjust the bounce force as needed
 
@@ -20,7 +20,7 @@ public class PlayerStomp : MonoBehaviour
 
         if (_stompZoneCollider.IsTouching(collision))
         {
-            if (collision.TryGetComponent(out WeakPoint weakPoint) && !GrappleScript.GetIsGrappling() && _playerRigidbody.linearVelocityY <= 0f)
+            if (collision.TryGetComponent(out WeakPoint weakPoint) && !GrappleScript.GetIsGrappling() && _playerRigidbody.linearVelocityY >= 0f)
             {
                 Debug.Log("Player Stomp Collided with: " + collision.gameObject.name);
                 //Debug.Log("Player stomped on an enemy!");

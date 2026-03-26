@@ -6,11 +6,11 @@ public class Rotate : MonoBehaviour
     public bool RotateY = false;
     public bool RotateZ = false;
     [SerializeField] private float _rotationSpeed = 1.0f;
-    [SerializeField] private bool _triggerEntered = false;
+    [SerializeField] private bool _triggerEnteredEffect = false;
 
     private void OnDisable()
     {
-        _triggerEntered = false;
+        _triggerEnteredEffect = false;
         StandardRotation();
     }
 
@@ -18,13 +18,13 @@ public class Rotate : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            _triggerEntered = true;
+            _triggerEnteredEffect = true;
         }
     }
 
     void Update()
     {
-        if (_triggerEntered)
+        if (_triggerEnteredEffect)
         {
             FastRotation();
         }

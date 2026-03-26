@@ -3,18 +3,27 @@ using UnityEngine;
 public class PlayerGround : MonoBehaviour
 {
     [SerializeField] private bool _onGround;
-
+    private Rigidbody2D _playerRigidbody;
 
     [Header("Collider Settings")]
-    [SerializeField][Tooltip("Length of the ground-checking collider")] private float groundLength = 0.95f;
-    [SerializeField][Tooltip("Distance between the ground-checking colliders")] private Vector3 colliderOffset;
+    [SerializeField] private float groundLength = 0.95f;
+    [SerializeField] private Vector3 colliderOffset;
 
     [Header("Layer Masks")]
-    [SerializeField][Tooltip("Which layers are read as the ground")] private LayerMask groundLayer;
+    [SerializeField] private LayerMask groundLayer;
 
+    private void Awake()
+    {
+        _playerRigidbody = GetComponent<Rigidbody2D>();
+    }
 
     private void Update()
     {
+        if (_playerRigidbody.linearVelocityY > 0)
+        {
+            _onGround = false;
+            return;
+        }
         //Determine if the player is stood on objects on the ground layer, using a pair of raycasts
         _onGround = Physics2D.Raycast(transform.position + colliderOffset, Vector2.down, groundLength, groundLayer);
     }

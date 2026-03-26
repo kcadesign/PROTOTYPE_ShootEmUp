@@ -28,7 +28,7 @@ public class Breakable : MonoBehaviour
     private void Jump_OnAirJump(bool isAirJumping)
     {
         _isAirJumping = isAirJumping;
-
+        //Debug.Log("Player is air jumping: " + isAirJumping);
     }
 
     private void Jump_OnPlayerDescending(bool isDescending)

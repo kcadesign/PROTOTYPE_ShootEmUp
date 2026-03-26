@@ -27,7 +27,7 @@ public class Grapple : MonoBehaviour
     public GameObject GrappleTip;
 
     public float GrappleSpeed = 10f;
-    //public float LaunchForce = 2f;
+    public float LaunchForceMultiplier = 2f;
 
     private void Awake()
     {
@@ -41,14 +41,12 @@ public class Grapple : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
         if (collision == null) return;
         if (_playerGrappleCollider.IsTouching(collision))
         {
-
             if (collision.gameObject.CompareTag("GrapplePoint"))
             {
-                Debug.Log("Player Grapple Collided with: " + collision.gameObject.name);
+                Debug.Log($"{collision.gameObject.name} - entered grapple range");
                 if (!_collidersList.Contains(collision))
                 {
                     _collidersList.Add(collision);
@@ -149,11 +147,11 @@ public class Grapple : MonoBehaviour
 
     private void LaunchPlayer()
     {
-        Debug.Log("Launching player from grapple!");
+        //Debug.Log("Launching player from grapple!");
 
         //_playerRigidbody.linearVelocity = Vector2.zero; // reset velocity before applying launch force
         //_playerRigidbody.AddForce(new Vector2(_playerRigidbody.linearVelocityX, 1 * LaunchForce), ForceMode2D.Impulse);
-        PlayerJump.DoJump();
+        PlayerJump.DoJump(LaunchForceMultiplier);
     }
 
     public bool GetIsGrappling()

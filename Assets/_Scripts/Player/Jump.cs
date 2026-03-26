@@ -22,8 +22,9 @@ public class Jump : MonoBehaviour
     [Header("Jump Stats")]
     //public float JumpForce;
     public float JumpHeight = 7.3f;
-    private float _jumpSpeed;
+    //private float _jumpSpeed;
     public float TimeToJumpApex;
+    public float AirJumpMultiplier = 1.1f;
 
     public float AscendingGravity = 1f;
     public float DescendingGravity = 6.17f;
@@ -205,11 +206,17 @@ public class Jump : MonoBehaviour
         if (_onGround || _coyoteTimer > 0f || _airJumps > 0)
         {
             CurrentlyJumping = true;
-            if (!_onGround)
+            if (!_onGround && AllowAirJump)
             {
                 _AirJumping = true;
                 OnAirJump?.Invoke(true);
                 _airJumps--;
+                _desireJump = false;
+
+                DoJump(AirJumpMultiplier);
+                _jumpBufferTimer = 0;
+                _coyoteTimer = 0;
+                return;
             }
 
             _desireJump = false;
@@ -236,11 +243,31 @@ public class Jump : MonoBehaviour
         // Compute using the engine gravity and the default gravityScale so buffered jumps
         // don't inherit a high "falling" gravityScale and become overpowered.
         float gravity = Physics2D.gravity.y * _defaultGravityScale; // negative
-        _jumpSpeed = Mathf.Sqrt(-2f * gravity * JumpHeight); // v = sqrt(2 * |g| * h)
+        float jumpPower = Mathf.Sqrt(-2f * gravity * JumpHeight); // v = sqrt(2 * |g| * h)
 
         // zero vertical velocity then apply jump
         _playerRigidbody.linearVelocityY = 0f;
-        _playerRigidbody.linearVelocityY = _jumpSpeed;
+        _playerRigidbody.linearVelocityY = jumpPower;
+
+        // ensure gravityScale is the default while starting the jump
+        _playerRigidbody.gravityScale = _defaultGravityScale;
+        CurrentlyJumping = true;
+
+        PlayerAnimator.SetTrigger("Jump");
+
+    }
+
+    public void DoJump(float jumpPowerMultiplier)
+    {
+        //Debug.Log("Jumping from jump script");
+        // Compute using the engine gravity and the default gravityScale so buffered jumps
+        // don't inherit a high "falling" gravityScale and become overpowered.
+        float gravity = Physics2D.gravity.y * _defaultGravityScale; // negative
+        float jumpPower = Mathf.Sqrt(-2f * gravity * JumpHeight); // v = sqrt(2 * |g| * h)
+
+        // zero vertical velocity then apply jump
+        _playerRigidbody.linearVelocityY = 0f;
+        _playerRigidbody.linearVelocityY = jumpPower * jumpPowerMultiplier;
 
         // ensure gravityScale is the default while starting the jump
         _playerRigidbody.gravityScale = _defaultGravityScale;

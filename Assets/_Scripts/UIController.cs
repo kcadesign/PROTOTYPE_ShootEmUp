@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 public class UIController : MonoBehaviour
 {
     public static event Action OnResetButtonClicked;
+    public static event Action OnZone2ButtonClicked;
 
     [SerializeField] private UIDocument _uIDocument;
     private VisualElement _healthContainer;
@@ -17,6 +18,7 @@ public class UIController : MonoBehaviour
     private int _maxHealthLimit;
 
     private Button _resetButton;
+    private Button _zone2Button;
 
     private void Awake()
     {
@@ -25,6 +27,7 @@ public class UIController : MonoBehaviour
         _healthBlock = _healthBlockContainer.Q<VisualElement>("HealthBlock");
 
         _resetButton = _uIDocument.rootVisualElement.Q<Button>("ResetButton");
+        _zone2Button = _uIDocument.rootVisualElement.Q<Button>("Zone2Button");
     }
 
     private void OnEnable()
@@ -33,6 +36,7 @@ public class UIController : MonoBehaviour
         PlayerHealth.OnCurrentHealthChanged += PlayerHealth_OnCurrentHealthChanged;
 
         _resetButton.clicked += ResetButton_clicked;
+        _zone2Button.clicked += Zone2Button_clicked;
     }
 
     private void OnDisable()
@@ -41,6 +45,7 @@ public class UIController : MonoBehaviour
         PlayerHealth.OnCurrentHealthChanged -= PlayerHealth_OnCurrentHealthChanged;
 
         _resetButton.clicked -= ResetButton_clicked;
+        _zone2Button.clicked -= Zone2Button_clicked;
     }
 
     private void Start()
@@ -103,5 +108,11 @@ public class UIController : MonoBehaviour
     {
         OnResetButtonClicked?.Invoke();
         Debug.Log("Reset button clicked, event invoked.");
+    }
+
+    private void Zone2Button_clicked()
+    {
+        OnZone2ButtonClicked?.Invoke();
+        Debug.Log("Zone 2 button clicked, event invoked.");
     }
 }

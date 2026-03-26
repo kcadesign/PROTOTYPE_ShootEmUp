@@ -37,6 +37,7 @@
             <ui:VisualElement name="LeftColumn" style="flex-grow: 1; margin-right: 20px; background-color: rgba(192, 59, 59, 0); align-items: auto; width: 25%; height: 100%;"/>
             <ui:VisualElement name="MiddleColumn" style="flex-grow: 1; margin-right: 20px; background-color: rgba(192, 59, 59, 0); margin-left: 20px; width: 50%; align-items: auto; height: 100%;"/>
             <ui:VisualElement name="RightColumn" style="flex-grow: 1; margin-right: 0; background-color: rgba(192, 59, 59, 0); margin-left: 20px; justify-content: flex-end; align-items: auto; align-content: auto; width: 25%; height: 100%;">
+                <ui:Button text="ZONE 2" name="Zone2Button" class="button" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 30%; width: 100%; aspect-ratio: auto; max-width: 75%; max-height: 75px;"/>
                 <ui:Button text="RESET LEVEL" name="ResetButton" class="button" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 30%; width: 100%; aspect-ratio: auto; max-width: 75%; max-height: 75px;"/>
             </ui:VisualElement>
         </ui:VisualElement>

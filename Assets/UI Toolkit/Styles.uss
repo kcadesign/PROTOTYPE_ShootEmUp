@@ -3,9 +3,6 @@
 
 .button {
     background-color: rgb(255, 255, 255);
-    color: rgb(0, 0, 255);
-    font-size: 25px;
-    -unity-font-definition: resource("FlatSkin/Font/Roboto-Medium");
     border-left-color: rgb(0, 0, 255);
     border-right-color: rgb(0, 0, 255);
     border-top-color: rgb(0, 0, 255);
@@ -14,6 +11,10 @@
     border-right-width: 8px;
     border-bottom-width: 8px;
     border-left-width: 8px;
+    -unity-font-definition: resource("FlatSkin/Font/Roboto-Black");
+    color: rgb(0, 0, 255);
+    font-size: 25px;
+    -unity-text-align: middle-center;
 }
 
 .unity-progress-bar__container {
@@ -102,7 +103,7 @@
     background-color: rgb(0, 0, 255);
     color: rgb(255, 255, 255);
     font-size: 25px;
-    -unity-font-definition: resource("FlatSkin/Font/Roboto-Medium");
+    -unity-font-definition: resource("FlatSkin/Font/Roboto-Bold");
     border-left-color: rgb(0, 0, 255);
     border-right-color: rgb(0, 0, 255);
     border-top-color: rgb(0, 0, 255);
