@@ -32,7 +32,8 @@ public class PlayerCollisions : MonoBehaviour
     {
         if (!collision.IsTouching(_playerBodyCollider)) return;
         if (collision.gameObject.CompareTag("Enemy")
-            && (PlayerGrapple.GetIsGrappling() || _playerJump.GetAirJumping()))
+            && (PlayerGrapple.GetIsGrappling() || _playerJump.GetAirJumping())
+            && _playerRigidbody.linearVelocityY > 0)
         {
             if (collision.GetComponent<Health>() != null)
             {
@@ -40,7 +41,7 @@ public class PlayerCollisions : MonoBehaviour
             }
             _playerJump.DoJump(LaunchMultiplier);
         }
-        else if (collision.gameObject.CompareTag("Enemy"))
+        else if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Obstacle"))
         {
             Debug.Log("Player Body Collided with: " + collision.gameObject.name);
             if (_playerHealth != null)
@@ -62,7 +63,8 @@ public class PlayerCollisions : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy")
-            && (PlayerGrapple.GetIsGrappling() || _playerJump.GetAirJumping()))
+            && (PlayerGrapple.GetIsGrappling() || _playerJump.GetAirJumping())
+            && _playerRigidbody.linearVelocityY > 0)
         {
             //collision.GetComponent<Health>()?.Damage(1); // Assuming the enemy has a Health component
             collision.gameObject.GetComponent<Health>()?.Damage(1);

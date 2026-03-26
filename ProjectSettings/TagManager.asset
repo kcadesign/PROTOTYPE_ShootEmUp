@@ -9,6 +9,7 @@ TagManager:
   - EnemyStompZone
   - Chaser
   - EnemyDangerZone
+  - Obstacle
   layers:
   - Default
   - TransparentFX

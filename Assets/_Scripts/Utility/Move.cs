@@ -26,4 +26,9 @@ public class Move : MonoBehaviour
 
 
     }
+
+    public void SetCanMove(bool canMove)
+    {
+        CanMove = canMove;
+    }
 }
