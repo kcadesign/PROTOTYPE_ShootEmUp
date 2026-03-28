@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FallingObstacles : MonoBehaviour
+public class SetChildrenActiveTrigger : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -9,8 +9,9 @@ public class FallingObstacles : MonoBehaviour
             Debug.Log("Player entered obstacle trigger zone");
             foreach (Transform child in gameObject.transform)
             {
-                Move move = child.GetComponent<Move>();
-                move.SetCanMove(true);
+                //Move move = child.GetComponent<Move>();
+                //move.SetCanMove(true);
+                child.gameObject.SetActive(true);
             }
         }
     }

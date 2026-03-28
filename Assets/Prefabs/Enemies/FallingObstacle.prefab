@@ -644,8 +644,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0a04673e90027c419309eecca787aa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Move
-  CanMove: 0
-  Speed: 3
+  CanMove: 1
+  Speed: 2
   MoveX: 0
   MoveY: 1
   InvertMove: 1

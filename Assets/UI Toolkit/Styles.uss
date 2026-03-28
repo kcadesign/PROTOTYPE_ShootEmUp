@@ -113,3 +113,47 @@
     border-bottom-width: 8px;
     border-left-width: 8px;
 }
+
+.ammoContainer {
+    background-color: rgb(255, 255, 255);
+    border-left-color: rgb(0, 0, 255);
+    border-right-color: rgb(0, 0, 255);
+    border-top-color: rgb(0, 0, 255);
+    border-bottom-color: rgb(0, 0, 255);
+    border-top-width: 8px;
+    border-right-width: 8px;
+    border-bottom-width: 8px;
+    border-left-width: 8px;
+    padding-top: 4px;
+    padding-right: 4px;
+    padding-bottom: 4px;
+    padding-left: 4px;
+    align-items: stretch;
+}
+
+.ammoBlockContainer {
+    border-left-color: rgb(0, 0, 255);
+    border-right-color: rgb(0, 0, 255);
+    border-top-color: rgb(0, 0, 255);
+    border-bottom-color: rgb(0, 0, 255);
+    border-top-width: 4px;
+    border-right-width: 4px;
+    border-bottom-width: 4px;
+    border-left-width: 4px;
+}
+
+.ammoBlock {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    background-color: rgb(0, 0, 255);
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+}

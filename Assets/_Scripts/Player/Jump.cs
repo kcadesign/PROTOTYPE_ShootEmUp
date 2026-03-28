@@ -7,6 +7,10 @@ public class Jump : MonoBehaviour
     public static event Action<bool> OnAirJump;
     public static event Action<bool> OnPlayerDescending;
 
+    public static event Action<int> OnCurrentAirJumpAmountChanged;
+    public static event Action<int> OnMaxAirJumpsChanged;
+
+
     [Header("Input References")]
     private HandlePlayerInput _handlePlayerInput;
     private InputActionAsset _inputActions;
@@ -67,6 +71,13 @@ public class Jump : MonoBehaviour
 
         _defaultGravityScale = _playerRigidbody.gravityScale;
 
+    }
+
+    private void Start()
+    {
+        _airJumps = MaxAirJumps;
+        OnCurrentAirJumpAmountChanged?.Invoke(_airJumps); // Notify initial health
+        OnMaxAirJumpsChanged?.Invoke(MaxAirJumps); // Notify initial max health
     }
 
     void Update()
@@ -211,6 +222,7 @@ public class Jump : MonoBehaviour
                 _AirJumping = true;
                 OnAirJump?.Invoke(true);
                 _airJumps--;
+                OnCurrentAirJumpAmountChanged?.Invoke(_airJumps);
                 _desireJump = false;
 
                 DoJump(AirJumpMultiplier);
@@ -234,6 +246,7 @@ public class Jump : MonoBehaviour
             _AirJumping = false;
             OnAirJump?.Invoke(false);
             _airJumps = MaxAirJumps;
+            OnCurrentAirJumpAmountChanged?.Invoke(_airJumps);
         }
     }
 

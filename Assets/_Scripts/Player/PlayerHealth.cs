@@ -42,6 +42,7 @@ public class PlayerHealth : MonoBehaviour
     {
         // Increase max health by 1 but also heal 1
         MaxHealth += 1;
+        OnMaxHealthChanged?.Invoke(MaxHealth);
         Heal(1); // Heal the player by 1 to increase current health
     }
 

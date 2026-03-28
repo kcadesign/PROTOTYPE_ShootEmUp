@@ -13,9 +13,16 @@ public class UIController : MonoBehaviour
     private VisualElement _healthBlockContainer;
     private VisualElement _healthBlock;
 
+    private VisualElement _ammoContainer;
+    private VisualElement _ammoBlockContainer;
+
     private int _currentHealth;
     private int _maxHealth;
     private int _maxHealthLimit;
+
+    private int _currentAmmo;
+    private int _maxAmmo;
+    private int _maxAmmoLimit;
 
     private Button _resetButton;
     private Button _zone2Button;
@@ -26,6 +33,9 @@ public class UIController : MonoBehaviour
         _healthBlockContainer = _healthContainer.Q<VisualElement>("HealthBlockContainer");
         _healthBlock = _healthBlockContainer.Q<VisualElement>("HealthBlock");
 
+        _ammoContainer = _uIDocument.rootVisualElement.Q<VisualElement>("AmmoContainer");
+        _ammoBlockContainer = _uIDocument.rootVisualElement.Q<VisualElement>("AmmoBlockContainer");
+
         _resetButton = _uIDocument.rootVisualElement.Q<Button>("ResetButton");
         _zone2Button = _uIDocument.rootVisualElement.Q<Button>("Zone2Button");
     }
@@ -34,6 +44,9 @@ public class UIController : MonoBehaviour
     {
         PlayerHealth.OnMaxHealthChanged += PlayerHealth_OnMaxHealthChanged;
         PlayerHealth.OnCurrentHealthChanged += PlayerHealth_OnCurrentHealthChanged;
+
+        Jump.OnMaxAirJumpsChanged += Jump_OnMaxAirJumpsChanged;
+        Jump.OnCurrentAirJumpAmountChanged += Jump_OnCurrentAirJumpAmountChanged;
 
         _resetButton.clicked += ResetButton_clicked;
         _zone2Button.clicked += Zone2Button_clicked;
@@ -44,6 +57,10 @@ public class UIController : MonoBehaviour
         PlayerHealth.OnMaxHealthChanged -= PlayerHealth_OnMaxHealthChanged;
         PlayerHealth.OnCurrentHealthChanged -= PlayerHealth_OnCurrentHealthChanged;
 
+        Jump.OnMaxAirJumpsChanged -= Jump_OnMaxAirJumpsChanged;
+        Jump.OnCurrentAirJumpAmountChanged -= Jump_OnCurrentAirJumpAmountChanged;
+
+
         _resetButton.clicked -= ResetButton_clicked;
         _zone2Button.clicked -= Zone2Button_clicked;
     }
@@ -51,6 +68,7 @@ public class UIController : MonoBehaviour
     private void Start()
     {
         _maxHealthLimit = _healthContainer.childCount;
+        _maxAmmoLimit = _healthContainer.childCount;
     }
 
     private void PlayerHealth_OnMaxHealthChanged(int maxHealth)
@@ -64,6 +82,16 @@ public class UIController : MonoBehaviour
     {
         //_currentHealth = currentHealth;
         UpdateCurrentHealth(currentHealth);
+    }
+
+    private void Jump_OnMaxAirJumpsChanged(int maxAirJumps)
+    {
+        UpdateMaxAmmo(maxAirJumps);
+    }
+
+    private void Jump_OnCurrentAirJumpAmountChanged(int currentAirJumpAmount)
+    {
+        UpdateCurrentAmmo(currentAirJumpAmount);
     }
 
     private void UpdateMaxHealth(int maxHealth)
@@ -102,6 +130,40 @@ public class UIController : MonoBehaviour
             }
         }
 
+    }
+
+    private void UpdateMaxAmmo(int maxAmmo)
+    {
+        for (int i = 0; i < _ammoContainer.childCount; i++)
+        {
+            // set the number of children that display:flex to be the same as the max health, set the rest as none
+            if (i < maxAmmo)
+            {
+                _ammoContainer[i].style.display = DisplayStyle.Flex;
+            }
+            else
+            {
+                _ammoContainer[i].style.display = DisplayStyle.None;
+            }
+        }
+    }
+
+    private void UpdateCurrentAmmo(int currentAmmo)
+    {
+        for (int i = 0; i < _ammoContainer.childCount; i++)
+        {
+            // set the number of children that display:flex to be the same as the max health, set the rest as none
+            if (i < currentAmmo)
+            {
+                // get the child of _healthContainer[i] and set it to visible
+                _ammoContainer[i][0].visible = true;
+            }
+            else
+            {
+                // get the child of _healthContainer[i] and set it to not visible
+                _ammoContainer[i][0].visible = false;
+            }
+        }
     }
 
     private void ResetButton_clicked()
