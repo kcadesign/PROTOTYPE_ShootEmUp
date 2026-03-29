@@ -35,7 +35,7 @@ public class Jump : MonoBehaviour
     private float _gravMultiplier;
 
     [Header("Optionals")]
-    public bool AllowAirJump;
+    public bool AllowAirJumps;
     private int _airJumps = 0;
     public int MaxAirJumps = 1;
     //public bool VariableJumpHeight;
@@ -75,9 +75,12 @@ public class Jump : MonoBehaviour
 
     private void Start()
     {
-        _airJumps = MaxAirJumps;
-        OnCurrentAirJumpAmountChanged?.Invoke(_airJumps); // Notify initial health
-        OnMaxAirJumpsChanged?.Invoke(MaxAirJumps); // Notify initial max health
+        if (AllowAirJumps)
+        {
+            _airJumps = MaxAirJumps;
+            OnCurrentAirJumpAmountChanged?.Invoke(_airJumps); // Notify initial health
+            OnMaxAirJumpsChanged?.Invoke(MaxAirJumps); // Notify initial max health
+        }
     }
 
     void Update()
@@ -86,7 +89,13 @@ public class Jump : MonoBehaviour
 
         CheckDescending();
 
-        ResetAirJumps();
+        //ResetAirJumps();
+        if (_onGround && AllowAirJumps)
+        {
+            _AirJumping = false;
+            OnAirJump?.Invoke(false);
+            ResetAirJumps();
+        }
 
         CheckJumpPressed();
 
@@ -217,7 +226,7 @@ public class Jump : MonoBehaviour
         if (_onGround || _coyoteTimer > 0f || _airJumps > 0)
         {
             CurrentlyJumping = true;
-            if (!_onGround && AllowAirJump)
+            if (!_onGround && AllowAirJumps)
             {
                 _AirJumping = true;
                 OnAirJump?.Invoke(true);
@@ -241,13 +250,8 @@ public class Jump : MonoBehaviour
 
     public void ResetAirJumps()
     {
-        if (_onGround && AllowAirJump)
-        {
-            _AirJumping = false;
-            OnAirJump?.Invoke(false);
-            _airJumps = MaxAirJumps;
-            OnCurrentAirJumpAmountChanged?.Invoke(_airJumps);
-        }
+        _airJumps = MaxAirJumps;
+        OnCurrentAirJumpAmountChanged?.Invoke(_airJumps);
     }
 
     public void DoJump()
@@ -311,5 +315,16 @@ public class Jump : MonoBehaviour
     public bool IsDescending()
     {
         return _playerRigidbody.linearVelocityY < 0;
+    }
+
+    public void SetAllowAirJumps(bool allowAirJumps)
+    {
+        AllowAirJumps = allowAirJumps;
+    }
+
+    public void IncreaseMaxAirJumps()
+    {
+        MaxAirJumps++;
+        OnMaxAirJumpsChanged?.Invoke(MaxAirJumps);
     }
 }

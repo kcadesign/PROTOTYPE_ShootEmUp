@@ -46,7 +46,7 @@ public class Grapple : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("GrapplePoint"))
             {
-                Debug.Log($"{collision.gameObject.name} - entered grapple range");
+                //Debug.Log($"{collision.gameObject.name} - entered grapple range");
                 if (!_collidersList.Contains(collision))
                 {
                     _collidersList.Add(collision);
@@ -151,6 +151,7 @@ public class Grapple : MonoBehaviour
 
         //_playerRigidbody.linearVelocity = Vector2.zero; // reset velocity before applying launch force
         //_playerRigidbody.AddForce(new Vector2(_playerRigidbody.linearVelocityX, 1 * LaunchForce), ForceMode2D.Impulse);
+        PlayerJump.ResetAirJumps();
         PlayerJump.DoJump(LaunchForceMultiplier);
     }
 

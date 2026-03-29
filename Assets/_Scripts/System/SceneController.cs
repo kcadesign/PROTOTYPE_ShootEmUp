@@ -9,12 +9,16 @@ public class SceneController : MonoBehaviour
     {
         UIController.OnResetButtonClicked += UIController_OnResetButtonClicked;
         UIController.OnZone2ButtonClicked += UIController_OnZone2ButtonClicked;
+
+        LevelEnd.OnPlayerEnterLevelEnd += LevelEnd_OnPlayerEnterLevelEnd;
     }
 
     private void OnDisable()
     {
         UIController.OnResetButtonClicked -= UIController_OnResetButtonClicked;
         UIController.OnZone2ButtonClicked -= UIController_OnZone2ButtonClicked;
+
+        LevelEnd.OnPlayerEnterLevelEnd -= LevelEnd_OnPlayerEnterLevelEnd;
     }
 
     private void UIController_OnResetButtonClicked()
@@ -32,5 +36,10 @@ public class SceneController : MonoBehaviour
         {
             player.transform.position = Zone2SpawnPoint.transform.position; // Change this to the actual spawn point of zone 2
         }
+    }
+
+    private void LevelEnd_OnPlayerEnterLevelEnd(int sceneIndex)
+    {
+        SceneManager.LoadScene(sceneIndex);
     }
 }

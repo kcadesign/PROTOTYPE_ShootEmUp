@@ -228,8 +228,9 @@ GameObject:
   m_Component:
   - component: {fileID: 907140278690345070}
   - component: {fileID: 3592158971878099517}
+  - component: {fileID: 2300136769406605432}
   m_Layer: 0
-  m_Name: Powerup
+  m_Name: AllowAirJumpsPowerup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -288,3 +289,54 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.48144558
+--- !u!114 &2300136769406605432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7666384020158805063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fac53ed25b9331a4d9c73bd9742974eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  OnCollect:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2300136769406605432}
+        m_TargetAssemblyTypeName: Powerup, Assembly-CSharp
+        m_MethodName: ApplyEffect
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: 6e5334001aa96954dbba577c2d8ba845, type: 2}
+          m_ObjectArgumentAssemblyTypeName: PowerupEffect, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2300136769406605432}
+        m_TargetAssemblyTypeName: Powerup, Assembly-CSharp
+        m_MethodName: ApplyEffect
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: f41efd1ce001a6749902d7d548aafa7b, type: 2}
+          m_ObjectArgumentAssemblyTypeName: PowerupEffect, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2300136769406605432}
+        m_TargetAssemblyTypeName: CollectedPowerup, Assembly-CSharp
+        m_MethodName: InstantiatePrefab
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2776345329341090772, guid: 8a5f2dac38b342644bd06bc32a6114b5, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
