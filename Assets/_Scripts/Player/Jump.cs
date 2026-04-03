@@ -226,7 +226,7 @@ public class Jump : MonoBehaviour
         if (_onGround || _coyoteTimer > 0f || _airJumps > 0)
         {
             CurrentlyJumping = true;
-            if (!_onGround && AllowAirJumps)
+            if (!_onGround && AllowAirJumps && !Grapple.GetIsGrappling())
             {
                 _AirJumping = true;
                 OnAirJump?.Invoke(true);
@@ -302,29 +302,25 @@ public class Jump : MonoBehaviour
         }
     }
 
-    public bool GetJumping()
-    {
-        return CurrentlyJumping;
-    }
+    public bool GetJumping() { return CurrentlyJumping; }
 
-    public bool GetAirJumping()
-    {
-        return _AirJumping;
-    }
+    public bool GetAirJumping() { return _AirJumping; }
 
-    public bool IsDescending()
-    {
-        return _playerRigidbody.linearVelocityY < 0;
-    }
+    public bool IsDescending() { return _playerRigidbody.linearVelocityY < 0; }
 
-    public void SetAllowAirJumps(bool allowAirJumps)
-    {
-        AllowAirJumps = allowAirJumps;
-    }
+    public void SetAllowAirJumps(bool allowAirJumps) { AllowAirJumps = allowAirJumps; }
+
+    public void SetMaxAirJumps(int maxAirJumps) { MaxAirJumps = maxAirJumps; }
 
     public void IncreaseMaxAirJumps()
     {
         MaxAirJumps++;
         OnMaxAirJumpsChanged?.Invoke(MaxAirJumps);
+    }
+
+    public void RenewAirJumps(int renewJumpAmount)
+    {
+        _airJumps += renewJumpAmount;
+        OnCurrentAirJumpAmountChanged?.Invoke(_airJumps);
     }
 }

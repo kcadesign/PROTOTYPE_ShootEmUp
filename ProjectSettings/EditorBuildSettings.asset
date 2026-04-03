@@ -8,12 +8,18 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/TestScene01.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 0
+    path: Assets/Scenes/TestScene04.unity
+    guid: 51034c4d8134fdc4aba85704a0e55098
   - enabled: 1
     path: Assets/Scenes/01BasicMovement.unity
     guid: 7528ce3a62fb8c64391ae3f4099ec6fe
   - enabled: 1
-    path: Assets/Scenes/TestScene04.unity
-    guid: 51034c4d8134fdc4aba85704a0e55098
+    path: Assets/Scenes/02BoostJumps.unity
+    guid: 48610a6bcbb435749a74400f1ab7ab88
+  - enabled: 1
+    path: Assets/Scenes/03Grapple.unity
+    guid: 5d47b757270cd694da6c6b2e4cd0ece7
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

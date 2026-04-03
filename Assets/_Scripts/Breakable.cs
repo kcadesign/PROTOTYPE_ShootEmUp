@@ -1,9 +1,11 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Breakable : MonoBehaviour
 {
+    public UnityEvent OnBreak;
     private Collider2D _blockCollider;
-    public GameObject BreakEffectPrefab;
 
     private bool _isAirJumping;
     private bool _isDescending;
@@ -54,9 +56,20 @@ public class Breakable : MonoBehaviour
             if (collision.GetContact(0).normal.y > 0 && !_isDescending)
             {
                 // If the player is jumping, break the object
-                Break();
+                OnBreak?.Invoke();
+                gameObject.SetActive(false);
+
+                //Break();
             }
         }
+        if (collision.gameObject.CompareTag("Explosion"))
+        {
+            OnBreak?.Invoke();
+            gameObject.SetActive(false);
+
+        }
+
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -65,17 +78,27 @@ public class Breakable : MonoBehaviour
         {
             if (collision.GetComponent<Jump>().GetAirJumping() && !_isDescending)
             {
-                Break();
+                OnBreak?.Invoke();
+                gameObject.SetActive(false);
+
             }
         }
+
+        if (collision.gameObject.CompareTag("Explosion"))
+        {
+            OnBreak?.Invoke();
+            gameObject.SetActive(false);
+
+        }
+
+
     }
 
-    public void Break()
+    public void InstantiatePrefab(GameObject prefab)
     {
-        // Instantiate the break effect at the position of the breakable object
-        Instantiate(BreakEffectPrefab, transform.position, Quaternion.identity);
-        // Destroy the breakable object
-        Destroy(gameObject);
+        Vector3 spawnPosition = transform.position;
+        // instantiate a prefab outside of its parent heirarchy
+        Instantiate(prefab, spawnPosition, Quaternion.identity, null);
     }
 
 

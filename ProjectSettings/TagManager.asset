@@ -10,6 +10,8 @@ TagManager:
   - Chaser
   - EnemyDangerZone
   - Obstacle
+  - Spike
+  - Explosion
   layers:
   - Default
   - TransparentFX

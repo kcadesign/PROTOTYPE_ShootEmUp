@@ -11,7 +11,10 @@ public class SetChildrenActiveTrigger : MonoBehaviour
             {
                 //Move move = child.GetComponent<Move>();
                 //move.SetCanMove(true);
-                child.gameObject.SetActive(true);
+                if (!child.gameObject.activeSelf)
+                {
+                    child.gameObject.SetActive(true);
+                }
             }
         }
     }

@@ -84,7 +84,7 @@ public class Grapple : MonoBehaviour
             && !WallJump.GetOnWall())
         {
             StartCoroutine(GrappleCoroutine());
-            _isGrappling = true;
+            //_isGrappling = true;
         }
     }
 
@@ -129,6 +129,7 @@ public class Grapple : MonoBehaviour
         float originalGravityScale = _playerRigidbody.gravityScale;
         while (Player.transform.position != desiredGrapplePosition)
         {
+            _isGrappling = true;
             LineRenderer.enabled = true;
             LineRenderer.SetPosition(0, transform.position);
             LineRenderer.SetPosition(1, desiredGrapplePosition);
@@ -151,8 +152,8 @@ public class Grapple : MonoBehaviour
 
         //_playerRigidbody.linearVelocity = Vector2.zero; // reset velocity before applying launch force
         //_playerRigidbody.AddForce(new Vector2(_playerRigidbody.linearVelocityX, 1 * LaunchForce), ForceMode2D.Impulse);
-        PlayerJump.ResetAirJumps();
         PlayerJump.DoJump(LaunchForceMultiplier);
+        //PlayerJump.ResetAirJumps();
     }
 
     public bool GetIsGrappling()

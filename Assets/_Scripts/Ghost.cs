@@ -8,26 +8,27 @@ public class Ghost : MonoBehaviour
     public Rigidbody2D _playerRigidbody;
     public GameObject GhostPrefab;
 
-    public bool makeGhost = false;
-    public float imageDelay;
-    private float ghostDelaySeconds;
+    public bool MakeGhost = false;
+    public float GhostFrequency;
+    private float _ghostDelaySeconds;
+    public float GhostDecayTime = 0.5f;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        ghostDelaySeconds = imageDelay;
+        _ghostDelaySeconds = GhostFrequency;
     }
 
     // Update is called once per frame
     void Update()
     {
         if (!_playerJump.GetAirJumping() && _playerRigidbody.linearVelocityY < 0) return;
-        if (makeGhost && _playerJump.GetAirJumping() && _playerRigidbody.linearVelocityY > 0)
+        if (MakeGhost && _playerJump.GetAirJumping() && _playerRigidbody.linearVelocityY > 0)
         {
-            if (ghostDelaySeconds > 0)
+            if (_ghostDelaySeconds > 0)
             {
-                ghostDelaySeconds -= Time.deltaTime;
+                _ghostDelaySeconds -= Time.deltaTime;
             }
             else
             {
@@ -35,8 +36,8 @@ public class Ghost : MonoBehaviour
                 GameObject currentGhost = Instantiate(GhostPrefab, transform.position, transform.rotation);
                 Sprite currentSprite = GetComponent<SpriteRenderer>().sprite;
                 currentGhost.GetComponent<SpriteRenderer>().sprite = currentSprite;
-                ghostDelaySeconds = imageDelay;
-                Destroy(currentGhost, 0.5f);
+                _ghostDelaySeconds = GhostFrequency;
+                Destroy(currentGhost, GhostDecayTime);
             }
         }
 

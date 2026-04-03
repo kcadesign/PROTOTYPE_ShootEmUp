@@ -54,7 +54,7 @@ public class PlayerCollisions : MonoBehaviour
                 StartCoroutine(Knockback(KnockbackDuration, KnockbackPower, pushDirection));
             }
         }
-        if (collision.CompareTag("Chaser"))
+        if (collision.CompareTag("Chaser") || collision.CompareTag("Spike"))
         {
             _playerHealth.Damage(999);
         }
