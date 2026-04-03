@@ -10,7 +10,6 @@ public class Jump : MonoBehaviour
     public static event Action<int> OnCurrentAirJumpAmountChanged;
     public static event Action<int> OnMaxAirJumpsChanged;
 
-
     [Header("Input References")]
     private HandlePlayerInput _handlePlayerInput;
     private InputActionAsset _inputActions;
@@ -24,9 +23,7 @@ public class Jump : MonoBehaviour
     public Animator PlayerAnimator;
 
     [Header("Jump Stats")]
-    //public float JumpForce;
     public float JumpHeight = 7.3f;
-    //private float _jumpSpeed;
     public float TimeToJumpApex;
     public float AirJumpMultiplier = 1.1f;
 
@@ -38,7 +35,6 @@ public class Jump : MonoBehaviour
     public bool AllowAirJumps;
     private int _airJumps = 0;
     public int MaxAirJumps = 1;
-    //public bool VariableJumpHeight;
 
     [Header("Buffers")]
     public float CoyoteTime = 0.15f;
@@ -53,7 +49,6 @@ public class Jump : MonoBehaviour
     [Header("Current State")]
     private bool _pressingJump;
     private bool _desireJump;
-    //private bool _canJump = false;
     public bool CurrentlyJumping;
     private bool _AirJumping;
     private bool _isDescending;
@@ -89,7 +84,6 @@ public class Jump : MonoBehaviour
 
         CheckDescending();
 
-        //ResetAirJumps();
         if (_onGround && AllowAirJumps)
         {
             _AirJumping = false;
@@ -223,22 +217,22 @@ public class Jump : MonoBehaviour
         if (_wallJump != null && (_wallJump.GetIsWallSLiding() || _wallJump.GetIsWallJumping())) return;
 
         // allow jump when on ground, during coyote time, or if air jumps remain
-        if (_onGround || _coyoteTimer > 0f || _airJumps > 0)
+        if (_onGround || _coyoteTimer > 0f /*|| _airJumps > 0*/)
         {
             CurrentlyJumping = true;
-            if (!_onGround && AllowAirJumps && !Grapple.GetIsGrappling())
-            {
-                _AirJumping = true;
-                OnAirJump?.Invoke(true);
-                _airJumps--;
-                OnCurrentAirJumpAmountChanged?.Invoke(_airJumps);
-                _desireJump = false;
+            //if (!_onGround && AllowAirJumps && !Grapple.GetIsGrappling())
+            //{
+            //    _AirJumping = true;
+            //    OnAirJump?.Invoke(true);
+            //    _airJumps--;
+            //    OnCurrentAirJumpAmountChanged?.Invoke(_airJumps);
+            //    _desireJump = false;
 
-                DoJump(AirJumpMultiplier);
-                _jumpBufferTimer = 0;
-                _coyoteTimer = 0;
-                return;
-            }
+            //    DoJump(AirJumpMultiplier);
+            //    _jumpBufferTimer = 0;
+            //    _coyoteTimer = 0;
+            //    return;
+            //}
 
             _desireJump = false;
 
