@@ -49,8 +49,8 @@ public class Jump : MonoBehaviour
     [Header("Current State")]
     private bool _pressingJump;
     private bool _desireJump;
-    public bool CurrentlyJumping;
-    private bool _AirJumping;
+    public bool IsJumping;
+    private bool _isAirJumping;
     private bool _isDescending;
     private bool _onGround;
 
@@ -84,9 +84,9 @@ public class Jump : MonoBehaviour
 
         CheckDescending();
 
-        if (_onGround && AllowAirJumps)
+        if (_onGround && AllowAirJumps || Grapple.GetIsGrappling())
         {
-            _AirJumping = false;
+            _isAirJumping = false;
             OnAirJump?.Invoke(false);
             ResetAirJumps();
         }
@@ -170,7 +170,7 @@ public class Jump : MonoBehaviour
         {
             _coyoteTimer = CoyoteTime;
         }
-        if (!CurrentlyJumping && !_onGround)
+        if (!IsJumping && !_onGround)
         {
             _coyoteTimer -= Time.deltaTime;
         }
@@ -198,7 +198,7 @@ public class Jump : MonoBehaviour
             {
                 // on ground and not moving -> default gravity and end jumping state
                 _gravMultiplier = _defaultGravityScale;
-                CurrentlyJumping = false;
+                IsJumping = false;
             }
             else
             {
@@ -217,22 +217,22 @@ public class Jump : MonoBehaviour
         if (_wallJump != null && (_wallJump.GetIsWallSLiding() || _wallJump.GetIsWallJumping())) return;
 
         // allow jump when on ground, during coyote time, or if air jumps remain
-        if (_onGround || _coyoteTimer > 0f /*|| _airJumps > 0*/)
+        if (_onGround || _coyoteTimer > 0f || _airJumps > 0)
         {
-            CurrentlyJumping = true;
-            //if (!_onGround && AllowAirJumps && !Grapple.GetIsGrappling())
-            //{
-            //    _AirJumping = true;
-            //    OnAirJump?.Invoke(true);
-            //    _airJumps--;
-            //    OnCurrentAirJumpAmountChanged?.Invoke(_airJumps);
-            //    _desireJump = false;
+            IsJumping = true;
+            if (!_onGround && AllowAirJumps && !Grapple.GetIsGrappling())
+            {
+                _isAirJumping = true;
+                OnAirJump?.Invoke(true);
+                _airJumps--;
+                OnCurrentAirJumpAmountChanged?.Invoke(_airJumps);
+                _desireJump = false;
 
-            //    DoJump(AirJumpMultiplier);
-            //    _jumpBufferTimer = 0;
-            //    _coyoteTimer = 0;
-            //    return;
-            //}
+                DoAirJump(AirJumpMultiplier);
+                _jumpBufferTimer = 0;
+                _coyoteTimer = 0;
+                return;
+            }
 
             _desireJump = false;
 
@@ -262,7 +262,7 @@ public class Jump : MonoBehaviour
 
         // ensure gravityScale is the default while starting the jump
         _playerRigidbody.gravityScale = _defaultGravityScale;
-        CurrentlyJumping = true;
+        IsJumping = true;
 
         PlayerAnimator.SetTrigger("Jump");
 
@@ -282,11 +282,32 @@ public class Jump : MonoBehaviour
 
         // ensure gravityScale is the default while starting the jump
         _playerRigidbody.gravityScale = _defaultGravityScale;
-        CurrentlyJumping = true;
+        IsJumping = true;
 
         PlayerAnimator.SetTrigger("Jump");
 
     }
+
+    public void DoAirJump(float jumpPowerMultiplier)
+    {
+        //Debug.Log("Jumping from jump script");
+        // Compute using the engine gravity and the default gravityScale so buffered jumps
+        // don't inherit a high "falling" gravityScale and become overpowered.
+        float gravity = Physics2D.gravity.y * _defaultGravityScale; // negative
+        float jumpPower = Mathf.Sqrt(-2f * gravity * JumpHeight); // v = sqrt(2 * |g| * h)
+
+        // zero vertical velocity then apply jump
+        _playerRigidbody.linearVelocityY = 0f;
+        _playerRigidbody.linearVelocityY = jumpPower * jumpPowerMultiplier;
+
+        // ensure gravityScale is the default while starting the jump
+        _playerRigidbody.gravityScale = _defaultGravityScale;
+        IsJumping = true;
+
+        PlayerAnimator.SetTrigger("Jump");
+
+    }
+
 
     private void LimitFallSpeed()
     {
@@ -296,9 +317,9 @@ public class Jump : MonoBehaviour
         }
     }
 
-    public bool GetJumping() { return CurrentlyJumping; }
+    public bool GetIsJumping() { return IsJumping; }
 
-    public bool GetAirJumping() { return _AirJumping; }
+    public bool GetIsAirJumping() { return _isAirJumping; }
 
     public bool IsDescending() { return _playerRigidbody.linearVelocityY < 0; }
 

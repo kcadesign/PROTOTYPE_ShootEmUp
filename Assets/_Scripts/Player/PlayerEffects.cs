@@ -12,7 +12,7 @@ public class PlayerEffects : MonoBehaviour
 
     private void Update()
     {
-        if (_playerJump.GetAirJumping())
+        if (_playerJump.GetIsAirJumping())
         {
             AirJumpParticles.SetActive(true);
         }

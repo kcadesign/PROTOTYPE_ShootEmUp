@@ -140,20 +140,15 @@ public class Grapple : MonoBehaviour
         }
         LineRenderer.enabled = false;
         _playerRigidbody.gravityScale = originalGravityScale; // re-enable gravity after grappling
-        LaunchPlayer();
         _isGrappling = false;
+        LaunchPlayer();
         PlayerJump.ResetAirJumps();
 
     }
 
     private void LaunchPlayer()
     {
-        //Debug.Log("Launching player from grapple!");
-
-        //_playerRigidbody.linearVelocity = Vector2.zero; // reset velocity before applying launch force
-        //_playerRigidbody.AddForce(new Vector2(_playerRigidbody.linearVelocityX, 1 * LaunchForce), ForceMode2D.Impulse);
         PlayerJump.DoJump(LaunchForceMultiplier);
-        //PlayerJump.ResetAirJumps();
     }
 
     public bool GetIsGrappling()

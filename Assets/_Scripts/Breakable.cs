@@ -76,7 +76,7 @@ public class Breakable : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            if (collision.GetComponent<Jump>().GetAirJumping() && !_isDescending)
+            if (collision.GetComponent<Jump>().GetIsAirJumping() && !_isDescending)
             {
                 OnBreak?.Invoke();
                 gameObject.SetActive(false);

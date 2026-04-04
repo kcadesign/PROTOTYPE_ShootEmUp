@@ -32,7 +32,7 @@ public class PlayerCollisions : MonoBehaviour
     {
         if (!collision.IsTouching(_playerBodyCollider)) return;
         if (collision.gameObject.CompareTag("Enemy")
-            && (PlayerGrapple.GetIsGrappling() || _playerJump.GetAirJumping())
+            && (PlayerGrapple.GetIsGrappling() || _playerJump.GetIsAirJumping())
             && _playerRigidbody.linearVelocityY > 0)
         {
             if (collision.GetComponent<Health>() != null)
@@ -63,7 +63,7 @@ public class PlayerCollisions : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy")
-            && (PlayerGrapple.GetIsGrappling() || _playerJump.GetAirJumping())
+            && (PlayerGrapple.GetIsGrappling() || _playerJump.GetIsAirJumping())
             && _playerRigidbody.linearVelocityY > 0)
         {
             //collision.GetComponent<Health>()?.Damage(1); // Assuming the enemy has a Health component

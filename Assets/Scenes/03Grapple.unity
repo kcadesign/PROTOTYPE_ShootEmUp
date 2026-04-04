@@ -9537,6 +9537,10 @@ PrefabInstance:
       propertyPath: AllowAirJumps
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 530978034007891282, guid: 33789d62c9c36924b8fe3b9559373333, type: 3}
+      propertyPath: PlayerAirJump
+      value: 
+      objectReference: {fileID: 3155585936542894806}
     - target: {fileID: 3506124032425798752, guid: 33789d62c9c36924b8fe3b9559373333, type: 3}
       propertyPath: m_Name
       value: PlayerL
@@ -9581,6 +9585,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8190216655351458833, guid: 33789d62c9c36924b8fe3b9559373333, type: 3}
+      propertyPath: _playerAirJump
+      value: 
+      objectReference: {fileID: 3155585936542894806}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

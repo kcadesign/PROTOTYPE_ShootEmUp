@@ -23,8 +23,8 @@ public class Ghost : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!_playerJump.GetAirJumping() && _playerRigidbody.linearVelocityY < 0) return;
-        if (MakeGhost && _playerJump.GetAirJumping() && _playerRigidbody.linearVelocityY > 0)
+        if (!_playerJump.GetIsAirJumping() && _playerRigidbody.linearVelocityY < 0) return;
+        if (MakeGhost && _playerJump.GetIsAirJumping() && _playerRigidbody.linearVelocityY > 0)
         {
             if (_ghostDelaySeconds > 0)
             {
