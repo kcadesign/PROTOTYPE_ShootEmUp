@@ -19,13 +19,20 @@ public class PlayerGround : MonoBehaviour
 
     private void Update()
     {
-        if (_playerRigidbody.linearVelocityY > 0)
+        // Use the correct Rigidbody2D property and a small epsilon to avoid noise
+        if (_playerRigidbody.linearVelocityY > 0.01f)
         {
             _onGround = false;
             return;
         }
-        //Determine if the player is stood on objects on the ground layer, using a pair of raycasts
-        _onGround = Physics2D.Raycast(transform.position + colliderOffset, Vector2.down, groundLength, groundLayer);
+
+        RaycastHit2D hit = Physics2D.Raycast(transform.position + colliderOffset, Vector2.down, groundLength, groundLayer);
+        _onGround = hit.collider != null;
+
+        if (_onGround)
+        {
+            Debug.Log("Ground detected: " + hit.collider.name);
+        }
     }
 
     private void OnDrawGizmos()

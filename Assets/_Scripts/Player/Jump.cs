@@ -116,11 +116,11 @@ public class Jump : MonoBehaviour
         }
     }
 
-    private void SetPhysics()
-    {
-        Vector2 newGravity = new Vector2(0, (-2 * JumpHeight) / (TimeToJumpApex * TimeToJumpApex));
-        _playerRigidbody.gravityScale = (newGravity.y / Physics2D.gravity.y) * _gravMultiplier;
-    }
+    //private void SetPhysics()
+    //{
+    //    Vector2 newGravity = new Vector2(0, (-2 * JumpHeight) / (TimeToJumpApex * TimeToJumpApex));
+    //    _playerRigidbody.gravityScale = (newGravity.y / Physics2D.gravity.y) * _gravMultiplier;
+    //}
 
 
     private void FixedUpdate()
@@ -242,12 +242,6 @@ public class Jump : MonoBehaviour
         }
     }
 
-    public void ResetAirJumps()
-    {
-        _airJumps = MaxAirJumps;
-        OnCurrentAirJumpAmountChanged?.Invoke(_airJumps);
-    }
-
     public void DoJump()
     {
         //Debug.Log("Jumping from jump script");
@@ -276,6 +270,8 @@ public class Jump : MonoBehaviour
         float gravity = Physics2D.gravity.y * _defaultGravityScale; // negative
         float jumpPower = Mathf.Sqrt(-2f * gravity * JumpHeight); // v = sqrt(2 * |g| * h)
 
+        //OnAirJump?.Invoke(true);
+
         // zero vertical velocity then apply jump
         _playerRigidbody.linearVelocityY = 0f;
         _playerRigidbody.linearVelocityY = jumpPower * jumpPowerMultiplier;
@@ -290,11 +286,12 @@ public class Jump : MonoBehaviour
 
     public void DoAirJump(float jumpPowerMultiplier)
     {
-        //Debug.Log("Jumping from jump script");
         // Compute using the engine gravity and the default gravityScale so buffered jumps
         // don't inherit a high "falling" gravityScale and become overpowered.
         float gravity = Physics2D.gravity.y * _defaultGravityScale; // negative
         float jumpPower = Mathf.Sqrt(-2f * gravity * JumpHeight); // v = sqrt(2 * |g| * h)
+
+        OnAirJump?.Invoke(true);
 
         // zero vertical velocity then apply jump
         _playerRigidbody.linearVelocityY = 0f;
@@ -302,12 +299,17 @@ public class Jump : MonoBehaviour
 
         // ensure gravityScale is the default while starting the jump
         _playerRigidbody.gravityScale = _defaultGravityScale;
-        IsJumping = true;
+        _isAirJumping = true;
 
         PlayerAnimator.SetTrigger("Jump");
 
     }
 
+    public void ResetAirJumps()
+    {
+        _airJumps = MaxAirJumps;
+        OnCurrentAirJumpAmountChanged?.Invoke(_airJumps);
+    }
 
     private void LimitFallSpeed()
     {

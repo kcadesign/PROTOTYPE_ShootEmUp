@@ -5399,7 +5399,7 @@ MonoBehaviour:
   PlayerGrapple: {fileID: 530978034007891282}
   KnockbackDuration: 0.25
   KnockbackPower: 1
-  LaunchMultiplier: 1.75
+  LaunchMultiplier: 1.5
 --- !u!114 &7229632425565711507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5458,7 +5458,7 @@ MonoBehaviour:
   CoyoteTime: 0.15
   JumpBuffer: 0.15
   SpeedLimit: 13.5
-  CurrentlyJumping: 0
+  IsJumping: 0
 --- !u!114 &6063420470624327990
 MonoBehaviour:
   m_ObjectHideFlags: 0

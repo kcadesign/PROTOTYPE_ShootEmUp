@@ -54,9 +54,16 @@ public class PlayerCollisions : MonoBehaviour
                 StartCoroutine(Knockback(KnockbackDuration, KnockbackPower, pushDirection));
             }
         }
+
         if (collision.CompareTag("Chaser") || collision.CompareTag("Spike"))
         {
             _playerHealth.Damage(999);
+        }
+
+        if (collision.CompareTag("Explosion"))
+        {
+            Debug.Log("Launching from explosion");
+            _playerJump.DoAirJump(LaunchMultiplier);
         }
     }
 
