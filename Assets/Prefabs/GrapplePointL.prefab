@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7125967360946994884}
   - component: {fileID: 1052607031979942215}
   m_Layer: 0
-  m_Name: BodyRender
+  m_Name: Render
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -114,7 +114,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!1 &229697403859657198
+--- !u!1 &5854906400325205959
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,37 +122,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3481192946929210845}
-  - component: {fileID: 547272405647929686}
+  - component: {fileID: 2238018880881040499}
+  - component: {fileID: 7420743487598296955}
+  - component: {fileID: 5641352891405682802}
   m_Layer: 0
-  m_Name: GrapplePoint
+  m_Name: GrapplePointL
   m_TagString: GrapplePoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3481192946929210845
+--- !u!4 &2238018880881040499
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 229697403859657198}
+  m_GameObject: {fileID: 5854906400325205959}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -3.1931393, y: 1.1064045, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2238018880881040499}
+  m_ConstrainProportionsScale: 1
+  m_Children:
+  - {fileID: 7526954775153787586}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &547272405647929686
+--- !u!61 &7420743487598296955
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 229697403859657198}
+  m_GameObject: {fileID: 5854906400325205959}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -192,36 +194,15 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.48320764, y: 0.54800105}
   m_EdgeRadius: 0
---- !u!1 &5854906400325205959
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2238018880881040499}
-  m_Layer: 0
-  m_Name: GrapplePointL
-  m_TagString: Enemy
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2238018880881040499
-Transform:
+--- !u!114 &5641352891405682802
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5854906400325205959}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.1931393, y: 1.1064045, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
-  m_Children:
-  - {fileID: 7526954775153787586}
-  - {fileID: 3481192946929210845}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21b1c606d8394e34d98b975f2e5c4198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'

@@ -53,7 +53,7 @@ public class Breakable : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Is Air jumping: " + _isAirJumping);
+            //Debug.Log("Is Air jumping: " + _isAirJumping);
             // Ensure there's at least one contact, then use GetContact instead of contacts
             if (collision.GetContact(0).normal.y > 0 && !_isDescending)
             {
@@ -78,7 +78,7 @@ public class Breakable : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Is Air jumping: " + _isAirJumping);
+            //Debug.Log("Is Air jumping: " + _isAirJumping);
             if (collision.GetComponent<Jump>().GetIsAirJumping() && !_isDescending)
             {
                 OnBreak?.Invoke();

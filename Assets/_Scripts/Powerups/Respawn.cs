@@ -3,21 +3,25 @@ using UnityEngine;
 public class Respawn : MonoBehaviour
 {
     private GameObject[] _children;
-    private float[] _respawnTimers;
+    private float[] _timers;
+    private bool[] _staggered;
     public float RespawnDelay = 3f;
+    public bool IsTimedDespawnRespawn = false;
+    public float TimedOffset = 0.5f;
 
     private void Start()
     {
-        // Collect direct child GameObjects (works for inactive children as well)
-        int count = transform.childCount;
-        _children = new GameObject[count];
-        _respawnTimers = new float[count];
+        int childCount = transform.childCount;
+        _children = new GameObject[childCount];
+        _timers = new float[childCount];
+        _staggered = new bool[childCount];
 
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < childCount; i++)
         {
             Transform childTransform = transform.GetChild(i);
             _children[i] = childTransform != null ? childTransform.gameObject : null;
-            _respawnTimers[i] = 0f;
+            _timers[i] = 0f;
+            _staggered[i] = false;
         }
     }
 
@@ -26,32 +30,72 @@ public class Respawn : MonoBehaviour
         if (_children == null || _children.Length == 0)
             return;
 
-        // Process each child independently so each has its own respawn timer
-        for (int i = 0; i < _children.Length; i++)
+        if (!IsTimedDespawnRespawn)
         {
-            GameObject child = _children[i];
-
-            if (child == null)
+            for (int i = 0; i < _children.Length; i++)
             {
-                _respawnTimers[i] = 0f;
-                continue;
-            }
+                GameObject child = _children[i];
 
-            if (!child.activeSelf)
-            {
-                // Increment this child's timer
-                _respawnTimers[i] += Time.deltaTime;
-
-                if (_respawnTimers[i] >= RespawnDelay)
+                if (child == null)
                 {
-                    child.SetActive(true);
-                    _respawnTimers[i] = 0f;
+                    _timers[i] = 0f;
+                    _staggered[i] = false;
+                    continue;
+                }
+
+                if (!child.activeSelf)
+                {
+                    _timers[i] += Time.deltaTime;
+
+                    if (_timers[i] >= RespawnDelay)
+                    {
+                        child.SetActive(true);
+                        _timers[i] = 0f;
+                    }
+                }
+                else
+                {
+                    _timers[i] = 0f;
                 }
             }
-            else
+        }
+        else // IsTimedDespawnRespawn == true
+        {
+            for (int i = 0; i < _children.Length; i++)
             {
-                // Reset timer while active so it starts fresh on next deactivation
-                _respawnTimers[i] = 0f;
+                GameObject child = _children[i];
+
+                if (child == null)
+                {
+                    _timers[i] = 0f;
+                    _staggered[i] = false;
+                    continue;
+                }
+
+                // Use staggered offset only for the first deactivation; afterwards use regular RespawnDelay
+                float offsetDelay = _staggered[i] ? RespawnDelay : (RespawnDelay + (TimedOffset * i));
+
+                if (child.activeSelf)
+                {
+                    _timers[i] += Time.deltaTime;
+
+                    if (_timers[i] >= offsetDelay)
+                    {
+                        child.SetActive(false);
+                        _timers[i] = 0f;
+                        _staggered[i] = true; // mark that the initial stagger has occurred
+                    }
+                }
+                else // child is inactive
+                {
+                    _timers[i] += Time.deltaTime;
+
+                    if (_timers[i] >= RespawnDelay)
+                    {
+                        child.SetActive(true);
+                        _timers[i] = 0f;
+                    }
+                }
             }
         }
     }

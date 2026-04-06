@@ -62,7 +62,7 @@ public class PlayerCollisions : MonoBehaviour
 
         if (collision.CompareTag("Explosion"))
         {
-            Debug.Log("Launching from explosion");
+            //Debug.Log("Launching from explosion");
             _playerJump.DoAirJump(LaunchMultiplier);
         }
     }

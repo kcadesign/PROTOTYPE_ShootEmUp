@@ -29,10 +29,10 @@ public class PlayerGround : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(transform.position + colliderOffset, Vector2.down, groundLength, groundLayer);
         _onGround = hit.collider != null;
 
-        if (_onGround)
-        {
-            Debug.Log("Ground detected: " + hit.collider.name);
-        }
+        //if (_onGround)
+        //{
+        //    Debug.Log("Ground detected: " + hit.collider.name);
+        //}
     }
 
     private void OnDrawGizmos()

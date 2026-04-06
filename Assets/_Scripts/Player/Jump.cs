@@ -43,6 +43,7 @@ public class Jump : MonoBehaviour
     private float _jumpBufferTimer;
 
     [Header("Defaults & Limits")]
+    // this now holds the base gravityScale required to reach JumpHeight in TimeToJumpApex
     private float _defaultGravityScale;
     public float SpeedLimit;
 
@@ -64,8 +65,8 @@ public class Jump : MonoBehaviour
         _playerGround = GetComponent<PlayerGround>();
         _wallJump = GetComponent<WallJump>();
 
-        _defaultGravityScale = _playerRigidbody.gravityScale;
-
+        // compute the gravityScale needed to achieve JumpHeight in TimeToJumpApex
+        RecalculateJumpPhysics();
     }
 
     private void Start()
@@ -76,6 +77,10 @@ public class Jump : MonoBehaviour
             OnCurrentAirJumpAmountChanged?.Invoke(_airJumps); // Notify initial health
             OnMaxAirJumpsChanged?.Invoke(MaxAirJumps); // Notify initial max health
         }
+
+        // make sure the rigidbody uses the base gravity scale when starting
+        if (_playerRigidbody != null)
+            _playerRigidbody.gravityScale = _defaultGravityScale;
     }
 
     void Update()
@@ -176,37 +181,39 @@ public class Jump : MonoBehaviour
         }
 
     }
+
     private void CalculateGravity()
     {
         // small threshold to ignore tiny floating-point fluctuations
         const float errorThreshold = 0.01f;
 
+        // use AscendingGravity/DescendingGravity as multipliers of the base gravity scale
         if (_playerRigidbody.linearVelocityY > errorThreshold && _pressingJump)
         {
             // moving up
-            _gravMultiplier = AscendingGravity;
+            _gravMultiplier = _defaultGravityScale * AscendingGravity;
         }
         else if (_playerRigidbody.linearVelocityY < -errorThreshold)
         {
             // falling
-            _gravMultiplier = DescendingGravity;
+            _gravMultiplier = _defaultGravityScale * DescendingGravity;
         }
         else
         {
             // near zero vertical speed
             if (_onGround && Mathf.Abs(_playerRigidbody.linearVelocityY) <= errorThreshold)
             {
-                // on ground and not moving -> default gravity and end jumping state
+                // on ground and not moving -> base gravity and end jumping state
                 _gravMultiplier = _defaultGravityScale;
                 IsJumping = false;
             }
             else
             {
                 // at apex in mid-air -> start falling
-                _gravMultiplier = DescendingGravity;
+                _gravMultiplier = _defaultGravityScale * DescendingGravity;
             }
-
         }
+
         _playerRigidbody.gravityScale = _gravMultiplier;
     }
 
@@ -245,10 +252,8 @@ public class Jump : MonoBehaviour
     public void DoJump()
     {
         //Debug.Log("Jumping from jump script");
-        // Compute using the engine gravity and the default gravityScale so buffered jumps
-        // don't inherit a high "falling" gravityScale and become overpowered.
-        float gravity = Physics2D.gravity.y * _defaultGravityScale; // negative
-        float jumpPower = Mathf.Sqrt(-2f * gravity * JumpHeight); // v = sqrt(2 * |g| * h)
+        // Compute using the desired time to apex so jumps reach JumpHeight at TimeToJumpApex
+        float jumpPower = ComputeJumpVelocity();
 
         // zero vertical velocity then apply jump
         _playerRigidbody.linearVelocityY = 0f;
@@ -265,12 +270,7 @@ public class Jump : MonoBehaviour
     public void DoJump(float jumpPowerMultiplier)
     {
         //Debug.Log("Jumping from jump script");
-        // Compute using the engine gravity and the default gravityScale so buffered jumps
-        // don't inherit a high "falling" gravityScale and become overpowered.
-        float gravity = Physics2D.gravity.y * _defaultGravityScale; // negative
-        float jumpPower = Mathf.Sqrt(-2f * gravity * JumpHeight); // v = sqrt(2 * |g| * h)
-
-        //OnAirJump?.Invoke(true);
+        float jumpPower = ComputeJumpVelocity();
 
         // zero vertical velocity then apply jump
         _playerRigidbody.linearVelocityY = 0f;
@@ -286,10 +286,8 @@ public class Jump : MonoBehaviour
 
     public void DoAirJump(float jumpPowerMultiplier)
     {
-        // Compute using the engine gravity and the default gravityScale so buffered jumps
-        // don't inherit a high "falling" gravityScale and become overpowered.
-        float gravity = Physics2D.gravity.y * _defaultGravityScale; // negative
-        float jumpPower = Mathf.Sqrt(-2f * gravity * JumpHeight); // v = sqrt(2 * |g| * h)
+        // Compute using the desired time to apex so jumps reach JumpHeight at TimeToJumpApex
+        float jumpPower = ComputeJumpVelocity();
 
         OnAirJump?.Invoke(true);
 
@@ -303,6 +301,33 @@ public class Jump : MonoBehaviour
 
         PlayerAnimator.SetTrigger("Jump");
 
+    }
+
+    // compute v0 = 2 * h / t (stable, avoids depending on temporary gravityScale)
+    private float ComputeJumpVelocity()
+    {
+        // guard against invalid TimeToJumpApex
+        float t = Mathf.Max(0.0001f, TimeToJumpApex);
+        return (2f * JumpHeight) / t;
+    }
+
+    // recalculates the base gravity scale so that an initial upward velocity of ComputeJumpVelocity()
+    // will reach JumpHeight at TimeToJumpApex.
+    private void RecalculateJumpPhysics()
+    {
+        // guard
+        if (TimeToJumpApex <= 0f) TimeToJumpApex = 0.1f;
+
+        // desired engine gravity (negative value)
+        float desiredGravityY = (-2f * JumpHeight) / (TimeToJumpApex * TimeToJumpApex);
+
+        // convert to gravityScale relative to Physics2D.gravity.y
+        // Physics2D.gravity.y is negative in Unity by default, so this yields a positive scale.
+        _defaultGravityScale = desiredGravityY / Physics2D.gravity.y;
+
+        // ensure we have a sensible minimum gravity scale
+        if (float.IsNaN(_defaultGravityScale) || _defaultGravityScale <= 0f)
+            _defaultGravityScale = 1f;
     }
 
     public void ResetAirJumps()
@@ -339,5 +364,19 @@ public class Jump : MonoBehaviour
     {
         _airJumps += renewJumpAmount;
         OnCurrentAirJumpAmountChanged?.Invoke(_airJumps);
+    }
+
+    // Called in the editor when values are changed so the gravity scale updates immediately.
+    private void OnValidate()
+    {
+        // Avoid running in edit mode before Rigidbody exists
+        if (!Application.isPlaying)
+        {
+            // Attempt to compute sensible defaults; do not access instance fields that may be null.
+            if (TimeToJumpApex <= 0f) TimeToJumpApex = 0.1f;
+            if (JumpHeight <= 0f) JumpHeight = Mathf.Max(0.1f, JumpHeight);
+        }
+
+        RecalculateJumpPhysics();
     }
 }
