@@ -18,7 +18,7 @@ EditorBuildSettings:
     path: Assets/Scenes/02BoostJumps.unity
     guid: 48610a6bcbb435749a74400f1ab7ab88
   - enabled: 1
-    path: Assets/Scenes/03Grapple.unity
+    path: Assets/Scenes/JumpHeightTest.unity
     guid: 5d47b757270cd694da6c6b2e4cd0ece7
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

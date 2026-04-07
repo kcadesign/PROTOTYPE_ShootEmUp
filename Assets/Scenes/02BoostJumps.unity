@@ -2327,6 +2327,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Respawn
   RespawnDelay: 3
+  IsTimedDespawnRespawn: 0
+  TimedOffset: 0.5
 --- !u!4 &151812957
 Transform:
   m_ObjectHideFlags: 0
@@ -30730,6 +30732,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 417149544334028434, guid: 33789d62c9c36924b8fe3b9559373333, type: 3}
       propertyPath: AllowAirJumps
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 417149544334028434, guid: 33789d62c9c36924b8fe3b9559373333, type: 3}
+      propertyPath: TimeToJumpApex
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3506124032425798752, guid: 33789d62c9c36924b8fe3b9559373333, type: 3}

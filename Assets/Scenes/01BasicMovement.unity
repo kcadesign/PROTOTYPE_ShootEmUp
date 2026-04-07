@@ -3608,7 +3608,7 @@ Camera:
   far clip plane: 5000
   field of view: 40
   orthographic: 1
-  orthographic size: 8.5
+  orthographic size: 12
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -5581,6 +5581,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9151529878605170491, guid: e16472721a9e355499400f2598c38821, type: 3}
   m_PrefabInstance: {fileID: 1600702856}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &885581900 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 530978034007891282, guid: 33789d62c9c36924b8fe3b9559373333, type: 3}
+  m_PrefabInstance: {fileID: 1981315265420696136}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce89cc204ded6e94cabc1b685f39664d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Grapple
 --- !u!1001 &904818136
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7104,8 +7115,8 @@ Transform:
   m_GameObject: {fileID: 1115011837}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.24987, y: 88.2125, z: 0}
-  m_LocalScale: {x: -12.499872, y: 177.63446, z: 1}
+  m_LocalPosition: {x: 13.24987, y: 88.2125, z: 0}
+  m_LocalScale: {x: -16.499832, y: 177.63446, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 725926571}
@@ -9711,7 +9722,7 @@ MonoBehaviour:
     CustomLookAtTarget: 0
   Lens:
     FieldOfView: 40
-    OrthographicSize: 8.5
+    OrthographicSize: 12
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
@@ -12989,7 +13000,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -6.625, z: 0}
-  m_LocalScale: {x: 35, y: 13.25, z: 1}
+  m_LocalScale: {x: 43.001, y: 13.25, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 725926571}
@@ -13398,6 +13409,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 9151529878605170491, guid: e16472721a9e355499400f2598c38821, type: 3}
   m_PrefabInstance: {fileID: 1831603609}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1837334576 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 27600907644046539, guid: 33789d62c9c36924b8fe3b9559373333, type: 3}
+  m_PrefabInstance: {fileID: 1981315265420696136}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1842903522
 PrefabInstance:
@@ -14762,8 +14778,8 @@ Transform:
   m_GameObject: {fileID: 2035816914}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -11.249874, y: 88.2125, z: 0}
-  m_LocalScale: {x: -12.499872, y: 177.63446, z: 1}
+  m_LocalPosition: {x: -13.249874, y: 88.2125, z: 0}
+  m_LocalScale: {x: -16.499832, y: 177.63446, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 725926571}
@@ -15817,6 +15833,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 417149544334028434, guid: 33789d62c9c36924b8fe3b9559373333, type: 3}
+      propertyPath: Grapple
+      value: 
+      objectReference: {fileID: 885581900}
+    - target: {fileID: 417149544334028434, guid: 33789d62c9c36924b8fe3b9559373333, type: 3}
+      propertyPath: MaxAirJumps
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 417149544334028434, guid: 33789d62c9c36924b8fe3b9559373333, type: 3}
+      propertyPath: AllowAirJumps
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 417149544334028434, guid: 33789d62c9c36924b8fe3b9559373333, type: 3}
+      propertyPath: PlayerAnimator
+      value: 
+      objectReference: {fileID: 1837334576}
+    - target: {fileID: 417149544334028434, guid: 33789d62c9c36924b8fe3b9559373333, type: 3}
+      propertyPath: TimeToJumpApex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3506124032425798752, guid: 33789d62c9c36924b8fe3b9559373333, type: 3}
       propertyPath: m_Name
       value: PlayerL
