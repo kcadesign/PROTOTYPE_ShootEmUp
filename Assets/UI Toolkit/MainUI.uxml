@@ -29,7 +29,7 @@
                         <ui:VisualElement name="HealthBlock" class="healthBlock" style="flex-grow: 1; visibility: visible; background-color: rgb(0, 0, 255); border-top-width: 4px; border-right-width: 4px; border-bottom-width: 4px; border-left-width: 4px; border-left-color: rgb(0, 0, 255); border-right-color: rgb(0, 0, 255); border-top-color: rgb(0, 0, 255); border-bottom-color: rgb(0, 0, 255);"/>
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:Label text="Health" style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;"/>
+                <ui:Label text="HEALTH" style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;"/>
             </ui:VisualElement>
             <ui:VisualElement name="MiddleColumn" style="flex-grow: 1; margin-right: 20px; background-color: rgba(192, 59, 59, 0); margin-left: 20px; width: 30%; align-items: auto; height: 100%;"/>
             <ui:VisualElement name="RightColumn" style="flex-grow: 1; margin-right: 0; background-color: rgba(192, 59, 59, 0); margin-left: 20px; justify-content: flex-start; align-items: flex-start; align-content: flex-start; width: 25%; height: 100%; flex-direction: column;">
@@ -53,11 +53,18 @@
                         <ui:VisualElement name="AmmoBlock" class="ammoBlock" style="flex-grow: 1; visibility: visible; background-color: rgb(0, 0, 255); border-top-width: 4px; border-right-width: 4px; border-bottom-width: 4px; border-left-width: 4px; border-left-color: rgb(0, 0, 255); border-right-color: rgb(0, 0, 255); border-top-color: rgb(0, 0, 255); border-bottom-color: rgb(0, 0, 255);"/>
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:Label text="Jumps" name="Label" style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;"/>
+                <ui:Label text="JUMPS" name="Label" style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;"/>
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="BottomBlock" style="flex-grow: 1; margin-bottom: 24px; padding-bottom: 0; background-color: rgba(34, 117, 255, 0); margin-top: 24px; justify-content: space-between; align-items: flex-end; flex-direction: row; align-self: auto; align-content: stretch;">
-            <ui:VisualElement name="LeftColumn" style="flex-grow: 1; margin-right: 20px; background-color: rgba(192, 59, 59, 0); align-items: auto; width: 25%; height: 100%;"/>
+            <ui:VisualElement name="LeftColumn" style="flex-grow: 1; margin-right: 20px; background-color: rgba(192, 59, 59, 0); align-items: auto; width: 25%; height: 100%; justify-content: flex-start; flex-direction: row;">
+                <ui:Label text="STARS: " style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;"/>
+                <ui:Label text="9999" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;">
+                    <Bindings>
+                        <ui:DataBinding property="text" data-source-path="_currentCurrency" binding-mode="ToTarget"/>
+                    </Bindings>
+                </ui:Label>
+            </ui:VisualElement>
             <ui:VisualElement name="MiddleColumn" style="flex-grow: 1; margin-right: 20px; background-color: rgba(192, 59, 59, 0); margin-left: 20px; width: 50%; align-items: auto; height: 100%;"/>
             <ui:VisualElement name="RightColumn" style="flex-grow: 1; margin-right: 0; background-color: rgba(192, 59, 59, 0); margin-left: 20px; justify-content: flex-end; align-items: auto; align-content: auto; width: 25%; height: 100%;">
                 <ui:Button text="ZONE 2" name="Zone2Button" class="button" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 30%; width: 100%; aspect-ratio: auto; max-width: 75%; max-height: 75px;"/>

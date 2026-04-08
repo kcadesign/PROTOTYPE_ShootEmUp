@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -8,10 +9,13 @@ public class UIController : MonoBehaviour
     public static event Action OnResetButtonClicked;
     public static event Action OnZone2ButtonClicked;
 
+    public PlayerStats PlayerStatsData;
+
     [SerializeField] private UIDocument _uIDocument;
     private VisualElement _healthContainer;
     private VisualElement _healthBlockContainer;
     private VisualElement _healthBlock;
+
 
     private VisualElement _ammoContainer;
     private VisualElement _ammoBlockContainer;
@@ -23,6 +27,8 @@ public class UIController : MonoBehaviour
     private int _currentAmmo;
     private int _maxAmmo;
     private int _maxAmmoLimit;
+
+    private int _currentCurrency;
 
     private Button _resetButton;
     private Button _zone2Button;
@@ -48,6 +54,8 @@ public class UIController : MonoBehaviour
         Jump.OnMaxAirJumpsChanged += Jump_OnMaxAirJumpsChanged;
         Jump.OnCurrentAirJumpAmountChanged += Jump_OnCurrentAirJumpAmountChanged;
 
+        CollectStar.OnCurrencyCollected += CollectStar_OnCurrencyCollected;
+
         _resetButton.clicked += ResetButton_clicked;
         _zone2Button.clicked += Zone2Button_clicked;
     }
@@ -60,6 +68,7 @@ public class UIController : MonoBehaviour
         Jump.OnMaxAirJumpsChanged -= Jump_OnMaxAirJumpsChanged;
         Jump.OnCurrentAirJumpAmountChanged -= Jump_OnCurrentAirJumpAmountChanged;
 
+        CollectStar.OnCurrencyCollected -= CollectStar_OnCurrencyCollected;
 
         _resetButton.clicked -= ResetButton_clicked;
         _zone2Button.clicked -= Zone2Button_clicked;
@@ -69,6 +78,7 @@ public class UIController : MonoBehaviour
     {
         _maxHealthLimit = _healthContainer.childCount;
         _maxAmmoLimit = _healthContainer.childCount;
+        PlayerStatsData.SetCurrentCurrency(0);
     }
 
     private void PlayerHealth_OnMaxHealthChanged(int maxHealth)
@@ -92,6 +102,13 @@ public class UIController : MonoBehaviour
     private void Jump_OnCurrentAirJumpAmountChanged(int currentAirJumpAmount)
     {
         UpdateCurrentAmmo(currentAirJumpAmount);
+    }
+
+    private void CollectStar_OnCurrencyCollected(int amount)
+    {
+        _currentCurrency += amount;
+        //Debug.Log($"Current currency: {_currentCurrency}");
+        PlayerStatsData.SetCurrentCurrency(_currentCurrency);
     }
 
     private void UpdateMaxHealth(int maxHealth)

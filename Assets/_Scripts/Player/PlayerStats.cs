@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PlayerStatsData", menuName = "Scriptable Objects/Player/PlayerStatsData")]
@@ -11,6 +12,9 @@ public class PlayerStats : ScriptableObject
 
     [Header("Health")]
     [SerializeField] private int _maxHealth = 3;
+
+    [Header("Currency")]
+    [SerializeField] private int _currentCurrency = 0;
 
     public bool GetCanAirJump() { return _allowAirJump; }
     public void SetCanAirJump(bool canAirJump)
@@ -28,6 +32,12 @@ public class PlayerStats : ScriptableObject
     public void SetMaxHealth(int maxHealth)
     {
         _maxHealth = maxHealth;
+    }
+
+    public int GetCurrentCurrency() { return _currentCurrency; }
+    public void SetCurrentCurrency(int currentCurrency)
+    {
+        _currentCurrency = currentCurrency;
     }
 
     public void SaveAllDataToPrefs()

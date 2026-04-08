@@ -12,6 +12,7 @@ TagManager:
   - Obstacle
   - Spike
   - Explosion
+  - Currency
   layers:
   - Default
   - TransparentFX
