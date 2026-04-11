@@ -227,7 +227,7 @@ public class Jump : MonoBehaviour
         if (_onGround || _coyoteTimer > 0f || _airJumps > 0)
         {
             IsJumping = true;
-            if (!_onGround && AllowAirJumps && !Grapple.GetIsGrappling())
+            if (!_onGround && AllowAirJumps && !Grapple.GetIsGrappling() && _coyoteTimer <= 0f)
             {
                 _isAirJumping = true;
                 OnAirJump?.Invoke(true);
