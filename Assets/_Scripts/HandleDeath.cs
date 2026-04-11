@@ -4,6 +4,7 @@ using UnityEngine.Events;
 public class HandleDeath : MonoBehaviour
 {
     public UnityEvent OnDeath;
+    private bool _isDead = false;
     private Health _health;
 
     private void Awake()
@@ -13,8 +14,9 @@ public class HandleDeath : MonoBehaviour
 
     private void Update()
     {
-        if (_health.GetHealth() <= 0)
+        if(_health.GetHealth() <= 0 && !_isDead)
         {
+            _isDead = true;
             OnDeath?.Invoke();
             // Handle death logic here (e.g., play animation, disable controls, etc.)
             gameObject.SetActive(false);

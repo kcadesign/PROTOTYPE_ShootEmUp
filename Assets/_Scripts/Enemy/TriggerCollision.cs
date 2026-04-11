@@ -28,7 +28,7 @@ public class TriggerCollision : MonoBehaviour
         }
     }
 
-    public Vector3 GetCollisionPosition()
+    public Vector3 GetTargetPosition()
     {
         return _collisionPosition;
     }
