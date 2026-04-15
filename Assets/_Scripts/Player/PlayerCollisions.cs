@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerCollisions : MonoBehaviour
@@ -32,20 +31,23 @@ public class PlayerCollisions : MonoBehaviour
     {
         if (!collision.IsTouching(_playerBodyCollider)) return;
         if (collision.gameObject.CompareTag("Enemy")
-            && (PlayerGrapple.GetIsGrappling() || _playerJump.GetIsAirJumping())
+            && _playerJump.GetIsAirJumping()
             && _playerRigidbody.linearVelocityY > 0)
         {
             if (collision.GetComponent<Health>() != null)
             {
-                collision.GetComponent<Health>().Damage(1); // Assuming the enemy has a Health component
+                Debug.Log("Player DEALT damage - Collided with: " + collision.gameObject.name);
+
+                collision.GetComponent<Health>().Damage(1);
+                _playerJump.DoJump(LaunchMultiplier);
             }
-            _playerJump.DoJump(LaunchMultiplier);
         }
         else if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Obstacle"))
         {
-            Debug.Log("Player Body Collided with: " + collision.gameObject.name);
             if (_playerHealth != null)
             {
+                Debug.Log("Player RECEIVED damage - Collided with: " + collision.gameObject.name);
+
                 _playerHealth.Damage(1);
                 // push the player away in the opposite direction of the collision
                 Vector2 contactPoint = collision.ClosestPoint(transform.position);
@@ -70,12 +72,15 @@ public class PlayerCollisions : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy")
-            && (PlayerGrapple.GetIsGrappling() || _playerJump.GetIsAirJumping())
-            && _playerRigidbody.linearVelocityY > 0)
+            && _playerJump.GetIsAirJumping()
+            /*&& _playerRigidbody.linearVelocityY > 0*/)
         {
             //collision.GetComponent<Health>()?.Damage(1); // Assuming the enemy has a Health component
-            collision.gameObject.GetComponent<Health>()?.Damage(1);
-            _playerJump.DoJump(LaunchMultiplier);
+            if (collision.gameObject.GetComponent<Health>() != null)
+            {
+                collision.gameObject.GetComponent<Health>().Damage(1);
+                _playerJump.DoJump(LaunchMultiplier);
+            }
         }
         else if (collision.gameObject.CompareTag("Enemy"))
         {

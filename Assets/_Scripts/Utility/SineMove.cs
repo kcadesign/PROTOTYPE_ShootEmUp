@@ -4,7 +4,7 @@ public class SineMove : MonoBehaviour
 {
     private Vector3 _position;
 
-    public float Speed = 1.0f;
+    public float VerticalSpeed = 1.0f;
     public float Frequency = 1.0f;
     public float Magnitude;
 
@@ -21,7 +21,7 @@ public class SineMove : MonoBehaviour
 
     private void MoveDown()
     {
-        _position -= transform.up * Time.deltaTime * Speed;
+        _position += transform.up * Time.deltaTime * VerticalSpeed;
         transform.position = _position + transform.right * Mathf.Sin(Time.time * Frequency) * Magnitude; 
     }
 }

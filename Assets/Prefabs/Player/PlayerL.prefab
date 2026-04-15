@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5114885735076472387
 Transform:
   m_ObjectHideFlags: 0
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 957441086020047368}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5833334, z: 0}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -67,7 +67,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.1878223}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -77,7 +77,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.7280586, y: 0.258612}
+  m_Size: {x: 0.8694031, y: 0.258612}
   m_EdgeRadius: 0
 --- !u!114 &6101503145711763488
 MonoBehaviour:
@@ -5399,7 +5399,7 @@ MonoBehaviour:
   PlayerGrapple: {fileID: 530978034007891282}
   KnockbackDuration: 0.25
   KnockbackPower: 1
-  LaunchMultiplier: 1.5
+  LaunchMultiplier: 1.25
 --- !u!114 &7229632425565711507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5415,7 +5415,8 @@ MonoBehaviour:
   _onGround: 0
   groundLength: 0.1
   colliderOffset: {x: 0, y: -0.43, z: 0}
-  groundLayer:
+  RayGap: 0.15
+  _groundLayer:
     serializedVersion: 2
     m_Bits: 8
 --- !u!114 &2739125989905732620
@@ -5448,13 +5449,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   Grapple: {fileID: 530978034007891282}
   PlayerAnimator: {fileID: 27600907644046539}
-  JumpHeight: 5.75
-  TimeToJumpApex: 0.1
-  AirJumpMultiplier: 1.5
+  JumpHeight: 4.8
+  TimeToJumpApex: 0.6
+  AirJumpMultiplier: 1.3
   AscendingGravity: 1.5
-  DescendingGravity: 6
-  AllowAirJumps: 0
-  MaxAirJumps: 0
+  DescendingGravity: 3
+  AllowAirJumps: 1
+  MaxAirJumps: 1
   CoyoteTime: 0.15
   JumpBuffer: 0.15
   SpeedLimit: 13.5
@@ -5574,8 +5575,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 2.52}
-  m_Radius: 3.5
+  m_Offset: {x: 0, y: 2}
+  m_Radius: 3
 --- !u!114 &530978034007891282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5595,8 +5596,8 @@ MonoBehaviour:
   Player: {fileID: 3506124032425798752}
   LineRenderer: {fileID: 1116446656213502417}
   GrappleTip: {fileID: 6685668286544470289}
-  GrappleSpeed: 15
-  LaunchForceMultiplier: 1.75
+  GrappleSpeed: 16
+  LaunchForceMultiplier: 1.25
 --- !u!1 &4107989209672198658
 GameObject:
   m_ObjectHideFlags: 0
