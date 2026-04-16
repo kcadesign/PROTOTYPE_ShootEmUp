@@ -46,7 +46,7 @@ public class PlayerCollisions : MonoBehaviour
         {
             if (_playerHealth != null)
             {
-                Debug.Log("Player RECEIVED damage - Collided with: " + collision.gameObject.name);
+                Debug.Log("Player RECEIVED damage - Collided with TRIGGER: " + collision.gameObject.name);
 
                 _playerHealth.Damage(1);
                 // push the player away in the opposite direction of the collision
@@ -84,7 +84,7 @@ public class PlayerCollisions : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("Player Body Collided with: " + collision.gameObject.name);
+            Debug.Log("Player RECEIVED damage - Collided with COLLIDER: " + collision.gameObject.name);
             if (_playerHealth != null)
             {
                 _playerHealth.Damage(1);

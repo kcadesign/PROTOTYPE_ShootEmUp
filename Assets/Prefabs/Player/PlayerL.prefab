@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5114885735076472387}
-  - component: {fileID: 2911064403611204656}
+  - component: {fileID: 784413941764848376}
   - component: {fileID: 6101503145711763488}
   m_Layer: 0
   m_Name: StompZone
@@ -33,8 +33,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5832974408649442525}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &2911064403611204656
-BoxCollider2D:
+--- !u!70 &784413941764848376
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -67,18 +67,9 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 0.8694031, y: 0.258612}
-  m_EdgeRadius: 0
+  m_Offset: {x: -0.000000015349444, y: -0.12876049}
+  m_Size: {x: 1.109435, y: 0.26929766}
+  m_Direction: 1
 --- !u!114 &6101503145711763488
 MonoBehaviour:
   m_ObjectHideFlags: 0

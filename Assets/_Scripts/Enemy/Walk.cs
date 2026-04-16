@@ -11,32 +11,37 @@ public class Walk : MonoBehaviour
     public float RayOffset = 0.5f;
     public float RayGap = 0.5f;
 
+    private bool _wallLeft = false;
+    private bool _wallRight = false;
     private bool _groundLeft = false;
     private bool _groundRight = false;
 
     private bool _moveLeft = false;
 
+    [SerializeField] private LayerMask _wallLayer;
     [SerializeField] private LayerMask _groundLayer;
 
 
     private void Update()
     {
 
-        //RaycastHit2D hit = Physics2D.Raycast(transform.position + colliderOffset, Vector2.down, groundLength, _groundLayer);
-        //_onGround = hit.collider != null;
+        RaycastHit2D wallLeft = Physics2D.Raycast(transform.position + Vector3.left * RayOffset, Vector2.left, RayLength, _wallLayer);
+        RaycastHit2D wallRight = Physics2D.Raycast(transform.position + Vector3.right * RayOffset, Vector2.right, RayLength, _wallLayer);
+        _wallLeft = wallLeft.collider != null;
+        _wallRight = wallRight.collider != null;
 
         // create 2 downwards raycasts and check both for ground detection, this is to prevent the player from being detected as in the air when only one of the raycasts hits the ground
-        RaycastHit2D hitLeft = Physics2D.Raycast(transform.position + Vector3.left * RayGap, Vector2.down, RayLength, _groundLayer);
-        RaycastHit2D hitRight = Physics2D.Raycast(transform.position + Vector3.right * RayGap, Vector2.down, RayLength, _groundLayer);
-        _groundLeft = hitLeft.collider != null;
-        _groundRight = hitRight.collider != null;
+        RaycastHit2D groundLeft = Physics2D.Raycast(transform.position + Vector3.left * RayGap, Vector2.down, RayLength, _groundLayer);
+        RaycastHit2D groundRight = Physics2D.Raycast(transform.position + Vector3.right * RayGap, Vector2.down, RayLength, _groundLayer);
+        _groundLeft = groundLeft.collider != null;
+        _groundRight = groundRight.collider != null;
 
-        // only change direction when a wall is detected
-        if (!_groundRight)
+
+        if (!_groundRight || _wallRight)
         {
             _moveLeft = true;
         }
-        else if (!_groundLeft)
+        else if (!_groundLeft || _wallLeft)
         {
             _moveLeft = false;
         }
@@ -66,8 +71,14 @@ public class Walk : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        Gizmos.color = _wallLeft ? Color.green : Color.red;
+        Gizmos.DrawLine(transform.position + Vector3.left * RayOffset, transform.position + Vector3.left * RayOffset + Vector3.left * RayLength);
+
+        // Draw right ray with its own color based on _wallRight
+        Gizmos.color = _wallRight ? Color.green : Color.red;
+        Gizmos.DrawLine(transform.position + Vector3.right * RayOffset, transform.position + Vector3.right * RayOffset + Vector3.right * RayLength);
+
         if (_groundLeft) { Gizmos.color = Color.green; } else { Gizmos.color = Color.red; }
-        //Gizmos.DrawLine(transform.position + colliderOffset, transform.position + colliderOffset + Vector3.down * groundLength);
         Gizmos.DrawLine(transform.position + Vector3.left * RayGap, transform.position + Vector3.left * RayGap + Vector3.down * RayLength);
 
         if (_groundRight) { Gizmos.color = Color.green; } else { Gizmos.color = Color.red; }
