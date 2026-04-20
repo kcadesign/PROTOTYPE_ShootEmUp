@@ -11,9 +11,19 @@ public class HandlePlayerDeath : MonoBehaviour
         _health = GetComponent<PlayerHealth>();
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        if (_health.GetHealth() <= 0)
+            PlayerHealth.OnCurrentHealthChanged += PlayerHealth_OnCurrentHealthChanged;
+    }
+
+    private void OnDisable()
+    {
+            PlayerHealth.OnCurrentHealthChanged -= PlayerHealth_OnCurrentHealthChanged;
+    }
+
+    private void PlayerHealth_OnCurrentHealthChanged(int currentHealth)
+    {
+        if (currentHealth <= 0)
         {
             OnDeath?.Invoke();
             // Handle death logic here (e.g., play animation, disable controls, etc.)

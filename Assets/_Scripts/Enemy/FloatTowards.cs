@@ -11,7 +11,7 @@ public class FloatTowards : MonoBehaviour
         _desiredPosition = new Vector3(transform.position.x, 0, 0);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         _desiredPosition = TriggerCollision.GetTargetPosition();
         transform.position = Vector3.MoveTowards(transform.position, _desiredPosition, MoveSpeed * Time.deltaTime);

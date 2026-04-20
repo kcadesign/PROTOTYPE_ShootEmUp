@@ -229,7 +229,7 @@ GameObject:
   - component: {fileID: 1894521614430622364}
   - component: {fileID: 4897044608379250651}
   m_Layer: 0
-  m_Name: CollectStar
+  m_Name: Currency_reward
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

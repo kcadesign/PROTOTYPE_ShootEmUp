@@ -2,6 +2,7 @@ using System;
 using Unity.VectorGraphics;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class LevelEnd : MonoBehaviour
 {
@@ -13,11 +14,14 @@ public class LevelEnd : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             OnLevelEnd?.Invoke();
+            //collision.GetComponent<Jump>().enabled = false;
+            //collision.GetComponent<Rigidbody2D>().gravityScale = -1f;
         }
     }
 
-    public void ChangeToScene(int sceneIndex)
+    public void MoveToNextScene()
     {
-        OnPlayerEnterLevelEnd?.Invoke(sceneIndex);
+        int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        OnPlayerEnterLevelEnd?.Invoke(nextSceneIndex);
     }
 }

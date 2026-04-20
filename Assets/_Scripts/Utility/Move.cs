@@ -16,15 +16,10 @@ public class Move : MonoBehaviour
         if (InvertMove) _moveDirection *= -1f;
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!CanMove) return;
         gameObject.transform.Translate(_moveDirection * Speed * Time.deltaTime);
-
-
-
-
     }
 
     public void SetCanMove(bool canMove)

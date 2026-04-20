@@ -157,3 +157,6 @@
     border-bottom-width: 0;
     border-left-width: 0;
 }
+
+.transition {
+}

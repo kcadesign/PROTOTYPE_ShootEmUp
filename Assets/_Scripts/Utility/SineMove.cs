@@ -14,12 +14,12 @@ public class SineMove : MonoBehaviour
         _position = transform.position;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        MoveDown();
+        Move();
     }
 
-    private void MoveDown()
+    private void Move()
     {
         _position += transform.up * Time.deltaTime * VerticalSpeed;
         transform.position = _position + transform.right * Mathf.Sin(Time.time * Frequency) * Magnitude; 

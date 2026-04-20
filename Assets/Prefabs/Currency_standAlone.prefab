@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2563986277416915906}
   - component: {fileID: 5531184480106117297}
   m_Layer: 0
-  m_Name: Currency
+  m_Name: Currency_standAlone
   m_TagString: Currency
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

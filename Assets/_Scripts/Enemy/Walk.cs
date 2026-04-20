@@ -46,7 +46,6 @@ public class Walk : MonoBehaviour
             _moveLeft = false;
         }
 
-        Move();
 
         //_jumpTimer -= Time.deltaTime;
         //if (_jumpTimer <= 0)
@@ -54,6 +53,11 @@ public class Walk : MonoBehaviour
         //    Jump();
         //    _jumpTimer = JumpRate;
         //}
+    }
+
+    private void FixedUpdate()
+    {
+        Move();
     }
 
     private void Move()

@@ -7,7 +7,23 @@ public class PlayerHealth : MonoBehaviour
     public static event Action<int> OnMaxHealthChanged; // Event to notify when the player dies
 
     public int MaxHealth = 3;
-    private int _currentHealth;
+    [SerializeField] private int _currentHealth;
+
+    private void OnEnable()
+    {
+        SceneController.OnLevelLoaded += SceneController_OnLevelLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneController.OnLevelLoaded -= SceneController_OnLevelLoaded;
+    }
+
+    private void SceneController_OnLevelLoaded()
+    {
+        Debug.Log("Level loaded. Resetting player health");
+        ResetHealth(); // Reset health when a new level is loaded
+    }
 
     private void Start()
     {
@@ -73,5 +89,17 @@ public class PlayerHealth : MonoBehaviour
     public void SetMaxHealth(int maxHealth)
     {
         MaxHealth = maxHealth;
+    }
+
+    public void SetHealthZero()
+    {
+        _currentHealth = 0;
+        OnCurrentHealthChanged?.Invoke(_currentHealth); // Notify health change
+    }
+
+    public void ResetHealth()
+    {
+        _currentHealth = MaxHealth;
+        OnCurrentHealthChanged?.Invoke(_currentHealth); // Notify health reset
     }
 }

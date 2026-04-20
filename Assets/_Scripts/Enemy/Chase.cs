@@ -14,7 +14,7 @@ public class Chase : MonoBehaviour
         _player = GameObject.FindGameObjectWithTag("Player");
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         // Lerp towards the player's position but only use the y axis and add an offset to it so the enemy is slightly below the player.
         // Do not allow the enemy to move downward: only allow upward movement by clamping the target y.

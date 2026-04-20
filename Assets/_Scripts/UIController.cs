@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -6,19 +8,32 @@ using UnityEngine.UIElements;
 
 public class UIController : MonoBehaviour
 {
-    public static event Action OnResetButtonClicked;
-    public static event Action OnZone2ButtonClicked;
+    public static event Action OnStartGameButtonPressed;
+    public static event Action OnExitButtonReleased;
+    public static event Action OnResetButtonPressed;
+    public static event Action OnZone2ButtonPressed;
 
+    public static event Action OnSceneTransitionRequested;
+    public static event Action OnSceneReloadRequested;
+
+    [Header("References")]
     public PlayerStats PlayerStatsData;
-
     [SerializeField] private UIDocument _uIDocument;
+
+    // Panels
+    private VisualElement _mainMenuPanel;
+    private VisualElement _transitionPanel;
+    private VisualElement _HUDPanel;
+
+    // health
     private VisualElement _healthContainer;
     private VisualElement _healthBlockContainer;
     private VisualElement _healthBlock;
 
-
+    // ammo
     private VisualElement _ammoContainer;
     private VisualElement _ammoBlockContainer;
+
 
     private int _currentHealth;
     private int _maxHealth;
@@ -30,8 +45,15 @@ public class UIController : MonoBehaviour
 
     private int _currentCurrency;
 
+    private Button _StartGameButton;
+    private Button _ExitGameButton;
     private Button _resetButton;
     private Button _zone2Button;
+
+    [Header("Scene Transition")]
+    public float TransitionLength = 1f;
+    public float TransitionHoldLength = 2f;
+    private Translate _transitionStartPosition;
 
     private void Awake()
     {
@@ -42,8 +64,14 @@ public class UIController : MonoBehaviour
         _ammoContainer = _uIDocument.rootVisualElement.Q<VisualElement>("AmmoContainer");
         _ammoBlockContainer = _uIDocument.rootVisualElement.Q<VisualElement>("AmmoBlockContainer");
 
+        _StartGameButton = _uIDocument.rootVisualElement.Q<Button>("StartButton");
+        _ExitGameButton = _uIDocument.rootVisualElement.Q<Button>("ExitButton");
         _resetButton = _uIDocument.rootVisualElement.Q<Button>("ResetButton");
         _zone2Button = _uIDocument.rootVisualElement.Q<Button>("Zone2Button");
+
+        _mainMenuPanel = _uIDocument.rootVisualElement.Q<VisualElement>("MainMenu");
+        _transitionPanel = _uIDocument.rootVisualElement.Q<VisualElement>("Transition");
+        _HUDPanel = _uIDocument.rootVisualElement.Q<VisualElement>("HUD");
     }
 
     private void OnEnable()
@@ -56,8 +84,12 @@ public class UIController : MonoBehaviour
 
         CollectStar.OnCurrencyCollected += CollectStar_OnCurrencyCollected;
 
+        _StartGameButton.clicked += StartGameButton_Clicked;
+        _ExitGameButton.clicked += ExitGameButton_Clicked;
         _resetButton.clicked += ResetButton_clicked;
         _zone2Button.clicked += Zone2Button_clicked;
+
+        LevelEnd.OnPlayerEnterLevelEnd += LevelEnd_OnPlayerEnterLevelEnd;
     }
 
     private void OnDisable()
@@ -70,8 +102,12 @@ public class UIController : MonoBehaviour
 
         CollectStar.OnCurrencyCollected -= CollectStar_OnCurrencyCollected;
 
+        _StartGameButton.clicked -= StartGameButton_Clicked;
+        _ExitGameButton.clicked -= ExitGameButton_Clicked;
         _resetButton.clicked -= ResetButton_clicked;
         _zone2Button.clicked -= Zone2Button_clicked;
+
+        LevelEnd.OnPlayerEnterLevelEnd -= LevelEnd_OnPlayerEnterLevelEnd;
     }
 
     private void Start()
@@ -183,15 +219,122 @@ public class UIController : MonoBehaviour
         }
     }
 
+    private void StartGameButton_Clicked()
+    {
+        OnStartGameButtonPressed?.Invoke();
+        StartCoroutine(UITransition(_mainMenuPanel, _HUDPanel, TransitionLength, TransitionHoldLength));
+        Debug.Log("Start Game button clicked");
+    }
+
+    private void ExitGameButton_Clicked()
+    {
+        OnExitButtonReleased?.Invoke();
+        Debug.Log("Exit Game button clicked, event invoked.");
+    }
+
     private void ResetButton_clicked()
     {
-        OnResetButtonClicked?.Invoke();
+        OnResetButtonPressed?.Invoke();
+        StartCoroutine(SceneReload(TransitionLength, TransitionHoldLength));
         Debug.Log("Reset button clicked, event invoked.");
     }
 
     private void Zone2Button_clicked()
     {
-        OnZone2ButtonClicked?.Invoke();
+        OnZone2ButtonPressed?.Invoke();
         Debug.Log("Zone 2 button clicked, event invoked.");
     }
+
+    private void LevelEnd_OnPlayerEnterLevelEnd(int sceneIndex)
+    {
+        StartCoroutine(SceneTransition(_HUDPanel, _HUDPanel, TransitionLength, TransitionHoldLength));
+    }
+
+    private IEnumerator UITransition(VisualElement fromElement, VisualElement toElement, float transitionLength, float holdLength)
+    {
+        // set the transition panel size to be the same as the screen size
+        _transitionPanel.style.width = Screen.width;
+        _transitionPanel.style.height = Screen.height;
+
+        _transitionPanel.style.translate = new Translate(-Screen.width, 0, 0);
+
+        _transitionPanel.style.transitionDuration = new StyleList<TimeValue>
+        {
+            value = new List<TimeValue> { TimeValue.Seconds(transitionLength) }
+        };
+
+        _transitionPanel.style.translate = new Translate(0, 0, 0);
+        yield return new WaitForSeconds(transitionLength);
+        fromElement.style.display = DisplayStyle.None;
+        toElement.style.display = DisplayStyle.Flex;
+        yield return new WaitForSeconds(holdLength);
+        _transitionPanel.style.translate = new Translate(Screen.width, 0, 0);
+        yield return new WaitForSeconds(transitionLength);
+
+        _transitionPanel.style.transitionDuration = new StyleList<TimeValue>
+        {
+            value = new List<TimeValue> { TimeValue.Seconds(0) }
+        };
+        _transitionPanel.style.translate = new Translate(-Screen.width, 0, 0);
+
+    }
+
+    private IEnumerator SceneTransition(VisualElement fromElement, VisualElement toElement, float transitionLength, float holdLength)
+    {
+        // set the transition panel size to be the same as the screen size
+        _transitionPanel.style.width = Screen.width;
+        _transitionPanel.style.height = Screen.height;
+
+        _transitionPanel.style.translate = new Translate(-Screen.width, 0, 0);
+
+        _transitionPanel.style.transitionDuration = new StyleList<TimeValue>
+        {
+            value = new List<TimeValue> { TimeValue.Seconds(transitionLength) }
+        };
+
+        _transitionPanel.style.translate = new Translate(0, 0, 0);
+        yield return new WaitForSeconds(transitionLength);
+        fromElement.style.display = DisplayStyle.None;
+        toElement.style.display = DisplayStyle.Flex;
+        OnSceneTransitionRequested?.Invoke();
+        yield return new WaitForSeconds(holdLength);
+        _transitionPanel.style.translate = new Translate(Screen.width, 0, 0);
+        yield return new WaitForSeconds(transitionLength);
+
+        _transitionPanel.style.transitionDuration = new StyleList<TimeValue>
+        {
+            value = new List<TimeValue> { TimeValue.Seconds(0) }
+        };
+        _transitionPanel.style.translate = new Translate(-Screen.width, 0, 0);
+
+    }
+
+    private IEnumerator SceneReload(float transitionLength, float holdLength)
+    {
+        // set the transition panel size to be the same as the screen size
+        _transitionPanel.style.width = Screen.width;
+        _transitionPanel.style.height = Screen.height;
+
+        _transitionPanel.style.translate = new Translate(-Screen.width, 0, 0);
+
+        _transitionPanel.style.transitionDuration = new StyleList<TimeValue>
+        {
+            value = new List<TimeValue> { TimeValue.Seconds(transitionLength) }
+        };
+
+        _transitionPanel.style.translate = new Translate(0, 0, 0);
+        yield return new WaitForSeconds(transitionLength);
+        OnSceneReloadRequested?.Invoke();
+        yield return new WaitForSeconds(holdLength);
+        _transitionPanel.style.translate = new Translate(Screen.width, 0, 0);
+        yield return new WaitForSeconds(transitionLength);
+
+        _transitionPanel.style.transitionDuration = new StyleList<TimeValue>
+        {
+            value = new List<TimeValue> { TimeValue.Seconds(0) }
+        };
+        _transitionPanel.style.translate = new Translate(-Screen.width, 0, 0);
+
+    }
+
 }

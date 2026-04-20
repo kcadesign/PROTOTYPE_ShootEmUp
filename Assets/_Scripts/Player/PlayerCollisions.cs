@@ -59,7 +59,7 @@ public class PlayerCollisions : MonoBehaviour
 
         if (collision.CompareTag("Chaser") || collision.CompareTag("Spike"))
         {
-            _playerHealth.Damage(999);
+            _playerHealth.SetHealthZero();
         }
 
         if (collision.CompareTag("Explosion"))

@@ -56,11 +56,16 @@ public class EnemyJump : MonoBehaviour
         }
 
         _jumpTimer -= Time.deltaTime;
-        if (_jumpTimer <=0)
+    }
+
+    private void FixedUpdate()
+    {
+        if (_jumpTimer <= 0)
         {
             Jump();
             _jumpTimer = JumpRate;
         }
+
     }
 
 
