@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2424310114490452561}
   - component: {fileID: 2563986277416915906}
   - component: {fileID: 5531184480106117297}
+  - component: {fileID: -9116361046585812955}
   m_Layer: 0
   m_Name: Currency_standAlone
   m_TagString: Currency
@@ -119,6 +120,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-9116361046585812955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 387067849993742726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3779f6702304bb944aa7349b6f8b1863, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HandlePooling
 --- !u!1 &2315347467447989444
 GameObject:
   m_ObjectHideFlags: 0

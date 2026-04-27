@@ -31,6 +31,7 @@ public class SceneController : MonoBehaviour
         //HandleGameState.OnSceneReloadRequested += HandleGameState_OnSceneReloadRequested;
 
         UIController.OnStartGameButtonPressed += UIController_OnStartGameButtonPressed;
+        UIController.OnLevelSelected += UIController_OnLevelSelected;
         UIController.OnSceneTransitionRequested += UIController_OnSceneTrasitionRequested;
         UIController.OnSceneReloadRequested += UIController_OnSceneReloadRequested;
 
@@ -44,6 +45,7 @@ public class SceneController : MonoBehaviour
         //HandleGameState.OnSceneReloadRequested -= HandleGameState_OnSceneReloadRequested;
 
         UIController.OnStartGameButtonPressed -= UIController_OnStartGameButtonPressed;
+        UIController.OnLevelSelected -= UIController_OnLevelSelected;
         UIController.OnSceneTransitionRequested -= UIController_OnSceneTrasitionRequested;
         UIController.OnSceneReloadRequested -= UIController_OnSceneReloadRequested;
 
@@ -112,6 +114,32 @@ public class SceneController : MonoBehaviour
 
         OnGameStarted?.Invoke();
         OnLevelLoaded?.Invoke();
+    }
+
+    private async void UIController_OnLevelSelected(string sceneName)
+    {
+        _LoadFirstLevelAsyncOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+        _LoadFirstLevelAsyncOperation.allowSceneActivation = false;
+
+        if (_LoadFirstLevelAsyncOperation != null)
+        {
+            _LoadFirstLevelAsyncOperation.allowSceneActivation = true;
+            while (!_LoadFirstLevelAsyncOperation.isDone)
+            {
+                await Task.Yield();
+            }
+
+            // Set firstLevelScene as the active scene
+            Scene firstLevelScene = SceneManager.GetSceneByName(sceneName);
+            if (firstLevelScene.IsValid())
+                SceneManager.SetActiveScene(firstLevelScene);
+
+            Debug.Log("First level activated.");
+        }
+
+        OnGameStarted?.Invoke();
+        OnLevelLoaded?.Invoke();
+
     }
 
     private async void UIController_OnSceneTrasitionRequested()

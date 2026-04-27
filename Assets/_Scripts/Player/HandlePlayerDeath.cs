@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class HandlePlayerDeath : MonoBehaviour
 {
+    public static event Action OnPlayerDeath;
     public UnityEvent OnDeath;
     private PlayerHealth _health;
 
@@ -26,7 +28,7 @@ public class HandlePlayerDeath : MonoBehaviour
         if (currentHealth <= 0)
         {
             OnDeath?.Invoke();
-            // Handle death logic here (e.g., play animation, disable controls, etc.)
+            OnPlayerDeath?.Invoke();
             gameObject.SetActive(false);
         }
     }

@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b154c48787b30c641a7d2a94da0edceb, type: 3}
   m_Name: PlayerStatsData
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
-  _allowAirJump: 1
+  _allowAirJump: 0
   _maxAirJumps: 1
   _maxHealth: 3
+  _currentCurrency: 0
+  _lowValue: 0
+  _highValue: 10
+  _value: 0

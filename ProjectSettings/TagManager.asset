@@ -13,6 +13,7 @@ TagManager:
   - Spike
   - Explosion
   - Currency
+  - PoolReset
   layers:
   - Default
   - TransparentFX

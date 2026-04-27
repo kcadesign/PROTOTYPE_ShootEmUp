@@ -16,6 +16,11 @@ public class PlayerStats : ScriptableObject
     [Header("Currency")]
     [SerializeField] private int _currentCurrency = 0;
 
+    [Header("Experience")]
+    [SerializeField] private int _lowValue;
+    [SerializeField] private int _highValue;
+    [SerializeField] private float _value;
+
     public bool GetCanAirJump() { return _allowAirJump; }
     public void SetCanAirJump(bool canAirJump)
     {
@@ -50,8 +55,23 @@ public class PlayerStats : ScriptableObject
 
     public void LoadAllDataFromPrefs()
     {
-        if (PlayerPrefs.HasKey("AllowAirJumps"))_allowAirJump = PlayerPrefs.GetInt("AllowAirJumps") == 1;
-        if (PlayerPrefs.HasKey("MaxAirJumps"))_maxHealth = PlayerPrefs.GetInt("MaxAirJumps");
-        if (PlayerPrefs.HasKey("MaxHealth"))_maxHealth = PlayerPrefs.GetInt("MaxHealth");
+        if (PlayerPrefs.HasKey("AllowAirJumps")) _allowAirJump = PlayerPrefs.GetInt("AllowAirJumps") == 1;
+        if (PlayerPrefs.HasKey("MaxAirJumps")) _maxHealth = PlayerPrefs.GetInt("MaxAirJumps");
+        if (PlayerPrefs.HasKey("MaxHealth")) _maxHealth = PlayerPrefs.GetInt("MaxHealth");
+    }
+
+    public void SetLowValue(int lowValue)
+    {
+        _lowValue = lowValue;
+    }
+
+    public void SetHighValue(int highValue)
+    {
+        _highValue = highValue;
+    }
+
+    public void SetValue(float value)
+    {
+        _value = value;
     }
 }

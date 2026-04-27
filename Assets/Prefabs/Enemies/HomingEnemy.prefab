@@ -451,6 +451,7 @@ GameObject:
   - component: {fileID: 5943136725925218881}
   - component: {fileID: 6536750721442347897}
   - component: {fileID: 6969791650361276672}
+  - component: {fileID: -5394099365489000}
   m_Layer: 0
   m_Name: HomingEnemy
   m_TagString: Enemy
@@ -578,3 +579,15 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-5394099365489000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8647953018211235474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3779f6702304bb944aa7349b6f8b1863, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HandlePooling

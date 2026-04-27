@@ -160,3 +160,61 @@
 
 .transition {
 }
+
+.progressBar {
+    background-color: rgb(255, 255, 255);
+}
+
+.progressBar_Fill {
+}
+
+.progressBar_container {
+}
+
+.unity-progress-bar {
+    background-color: rgba(255, 255, 255, 0);
+    width: 80%;
+    height: 100px;
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    border-top-width: 8px;
+    border-right-width: 8px;
+    border-bottom-width: 8px;
+    border-left-width: 8px;
+}
+
+.unity-progress-bar__container {
+    background-color: rgb(0, 0, 255);
+    width: auto;
+    height: 100%;
+    border-left-color: rgba(255, 255, 255, 0);
+    border-right-color: rgba(255, 255, 255, 0);
+    border-top-color: rgba(255, 255, 255, 0);
+    border-bottom-color: rgba(255, 255, 255, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+}
+
+.unity-progress-bar__progress {
+    background-color: rgb(255, 77, 255);
+    width: auto;
+    height: auto;
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+}
+
+.progressBar_label {
+    font-size: 25px;
+    color: rgb(255, 255, 255);
+    -unity-font-style: bold;
+}

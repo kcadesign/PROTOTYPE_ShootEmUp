@@ -1,15 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 
 public class UIController : MonoBehaviour
 {
     public static event Action OnStartGameButtonPressed;
-    public static event Action OnExitButtonReleased;
+    public static event Action<string> OnLevelSelected;
+    public static event Action OnExitButtonPressed;
+
+    public static event Action OnToggleAirJumpPressed;
+    public static event Action OnAddAirJumpPressed;
     public static event Action OnResetButtonPressed;
     public static event Action OnZone2ButtonPressed;
 
@@ -17,13 +21,16 @@ public class UIController : MonoBehaviour
     public static event Action OnSceneReloadRequested;
 
     [Header("References")]
+    public InputActionAsset InputActions;
     public PlayerStats PlayerStatsData;
     [SerializeField] private UIDocument _uIDocument;
 
     // Panels
     private VisualElement _mainMenuPanel;
+    private VisualElement _levelSelectPanel;
     private VisualElement _transitionPanel;
     private VisualElement _HUDPanel;
+    private VisualElement _XPPanel;
 
     // health
     private VisualElement _healthContainer;
@@ -33,7 +40,6 @@ public class UIController : MonoBehaviour
     // ammo
     private VisualElement _ammoContainer;
     private VisualElement _ammoBlockContainer;
-
 
     private int _currentHealth;
     private int _maxHealth;
@@ -45,15 +51,31 @@ public class UIController : MonoBehaviour
 
     private int _currentCurrency;
 
-    private Button _StartGameButton;
-    private Button _ExitGameButton;
-    private Button _resetButton;
+    // Main menu
+    private Button _startGameButton;
+    private Button _levelSelectButton;
+    private Button _exitGameButton;
+
+    // Level select menu
+    private Button _level1Button;
+    private Button _level2Button;
+    private Button _level3Button;
+    private Button _level4Button;
+    private Button _level5Button;
+    private Button _backButton;
+
+    // HUD
+    private Button _toggleAirJumpButton;
+    private Button _addAirJumpButton;
     private Button _zone2Button;
+    private Button _resetButton;
 
     [Header("Scene Transition")]
     public float TransitionLength = 1f;
     public float TransitionHoldLength = 2f;
-    private Translate _transitionStartPosition;
+    public Translate _transitionStartPosition = new Translate(0, Screen.height, 0);
+    public Translate _transitionMidPosition = new Translate(0, 0, 0);
+    public Translate _transitionEndPosition = new Translate(0, -Screen.height, 0);
 
     private void Awake()
     {
@@ -64,28 +86,55 @@ public class UIController : MonoBehaviour
         _ammoContainer = _uIDocument.rootVisualElement.Q<VisualElement>("AmmoContainer");
         _ammoBlockContainer = _uIDocument.rootVisualElement.Q<VisualElement>("AmmoBlockContainer");
 
-        _StartGameButton = _uIDocument.rootVisualElement.Q<Button>("StartButton");
-        _ExitGameButton = _uIDocument.rootVisualElement.Q<Button>("ExitButton");
+        _startGameButton = _uIDocument.rootVisualElement.Q<Button>("StartButton");
+        _levelSelectButton = _uIDocument.rootVisualElement.Q<Button>("LevelSelectButton");
+        _exitGameButton = _uIDocument.rootVisualElement.Q<Button>("ExitButton");
+
+        _level1Button = _uIDocument.rootVisualElement.Q<Button>("Level01");
+        _level2Button = _uIDocument.rootVisualElement.Q<Button>("Level02");
+        _level3Button = _uIDocument.rootVisualElement.Q<Button>("Level03");
+        _level4Button = _uIDocument.rootVisualElement.Q<Button>("Level04");
+        _level5Button = _uIDocument.rootVisualElement.Q<Button>("Level05");
+        _backButton = _uIDocument.rootVisualElement.Q<Button>("BackButton");
+
+        _toggleAirJumpButton = _uIDocument.rootVisualElement.Q<Button>("ToggleAirJump");
+        _addAirJumpButton = _uIDocument.rootVisualElement.Q<Button>("AddAirJump");
         _resetButton = _uIDocument.rootVisualElement.Q<Button>("ResetButton");
         _zone2Button = _uIDocument.rootVisualElement.Q<Button>("Zone2Button");
 
         _mainMenuPanel = _uIDocument.rootVisualElement.Q<VisualElement>("MainMenu");
+        _levelSelectPanel = _uIDocument.rootVisualElement.Q<VisualElement>("LevelSelectMenu");
         _transitionPanel = _uIDocument.rootVisualElement.Q<VisualElement>("Transition");
         _HUDPanel = _uIDocument.rootVisualElement.Q<VisualElement>("HUD");
+        _XPPanel = _uIDocument.rootVisualElement.Q<VisualElement>("Experience");
     }
 
     private void OnEnable()
     {
+        InputActions.FindActionMap("UI").Enable();
+
         PlayerHealth.OnMaxHealthChanged += PlayerHealth_OnMaxHealthChanged;
         PlayerHealth.OnCurrentHealthChanged += PlayerHealth_OnCurrentHealthChanged;
+        HandlePlayerDeath.OnPlayerDeath += HandlePlayerDeath_OnPlayerDeath;
 
         Jump.OnMaxAirJumpsChanged += Jump_OnMaxAirJumpsChanged;
         Jump.OnCurrentAirJumpAmountChanged += Jump_OnCurrentAirJumpAmountChanged;
 
         CollectStar.OnCurrencyCollected += CollectStar_OnCurrencyCollected;
 
-        _StartGameButton.clicked += StartGameButton_Clicked;
-        _ExitGameButton.clicked += ExitGameButton_Clicked;
+        _startGameButton.clicked += StartGameButton_Clicked;
+        _levelSelectButton.clicked += LevelSelectButton_Clicked;
+        _exitGameButton.clicked += ExitGameButton_Clicked;
+
+        _level1Button.clicked += Level1Button_Clicked;
+        _level2Button.clicked += Level2Button_Clicked;
+        _level3Button.clicked += Level3Button_Clicked;
+        _level4Button.clicked += Level4Button_Clicked;
+        _level5Button.clicked += Level5Button_Clicked;
+        _backButton.clicked += BackButton_Clicked;
+
+        _toggleAirJumpButton.clicked += ToggleAirJumpButton_Clicked;
+        _addAirJumpButton.clicked += AddAirJumpButton_Clicked;
         _resetButton.clicked += ResetButton_clicked;
         _zone2Button.clicked += Zone2Button_clicked;
 
@@ -94,16 +143,30 @@ public class UIController : MonoBehaviour
 
     private void OnDisable()
     {
+        InputActions.FindActionMap("UI").Disable();
+
         PlayerHealth.OnMaxHealthChanged -= PlayerHealth_OnMaxHealthChanged;
         PlayerHealth.OnCurrentHealthChanged -= PlayerHealth_OnCurrentHealthChanged;
+        HandlePlayerDeath.OnPlayerDeath -= HandlePlayerDeath_OnPlayerDeath;
 
         Jump.OnMaxAirJumpsChanged -= Jump_OnMaxAirJumpsChanged;
         Jump.OnCurrentAirJumpAmountChanged -= Jump_OnCurrentAirJumpAmountChanged;
 
         CollectStar.OnCurrencyCollected -= CollectStar_OnCurrencyCollected;
 
-        _StartGameButton.clicked -= StartGameButton_Clicked;
-        _ExitGameButton.clicked -= ExitGameButton_Clicked;
+        _startGameButton.clicked -= StartGameButton_Clicked;
+        _levelSelectButton.clicked -= LevelSelectButton_Clicked;
+        _exitGameButton.clicked -= ExitGameButton_Clicked;
+
+        _level1Button.clicked -= Level1Button_Clicked;
+        _level2Button.clicked -= Level2Button_Clicked;
+        _level3Button.clicked -= Level3Button_Clicked;
+        _level4Button.clicked -= Level4Button_Clicked;
+        _level5Button.clicked -= Level5Button_Clicked;
+        _backButton.clicked -= BackButton_Clicked;
+
+        _toggleAirJumpButton.clicked -= ToggleAirJumpButton_Clicked;
+        _addAirJumpButton.clicked -= AddAirJumpButton_Clicked;
         _resetButton.clicked -= ResetButton_clicked;
         _zone2Button.clicked -= Zone2Button_clicked;
 
@@ -115,6 +178,7 @@ public class UIController : MonoBehaviour
         _maxHealthLimit = _healthContainer.childCount;
         _maxAmmoLimit = _healthContainer.childCount;
         PlayerStatsData.SetCurrentCurrency(0);
+        GetComponent<UIDocument>().rootVisualElement.Q<VisualElement>("StartButton").Focus();
     }
 
     private void PlayerHealth_OnMaxHealthChanged(int maxHealth)
@@ -128,6 +192,12 @@ public class UIController : MonoBehaviour
     {
         //_currentHealth = currentHealth;
         UpdateCurrentHealth(currentHealth);
+    }
+
+    private void HandlePlayerDeath_OnPlayerDeath()
+    {
+        Debug.Log("Player died. Reloading scene");
+        StartCoroutine(SceneReload(TransitionLength, TransitionHoldLength));
     }
 
     private void Jump_OnMaxAirJumpsChanged(int maxAirJumps)
@@ -222,14 +292,79 @@ public class UIController : MonoBehaviour
     private void StartGameButton_Clicked()
     {
         OnStartGameButtonPressed?.Invoke();
-        StartCoroutine(UITransition(_mainMenuPanel, _HUDPanel, TransitionLength, TransitionHoldLength));
+        StartCoroutine(UITransition(/*_mainMenuPanel,*/ _HUDPanel, TransitionLength, TransitionHoldLength));
         Debug.Log("Start Game button clicked");
+    }
+
+    private void LevelSelectButton_Clicked()
+    {
+        StartCoroutine(UITransition(/*_mainMenuPanel,*/ _levelSelectPanel, TransitionLength, TransitionHoldLength));
+        Debug.Log("Level Select button clicked");
     }
 
     private void ExitGameButton_Clicked()
     {
-        OnExitButtonReleased?.Invoke();
+        OnExitButtonPressed?.Invoke();
         Debug.Log("Exit Game button clicked, event invoked.");
+        // exit game in build, stop play mode in editor
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+                        Application.Quit();
+#endif
+    }
+
+    private void Level1Button_Clicked()
+    {
+        OnStartGameButtonPressed?.Invoke();
+        StartCoroutine(UITransition(/*_levelSelectPanel,*/ _HUDPanel, TransitionLength, TransitionHoldLength));
+        Debug.Log("Level 1 button clicked");
+    }
+
+    private void Level2Button_Clicked()
+    {
+        OnLevelSelected?.Invoke("02BoostJumps");
+        StartCoroutine(UITransition(/*_levelSelectPanel,*/ _HUDPanel, TransitionLength, TransitionHoldLength));
+        Debug.Log("Level 2 button clicked");
+    }
+
+    private void Level3Button_Clicked()
+    {
+        OnLevelSelected?.Invoke("03Grapple");
+        StartCoroutine(UITransition(/*_levelSelectPanel,*/ _HUDPanel, TransitionLength, TransitionHoldLength));
+        Debug.Log("Level 3 button clicked");
+    }
+
+    private void Level4Button_Clicked()
+    {
+        OnLevelSelected?.Invoke("04Enemies");
+        StartCoroutine(UITransition(/*_levelSelectPanel,*/ _HUDPanel, TransitionLength, TransitionHoldLength));
+        Debug.Log("Level 4 button clicked");
+    }
+
+    private void Level5Button_Clicked()
+    {
+        OnLevelSelected?.Invoke("05Escape");
+        StartCoroutine(UITransition(/*_levelSelectPanel,*/ _HUDPanel, TransitionLength, TransitionHoldLength));
+        Debug.Log("Level 5 button clicked");
+    }
+
+    private void BackButton_Clicked()
+    {
+        StartCoroutine(UITransition(/*_levelSelectPanel,*/ _mainMenuPanel, TransitionLength, TransitionHoldLength));
+        Debug.Log("Back button clicked");
+    }
+
+    private void ToggleAirJumpButton_Clicked()
+    {
+        OnToggleAirJumpPressed?.Invoke();
+        Debug.Log("Toggle Air Jump button clicked, event invoked.");
+    }
+
+    private void AddAirJumpButton_Clicked()
+    {
+        OnAddAirJumpPressed?.Invoke();
+        Debug.Log("Add Air Jump button clicked, event invoked.");
     }
 
     private void ResetButton_clicked()
@@ -250,33 +385,40 @@ public class UIController : MonoBehaviour
         StartCoroutine(SceneTransition(_HUDPanel, _HUDPanel, TransitionLength, TransitionHoldLength));
     }
 
-    private IEnumerator UITransition(VisualElement fromElement, VisualElement toElement, float transitionLength, float holdLength)
+    private IEnumerator UITransition(/*VisualElement fromElement, */VisualElement toElement, float transitionLength, float holdLength)
     {
         // set the transition panel size to be the same as the screen size
         _transitionPanel.style.width = Screen.width;
         _transitionPanel.style.height = Screen.height;
 
-        _transitionPanel.style.translate = new Translate(-Screen.width, 0, 0);
+        _transitionPanel.style.translate = _transitionStartPosition;
 
         _transitionPanel.style.transitionDuration = new StyleList<TimeValue>
         {
             value = new List<TimeValue> { TimeValue.Seconds(transitionLength) }
         };
 
-        _transitionPanel.style.translate = new Translate(0, 0, 0);
+        _transitionPanel.style.translate = _transitionMidPosition;
         yield return new WaitForSeconds(transitionLength);
-        fromElement.style.display = DisplayStyle.None;
+
+        // set all children of the root visual element to display none
+        foreach (VisualElement child in _uIDocument.rootVisualElement.Children())
+        {
+            child.style.display = DisplayStyle.None;
+        }
+        // set the transition panel and the toElement to display flex
+        _transitionPanel.style.display = DisplayStyle.Flex;
         toElement.style.display = DisplayStyle.Flex;
+
         yield return new WaitForSeconds(holdLength);
-        _transitionPanel.style.translate = new Translate(Screen.width, 0, 0);
+        _transitionPanel.style.translate = _transitionEndPosition;
         yield return new WaitForSeconds(transitionLength);
 
         _transitionPanel.style.transitionDuration = new StyleList<TimeValue>
         {
             value = new List<TimeValue> { TimeValue.Seconds(0) }
         };
-        _transitionPanel.style.translate = new Translate(-Screen.width, 0, 0);
-
+        _transitionPanel.style.translate = _transitionStartPosition;
     }
 
     private IEnumerator SceneTransition(VisualElement fromElement, VisualElement toElement, float transitionLength, float holdLength)
@@ -285,27 +427,27 @@ public class UIController : MonoBehaviour
         _transitionPanel.style.width = Screen.width;
         _transitionPanel.style.height = Screen.height;
 
-        _transitionPanel.style.translate = new Translate(-Screen.width, 0, 0);
+        _transitionPanel.style.translate = _transitionStartPosition;
 
         _transitionPanel.style.transitionDuration = new StyleList<TimeValue>
         {
             value = new List<TimeValue> { TimeValue.Seconds(transitionLength) }
         };
 
-        _transitionPanel.style.translate = new Translate(0, 0, 0);
+        _transitionPanel.style.translate = _transitionMidPosition;
         yield return new WaitForSeconds(transitionLength);
         fromElement.style.display = DisplayStyle.None;
         toElement.style.display = DisplayStyle.Flex;
         OnSceneTransitionRequested?.Invoke();
         yield return new WaitForSeconds(holdLength);
-        _transitionPanel.style.translate = new Translate(Screen.width, 0, 0);
+        _transitionPanel.style.translate = _transitionEndPosition;
         yield return new WaitForSeconds(transitionLength);
 
         _transitionPanel.style.transitionDuration = new StyleList<TimeValue>
         {
             value = new List<TimeValue> { TimeValue.Seconds(0) }
         };
-        _transitionPanel.style.translate = new Translate(-Screen.width, 0, 0);
+        _transitionPanel.style.translate = _transitionStartPosition;
 
     }
 
@@ -315,25 +457,25 @@ public class UIController : MonoBehaviour
         _transitionPanel.style.width = Screen.width;
         _transitionPanel.style.height = Screen.height;
 
-        _transitionPanel.style.translate = new Translate(-Screen.width, 0, 0);
+        _transitionPanel.style.translate = _transitionStartPosition;
 
         _transitionPanel.style.transitionDuration = new StyleList<TimeValue>
         {
             value = new List<TimeValue> { TimeValue.Seconds(transitionLength) }
         };
 
-        _transitionPanel.style.translate = new Translate(0, 0, 0);
+        _transitionPanel.style.translate = _transitionMidPosition;
         yield return new WaitForSeconds(transitionLength);
         OnSceneReloadRequested?.Invoke();
         yield return new WaitForSeconds(holdLength);
-        _transitionPanel.style.translate = new Translate(Screen.width, 0, 0);
+        _transitionPanel.style.translate = _transitionEndPosition;
         yield return new WaitForSeconds(transitionLength);
 
         _transitionPanel.style.transitionDuration = new StyleList<TimeValue>
         {
             value = new List<TimeValue> { TimeValue.Seconds(0) }
         };
-        _transitionPanel.style.translate = new Translate(-Screen.width, 0, 0);
+        _transitionPanel.style.translate = _transitionStartPosition;
 
     }
 

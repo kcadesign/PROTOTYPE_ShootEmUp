@@ -69,6 +69,18 @@ public class Jump : MonoBehaviour
         RecalculateJumpPhysics();
     }
 
+    private void OnEnable()
+    {
+        UIController.OnToggleAirJumpPressed += UIController_OnToggleAirJumpPressed;
+        //UIController.OnAddAirJumpPressed += UIController_OnAddAirJumpPressed;
+    }
+
+    private void OnDisable()
+    {
+        UIController.OnToggleAirJumpPressed -= UIController_OnToggleAirJumpPressed;
+        //UIController.OnAddAirJumpPressed -= UIController_OnAddAirJumpPressed;
+    }
+
     private void Start()
     {
         if (AllowAirJumps)
@@ -220,11 +232,10 @@ public class Jump : MonoBehaviour
     private void CheckCanJump()
     {
         if (!_desireJump) return;
-        // Don't allow the regular DoJump to run while wall-sliding or during a wall-jump
         if (_wallJump != null && (_wallJump.GetIsWallSLiding() || _wallJump.GetIsWallJumping())) return;
 
-        // allow jump when on ground, during coyote time, or if air jumps remain
-        if (_onGround || _coyoteTimer > 0f || _airJumps > 0)
+        // only consider _airJumps if AllowAirJumps is true
+        if (_onGround || _coyoteTimer > 0f || (AllowAirJumps && _airJumps > 0))
         {
             IsJumping = true;
             if (!_onGround && AllowAirJumps && !Grapple.GetIsGrappling() && _coyoteTimer <= 0f)
@@ -330,6 +341,31 @@ public class Jump : MonoBehaviour
             _defaultGravityScale = 1f;
     }
 
+    private void UIController_OnToggleAirJumpPressed()
+    {
+        AllowAirJumps = !AllowAirJumps;
+        if (AllowAirJumps)
+        {
+            MaxAirJumps = 1;
+            _airJumps = MaxAirJumps;       // refill when enabling
+        }
+        else
+        {
+            MaxAirJumps = 0;
+            _airJumps = 0;                 // clear when disabling
+        }
+        OnMaxAirJumpsChanged?.Invoke(MaxAirJumps);
+        OnCurrentAirJumpAmountChanged?.Invoke(_airJumps);
+    }
+
+    //private void UIController_OnAddAirJumpPressed()
+    //{
+    //    MaxAirJumps++;
+    //    _airJumps = MaxAirJumps;
+    //    OnMaxAirJumpsChanged?.Invoke(MaxAirJumps);
+    //    OnCurrentAirJumpAmountChanged?.Invoke(_airJumps);
+    //}
+
     public void ResetAirJumps()
     {
         _airJumps = MaxAirJumps;
@@ -362,6 +398,7 @@ public class Jump : MonoBehaviour
 
     public void RenewAirJumps(int renewJumpAmount)
     {
+        if (_airJumps == MaxAirJumps) return; // already at max, no need to renew
         _airJumps += renewJumpAmount;
         OnCurrentAirJumpAmountChanged?.Invoke(_airJumps);
     }
