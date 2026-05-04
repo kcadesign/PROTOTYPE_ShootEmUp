@@ -53,7 +53,7 @@ public class SpawnObjectsFromPool : MonoBehaviour
         LevelEnd.OnPlayerEnterLevelEnd -= LevelEnd_OnPlayerEnterLevelEnd;
     }
 
-    private void LevelEnd_OnPlayerEnterLevelEnd(int sceneIndex)
+    private void LevelEnd_OnPlayerEnterLevelEnd()
     {
         StopAllCoroutines();
     }

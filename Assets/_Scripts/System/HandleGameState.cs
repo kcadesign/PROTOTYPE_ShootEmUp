@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem.Controls;
 
 public class HandleGameState : MonoBehaviour
 {
@@ -13,21 +12,62 @@ public class HandleGameState : MonoBehaviour
         PreGameMenu,
         Transition,
         Gameplay,
+        LevelStart,
         GamePaused,
+        Shop,
         LevelEnd,
-        XPTally,
+        ChoosePowerup,
         BossFight,
-        GameOver,
+        RunEnd,
+        XPTally,
+        GameRestart,
         GameFinished,
         Credits,
     }
 
+    private void Start()
+    {
+        UpdateGameState(GameState.PreGameMenu);
+    }
+
     private void OnEnable()
     {
+        LevelEnd.OnPlayerEnterLevelEnd += LevelEnd_OnPlayerEnterLevelEnd;
+        SceneController.OnLevelLoaded += SceneController_OnLevelLoaded;
+        HandlePlayerDeath.OnPlayerDeath += HandlePlayerDeath_OnPlayerDeath;
+        UIController.OnMainMenuButtonPressed += UIController_OnMainMenuButtonPressed;
     }
 
     private void OnDisable()
     {
+
+        LevelEnd.OnPlayerEnterLevelEnd -= LevelEnd_OnPlayerEnterLevelEnd;
+        SceneController.OnLevelLoaded -= SceneController_OnLevelLoaded;
+        HandlePlayerDeath.OnPlayerDeath -= HandlePlayerDeath_OnPlayerDeath;
+        UIController.OnMainMenuButtonPressed -= UIController_OnMainMenuButtonPressed;
+    }
+
+    private void LevelEnd_OnPlayerEnterLevelEnd()
+    {
+        UpdateGameState(GameState.ChoosePowerup);
+    }
+
+    private void SceneController_OnLevelLoaded()
+    {
+        UpdateGameState(GameState.LevelStart);
+        UpdateGameState(GameState.Gameplay);
+    }
+
+    private void HandlePlayerDeath_OnPlayerDeath()
+    {
+        UpdateGameState(GameState.RunEnd);
+        UpdateGameState(GameState.XPTally);
+    }
+
+    private void UIController_OnMainMenuButtonPressed()
+    {
+        UpdateGameState(GameState.GameRestart);
+        UpdateGameState(GameState.PreGameMenu);
     }
 
     public void UpdateGameState(GameState newState)
@@ -39,17 +79,25 @@ public class HandleGameState : MonoBehaviour
                 break;
             case GameState.Transition:
                 break;
+            case GameState.LevelStart:
+                break;
             case GameState.Gameplay:
                 break;
             case GameState.GamePaused:
                 break;
+            case GameState.Shop:
+                break;
             case GameState.LevelEnd:
                 break;
-            case GameState.XPTally:
+            case GameState.ChoosePowerup:
                 break;
             case GameState.BossFight:
                 break;
-            case GameState.GameOver:
+            case GameState.RunEnd:
+                break;
+            case GameState.XPTally:
+                break;
+            case GameState.GameRestart:
                 break;
             case GameState.GameFinished:
                 break;
@@ -66,6 +114,7 @@ public class HandleGameState : MonoBehaviour
     {
         Debug.Log($"Current state: {newState}");
     }
+
 
     private static void ExitGame()
     {

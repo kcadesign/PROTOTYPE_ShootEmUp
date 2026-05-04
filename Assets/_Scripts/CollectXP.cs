@@ -2,11 +2,11 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class CollectStar : MonoBehaviour
+public class CollectXP : MonoBehaviour
 {
-    public static event Action<int> OnCurrencyCollected;
+    public static event Action<int> OnXPCollected;
 
-    public int StarValue = 1;
+    public int XPValue = 1;
 
     public float EndSize = 0.5f;
     public float VerticalMove;
@@ -14,7 +14,7 @@ public class CollectStar : MonoBehaviour
 
     private void Start()
     {
-        OnCurrencyCollected?.Invoke(StarValue);
+        OnXPCollected?.Invoke(XPValue);
         StartCoroutine(CollectCoroutine());
     }
 

@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class LevelEnd : MonoBehaviour
 {
-    public static event Action<int> OnPlayerEnterLevelEnd;
+    public static event Action OnPlayerEnterLevelEnd;
     public UnityEvent OnLevelEnd;
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -19,9 +19,8 @@ public class LevelEnd : MonoBehaviour
         }
     }
 
-    public void MoveToNextScene()
+    public void SignalPlayerFinishedLevel()
     {
-        int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
-        OnPlayerEnterLevelEnd?.Invoke(nextSceneIndex);
+        OnPlayerEnterLevelEnd?.Invoke();
     }
 }

@@ -7,22 +7,22 @@ using System.Collections;
 
 public class SceneController : MonoBehaviour
 {
-    public static event Action OnGameStarted;
+    //public static event Action OnGameStarted;
     public static event Action OnLevelLoaded;
 
     private AsyncOperation _LoadFirstLevelAsyncOperation;
 
     private List<AsyncOperation> _scenesToLoad = new List<AsyncOperation>();
 
-    private float _loadingCountdown = 3f;
+    private float _loadingCountdown = 2f;
     private bool _initialScenesLoaded = false;
 
-    private int _requestedSceneToLoad = 0;
+    private int _nextSceneToLoad = 0;
 
     private void Awake()
     {
         _scenesToLoad.Clear();
-        _requestedSceneToLoad = 0;
+        _nextSceneToLoad = 0;
     }
 
     private void OnEnable()
@@ -32,11 +32,12 @@ public class SceneController : MonoBehaviour
 
         UIController.OnStartGameButtonPressed += UIController_OnStartGameButtonPressed;
         UIController.OnLevelSelected += UIController_OnLevelSelected;
-        UIController.OnSceneTransitionRequested += UIController_OnSceneTrasitionRequested;
+        UIController.OnRetryButtonPressed += UIController_OnRetryButtonPressed;
+        UIController.OnMainMenuButtonPressed += UIController_OnMainMenuButtonPressed;
+        UIController.OnNextLevelRequested += UIController_OnNextLevelRequested;
         UIController.OnSceneReloadRequested += UIController_OnSceneReloadRequested;
 
         LevelEnd.OnPlayerEnterLevelEnd += LevelEnd_OnPlayerEnterLevelEnd;
-
     }
 
     private void OnDisable()
@@ -46,12 +47,12 @@ public class SceneController : MonoBehaviour
 
         UIController.OnStartGameButtonPressed -= UIController_OnStartGameButtonPressed;
         UIController.OnLevelSelected -= UIController_OnLevelSelected;
-        UIController.OnSceneTransitionRequested -= UIController_OnSceneTrasitionRequested;
+        UIController.OnRetryButtonPressed -= UIController_OnRetryButtonPressed;
+        UIController.OnMainMenuButtonPressed -= UIController_OnMainMenuButtonPressed;
+        UIController.OnNextLevelRequested -= UIController_OnNextLevelRequested;
         UIController.OnSceneReloadRequested -= UIController_OnSceneReloadRequested;
 
         LevelEnd.OnPlayerEnterLevelEnd -= LevelEnd_OnPlayerEnterLevelEnd;
-
-
     }
 
     private void Start()
@@ -65,11 +66,10 @@ public class SceneController : MonoBehaviour
             operation.allowSceneActivation = false;
         }
 
-
-        StartCoroutine(LoadingCountdownCoroutine());
+        StartCoroutine(LoadingCountdown());
     }
 
-    private IEnumerator LoadingCountdownCoroutine()
+    private IEnumerator LoadingCountdown()
     {
         while (_loadingCountdown > 0f && !_initialScenesLoaded)
         {
@@ -93,7 +93,34 @@ public class SceneController : MonoBehaviour
 
     private async void UIController_OnStartGameButtonPressed()
     {
-        _LoadFirstLevelAsyncOperation = SceneManager.LoadSceneAsync("01BasicMovement", LoadSceneMode.Additive);
+        // FIX: awaiting unloading causes the scene to not unload
+        await LoadLevelAdditive("01BasicMovement").ConfigureAwait(false);
+    }
+
+    private async void UIController_OnLevelSelected(string sceneName) // DEBUG only
+    {
+        await LoadLevelAdditive(sceneName).ConfigureAwait(false);
+    }
+
+    private async void UIController_OnRetryButtonPressed()
+    {
+        // FIX: Currently doesnt unload last scene
+        await LoadLevelAdditiveReplace(5).ConfigureAwait(false);
+    }
+
+    private async void UIController_OnMainMenuButtonPressed()
+    {
+        UnloadActiveScene();
+    }
+
+    private static void UnloadActiveScene()
+    {
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private async Task LoadLevelAdditive(string sceneName)
+    {
+        _LoadFirstLevelAsyncOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
         _LoadFirstLevelAsyncOperation.allowSceneActivation = false;
 
         if (_LoadFirstLevelAsyncOperation != null)
@@ -112,41 +139,20 @@ public class SceneController : MonoBehaviour
             Debug.Log("First level activated.");
         }
 
-        OnGameStarted?.Invoke();
+        //OnGameStarted?.Invoke();
         OnLevelLoaded?.Invoke();
     }
 
-    private async void UIController_OnLevelSelected(string sceneName)
+    private async void UIController_OnNextLevelRequested()
     {
-        _LoadFirstLevelAsyncOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-        _LoadFirstLevelAsyncOperation.allowSceneActivation = false;
-
-        if (_LoadFirstLevelAsyncOperation != null)
-        {
-            _LoadFirstLevelAsyncOperation.allowSceneActivation = true;
-            while (!_LoadFirstLevelAsyncOperation.isDone)
-            {
-                await Task.Yield();
-            }
-
-            // Set firstLevelScene as the active scene
-            Scene firstLevelScene = SceneManager.GetSceneByName(sceneName);
-            if (firstLevelScene.IsValid())
-                SceneManager.SetActiveScene(firstLevelScene);
-
-            Debug.Log("First level activated.");
-        }
-
-        OnGameStarted?.Invoke();
-        OnLevelLoaded?.Invoke();
-
+        await LoadLevelAdditiveReplace(_nextSceneToLoad).ConfigureAwait(false);
     }
 
-    private async void UIController_OnSceneTrasitionRequested()
+    private async Task LoadLevelAdditiveReplace(int sceneIndex)
     {
-        AsyncOperation loadNewLevelOperation = SceneManager.LoadSceneAsync(_requestedSceneToLoad, LoadSceneMode.Additive);
+        AsyncOperation loadNewLevelOperation = SceneManager.LoadSceneAsync(sceneIndex, LoadSceneMode.Additive);
         loadNewLevelOperation.allowSceneActivation = false;
-        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+        UnloadActiveScene();
 
         if (loadNewLevelOperation != null)
         {
@@ -157,7 +163,7 @@ public class SceneController : MonoBehaviour
             }
 
             // Set newScene as the active scene
-            Scene newScene = SceneManager.GetSceneByBuildIndex(_requestedSceneToLoad);
+            Scene newScene = SceneManager.GetSceneByBuildIndex(sceneIndex);
             if (newScene.IsValid())
                 SceneManager.SetActiveScene(newScene);
 
@@ -166,7 +172,7 @@ public class SceneController : MonoBehaviour
         OnLevelLoaded?.Invoke();
     }
 
-    private async void UIController_OnSceneReloadRequested()
+    private async void UIController_OnSceneReloadRequested() // DEBUG only
     {
         Scene currentLevel = SceneManager.GetActiveScene();
         int sceneToReloadIndex = currentLevel.buildIndex;
@@ -222,9 +228,10 @@ public class SceneController : MonoBehaviour
         OnLevelLoaded?.Invoke();
     }
 
-    private void LevelEnd_OnPlayerEnterLevelEnd(int nextSceneIndex)
+    private void LevelEnd_OnPlayerEnterLevelEnd()
     {
-        _requestedSceneToLoad = nextSceneIndex;
+        int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        _nextSceneToLoad = nextSceneIndex;
     }
 
 

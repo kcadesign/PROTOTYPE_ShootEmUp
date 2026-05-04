@@ -1,9 +1,11 @@
 using UnityEngine;
 using UnityEngine.Events;
+using System;
 
 public class HandleDeath : MonoBehaviour
 {
     public UnityEvent OnDeath;
+    public static event Action OnEnemyDeath;
     private bool _isDead = false;
     private Health _health;
 
@@ -23,15 +25,20 @@ public class HandleDeath : MonoBehaviour
         }
     }
 
-    public bool GetAlive()
-    {
-        return _health.GetHealth() > 0;
-    }
+    //public bool GetAlive()
+    //{
+    //    return _health.GetHealth() > 0;
+    //}
 
     public void InstantiatePrefab(GameObject prefab)
     {
         Vector3 spawnPosition = transform.position;
         // instantiate a prefab outside of its parent heirarchy
         Instantiate(prefab, spawnPosition, Quaternion.identity, null);
+    }
+
+    public void SignalDeath()
+    {
+        OnEnemyDeath?.Invoke();
     }
 }

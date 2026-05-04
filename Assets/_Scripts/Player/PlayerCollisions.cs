@@ -53,6 +53,8 @@ public class PlayerCollisions : MonoBehaviour
                 Vector2 contactPoint = collision.ClosestPoint(transform.position);
                 Vector2 pushDirection = (Vector2)(transform.position) - contactPoint;
                 pushDirection.Normalize();
+
+                if (!gameObject.activeSelf) return;
                 StartCoroutine(Knockback(KnockbackDuration, KnockbackPower, pushDirection));
             }
         }
@@ -92,6 +94,8 @@ public class PlayerCollisions : MonoBehaviour
                 Vector2 contactPoint = collision.GetContact(0).point;
                 Vector2 pushDirection = (Vector2)(transform.position) - contactPoint;
                 pushDirection.Normalize();
+
+                if (!gameObject.activeSelf) return;
                 StartCoroutine(Knockback(KnockbackDuration, KnockbackPower, pushDirection));
             }
         }

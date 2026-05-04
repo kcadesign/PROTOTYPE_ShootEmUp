@@ -37,7 +37,7 @@ public class HandlePlayerStats : MonoBehaviour
         PlayerStatsData.SaveAllDataToPrefs();
     }
 
-    private void LevelEnd_PlayerEnteredLevelEnd(int levelIndex)
+    private void LevelEnd_PlayerEnteredLevelEnd()
     {
         PlayerStatsData.SetMaxHealth(_playerHealth.MaxHealth);
         PlayerStatsData.SetCanAirJump(_playerJump.AllowAirJumps);

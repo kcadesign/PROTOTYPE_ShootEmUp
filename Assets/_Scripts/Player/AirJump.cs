@@ -18,7 +18,7 @@ public class AirJump : MonoBehaviour
     public bool AllowAirJumps;
     private int _airJumps = 0;
     public int MaxAirJumps = 1;
-    private bool _AirJumping;
+    //private bool _AirJumping;
 
     private bool _onGround;
 
@@ -43,7 +43,7 @@ public class AirJump : MonoBehaviour
 
         if (_onGround && AllowAirJumps)
         {
-            _AirJumping = false;
+            //_AirJumping = false;
             OnAirJump?.Invoke(false);
             ResetAirJumps();
         }
@@ -63,7 +63,7 @@ public class AirJump : MonoBehaviour
 
         // ensure gravityScale is the default while starting the jump
         _playerRigidbody.gravityScale = _defaultGravityScale;
-        _AirJumping = true;
+        //_AirJumping = true;
 
         PlayerAnimator.SetTrigger("Jump");
 

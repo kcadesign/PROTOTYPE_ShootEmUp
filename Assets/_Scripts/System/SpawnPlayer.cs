@@ -8,34 +8,60 @@ public class SpawnPlayer : MonoBehaviour
 
     private void OnEnable()
     {
-        SceneController.OnLevelLoaded += SceneController_OnLevelLoaded;
+        //SceneController.OnLevelLoaded += SceneController_OnLevelLoaded;
+        HandleGameState.OnGameStateChanged += HandleGameState_OnGameStateChanged;
     }
 
     private void OnDisable()
     {
-        SceneController.OnLevelLoaded -= SceneController_OnLevelLoaded;
+        //SceneController.OnLevelLoaded -= SceneController_OnLevelLoaded;
+        HandleGameState.OnGameStateChanged -= HandleGameState_OnGameStateChanged;
     }
 
-    private void SceneController_OnLevelLoaded()
-    {
-        if(_player == null)
-        {
-            Debug.Log("Player not found. Spawning player at spawn position.");
-            InstantiatePlayer();
-        }
-        else if (_player != null)
-        {
-            Debug.Log("Player already exists. Moving player to spawn position.");
-            _player.transform.position = SpawnPosition;
+    //private void SceneController_OnLevelLoaded()
+    //{
+    //    if(_player == null)
+    //    {
+    //        Debug.Log("Player not found. Spawning player at spawn position.");
+    //        InstantiatePlayer();
+    //    }
+    //    else if (_player != null)
+    //    {
+    //        Debug.Log("Player already exists. Moving player to spawn position.");
+    //        _player.transform.position = SpawnPosition;
             
-            if (!_player.activeSelf)
+    //        if (!_player.activeSelf)
+    //        {
+    //            Debug.Log("Player inactive. Setting active now and resetting health.");
+    //            _player.SetActive(true);
+    //            _player.GetComponent<PlayerHealth>()?.ResetHealth(); // Reset health when respawning
+    //        }
+    //    }
+
+    //}
+
+    private void HandleGameState_OnGameStateChanged(HandleGameState.GameState state)
+    {
+        if (state == HandleGameState.GameState.LevelStart)
+        {
+            if (_player == null)
             {
-                Debug.Log("Player inactive. Setting active now and resetting health.");
-                _player.SetActive(true);
-                _player.GetComponent<PlayerHealth>()?.ResetHealth(); // Reset health when respawning
+                Debug.Log("Player not found. Spawning player at spawn position.");
+                InstantiatePlayer();
+            }
+            else if (_player != null)
+            {
+                Debug.Log("Player already exists. Moving player to spawn position.");
+                _player.transform.position = SpawnPosition;
+
+                if (!_player.activeSelf)
+                {
+                    Debug.Log("Player inactive. Setting active now and resetting health.");
+                    _player.SetActive(true);
+                    _player.GetComponent<PlayerHealth>()?.ResetHealth(); // Reset health when respawning
+                }
             }
         }
-
     }
 
     private void InstantiatePlayer()

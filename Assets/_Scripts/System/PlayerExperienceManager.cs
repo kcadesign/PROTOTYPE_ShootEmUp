@@ -1,13 +1,11 @@
+using System;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 
 public class PlayerExperienceManager : MonoBehaviour
 {
-    public InputActionAsset InputActions;
-    private InputAction _click;
-
     public UIDocument UIDocument;
     public PlayerStats PlayerStatsData;
 
@@ -15,48 +13,110 @@ public class PlayerExperienceManager : MonoBehaviour
     public AnimationCurve ExperienceCurve;
 
     private int _currentLevel;
-    private int _currentXP;
+    private int _totalXP;
     private int _previousLevelXP;
     private int _nextLevelXP;
-
-    private Label _levelText;
-    private Label _XPText;
 
     private float _experienceBarFillAmount;
 
     private void Awake()
     {
-        _click = InputActions.FindAction("Click");
+        //PlayerStatsData.ResetCurrentXP();
+    }
 
-        _levelText = UIDocument.rootVisualElement.Q<Label>("LevelText");
-        _XPText = UIDocument.rootVisualElement.Q<Label>("XPText");
+    private void OnEnable()
+    {
+        HandleDeath.OnEnemyDeath += HandleDeath_OnEnemyDeath;
+        CollectXP.OnXPCollected += CollectXP_OnXPCollected;
+
+        HandleGameState.OnGameStateChanged += HandleGameState_OnGameStateChanged;
+    }
+
+    private void OnDisable()
+    {
+        HandleDeath.OnEnemyDeath -= HandleDeath_OnEnemyDeath;
+        CollectXP.OnXPCollected -= CollectXP_OnXPCollected;
+
+        HandleGameState.OnGameStateChanged -= HandleGameState_OnGameStateChanged;
+
+        PlayerStatsData.ResetRunEnemiesKilled();
+        //PlayerStatsData.ResetCurrentXP();
+    }
+
+    private void HandleDeath_OnEnemyDeath()
+    {
+        PlayerStatsData.AddEnemiesKilled();
+    }
+
+    private void CollectXP_OnXPCollected(int amount)
+    {
+        //PlayerStatsData.AddToCurrentXP(amount);
+        PlayerStatsData.AddToTotalXP(amount);
+    }
+
+    private void HandleGameState_OnGameStateChanged(HandleGameState.GameState state)
+    {
+        switch (state)
+        {
+            case HandleGameState.GameState.PreGameMenu:
+                break;
+            case HandleGameState.GameState.Transition:
+                break;
+            case HandleGameState.GameState.LevelStart:
+                break;
+            case HandleGameState.GameState.Gameplay:
+                break;
+            case HandleGameState.GameState.GamePaused:
+                break;
+            case HandleGameState.GameState.Shop:
+                break;
+            case HandleGameState.GameState.LevelEnd:
+                break;
+            case HandleGameState.GameState.ChoosePowerup:
+                break;
+            case HandleGameState.GameState.BossFight:
+                break;
+            case HandleGameState.GameState.RunEnd:
+                break;
+            case HandleGameState.GameState.XPTally:
+                StartCoroutine(DelayXPTally(3f));
+                break;
+            case HandleGameState.GameState.GameRestart:
+                //PlayerStatsData.ResetCurrentXP();
+                break;
+            case HandleGameState.GameState.GameFinished:
+                break;
+            case HandleGameState.GameState.Credits:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(state), state, null);
+        }
     }
 
     private void Start()
     {
+        // Ensure local level/thresholds match PlayerStatsData at startup
+        _currentLevel = PlayerStatsData.GetPlayerLevel();
         UpdateLevel();
     }
 
-    private void Update()
+    public void AddExperience()
     {
-        if(_click.WasPressedThisFrame())
-        {
-            AddExperience(5);
-        }
-    }
-
-    public void AddExperience(int amount)
-    {
-        _currentXP += amount;
+        _totalXP = PlayerStatsData.GetTotalXP();
         CheckForLevelUp();
         UpdateInterface();
     }
 
     private void CheckForLevelUp()
     {
-        while (_currentXP >= _nextLevelXP)
+        // Make sure thresholds are initialized before checking
+        if (_nextLevelXP <= 0)
+            UpdateLevel();
+
+        while (_nextLevelXP > 0 && _totalXP >= _nextLevelXP)
         {
-            _currentLevel++;
+            PlayerStatsData.IncreasePlayerLevel();
+            _currentLevel = PlayerStatsData.GetPlayerLevel();
             UpdateLevel();
         }
     }
@@ -70,15 +130,23 @@ public class PlayerExperienceManager : MonoBehaviour
 
     private void UpdateInterface()
     {
-        int lowValue = _currentXP - _previousLevelXP;
+        int lowValue = _totalXP - _previousLevelXP;
         int highValue = _nextLevelXP - _previousLevelXP;
 
-        PlayerStatsData.SetLowValue(lowValue);
-        PlayerStatsData.SetHighValue(highValue);
+        // Safety: avoid negative/zero range
+        if (highValue <= 0) highValue = 1;
+        lowValue = Mathf.Clamp(lowValue, 0, highValue);
 
-        _levelText.text = "LEVEL " + _currentLevel.ToString();
-        //_XPText.text = lowValue + " STARS / " + highValue + " STARS";
+        PlayerStatsData.SetLowXPValue(lowValue);
+        PlayerStatsData.SetHighXPValue(highValue);
+
         _experienceBarFillAmount = (float)lowValue / (float)highValue;
-        PlayerStatsData.SetValue(_experienceBarFillAmount);
+        PlayerStatsData.SetCurrentXPValue(_experienceBarFillAmount);
+    }
+
+    private IEnumerator DelayXPTally(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        AddExperience();
     }
 }

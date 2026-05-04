@@ -17,7 +17,10 @@ public class UIController : MonoBehaviour
     public static event Action OnResetButtonPressed;
     public static event Action OnZone2ButtonPressed;
 
-    public static event Action OnSceneTransitionRequested;
+    public static event Action OnRetryButtonPressed;
+    public static event Action OnMainMenuButtonPressed;
+
+    public static event Action OnNextLevelRequested;
     public static event Action OnSceneReloadRequested;
 
     [Header("References")]
@@ -30,26 +33,8 @@ public class UIController : MonoBehaviour
     private VisualElement _levelSelectPanel;
     private VisualElement _transitionPanel;
     private VisualElement _HUDPanel;
+    private VisualElement _boonChoicePanel;
     private VisualElement _XPPanel;
-
-    // health
-    private VisualElement _healthContainer;
-    private VisualElement _healthBlockContainer;
-    private VisualElement _healthBlock;
-
-    // ammo
-    private VisualElement _ammoContainer;
-    private VisualElement _ammoBlockContainer;
-
-    private int _currentHealth;
-    private int _maxHealth;
-    private int _maxHealthLimit;
-
-    private int _currentAmmo;
-    private int _maxAmmo;
-    private int _maxAmmoLimit;
-
-    private int _currentCurrency;
 
     // Main menu
     private Button _startGameButton;
@@ -70,6 +55,16 @@ public class UIController : MonoBehaviour
     private Button _zone2Button;
     private Button _resetButton;
 
+    // Boon choice menu
+    private Button _choice1Button;
+    private Button _choice2Button;
+    private Button _choice3Button;
+
+    // Run end menu
+    private Button _retryButton;
+    private Button _mainMenu;
+
+
     [Header("Scene Transition")]
     public float TransitionLength = 1f;
     public float TransitionHoldLength = 2f;
@@ -79,13 +74,6 @@ public class UIController : MonoBehaviour
 
     private void Awake()
     {
-        _healthContainer = _uIDocument.rootVisualElement.Q<VisualElement>("HealthContainer");
-        _healthBlockContainer = _healthContainer.Q<VisualElement>("HealthBlockContainer");
-        _healthBlock = _healthBlockContainer.Q<VisualElement>("HealthBlock");
-
-        _ammoContainer = _uIDocument.rootVisualElement.Q<VisualElement>("AmmoContainer");
-        _ammoBlockContainer = _uIDocument.rootVisualElement.Q<VisualElement>("AmmoBlockContainer");
-
         _startGameButton = _uIDocument.rootVisualElement.Q<Button>("StartButton");
         _levelSelectButton = _uIDocument.rootVisualElement.Q<Button>("LevelSelectButton");
         _exitGameButton = _uIDocument.rootVisualElement.Q<Button>("ExitButton");
@@ -102,25 +90,26 @@ public class UIController : MonoBehaviour
         _resetButton = _uIDocument.rootVisualElement.Q<Button>("ResetButton");
         _zone2Button = _uIDocument.rootVisualElement.Q<Button>("Zone2Button");
 
+        _choice1Button = _uIDocument.rootVisualElement.Q<Button>("Choice1Button");
+        _choice2Button = _uIDocument.rootVisualElement.Q<Button>("Choice2Button");
+        _choice3Button = _uIDocument.rootVisualElement.Q<Button>("Choice3Button");
+
+        _retryButton = _uIDocument.rootVisualElement.Q<Button>("RetryButton");
+        _mainMenu = _uIDocument.rootVisualElement.Q<Button>("MainMenuButton");
+
         _mainMenuPanel = _uIDocument.rootVisualElement.Q<VisualElement>("MainMenu");
         _levelSelectPanel = _uIDocument.rootVisualElement.Q<VisualElement>("LevelSelectMenu");
         _transitionPanel = _uIDocument.rootVisualElement.Q<VisualElement>("Transition");
         _HUDPanel = _uIDocument.rootVisualElement.Q<VisualElement>("HUD");
         _XPPanel = _uIDocument.rootVisualElement.Q<VisualElement>("Experience");
+        _boonChoicePanel = _uIDocument.rootVisualElement.Q<VisualElement>("BoonChoice");
     }
 
     private void OnEnable()
     {
         InputActions.FindActionMap("UI").Enable();
 
-        PlayerHealth.OnMaxHealthChanged += PlayerHealth_OnMaxHealthChanged;
-        PlayerHealth.OnCurrentHealthChanged += PlayerHealth_OnCurrentHealthChanged;
-        HandlePlayerDeath.OnPlayerDeath += HandlePlayerDeath_OnPlayerDeath;
-
-        Jump.OnMaxAirJumpsChanged += Jump_OnMaxAirJumpsChanged;
-        Jump.OnCurrentAirJumpAmountChanged += Jump_OnCurrentAirJumpAmountChanged;
-
-        CollectStar.OnCurrencyCollected += CollectStar_OnCurrencyCollected;
+        HandleGameState.OnGameStateChanged += HandleGameState_OnGameStateChanged;
 
         _startGameButton.clicked += StartGameButton_Clicked;
         _levelSelectButton.clicked += LevelSelectButton_Clicked;
@@ -138,6 +127,13 @@ public class UIController : MonoBehaviour
         _resetButton.clicked += ResetButton_clicked;
         _zone2Button.clicked += Zone2Button_clicked;
 
+        _choice1Button.clicked += Choice1Button_Clicked;
+        _choice2Button.clicked += Choice2Button_Clicked;
+        _choice3Button.clicked += Choice3Button_Clicked;
+
+        _retryButton.clicked += RetryButton_clicked;
+        _mainMenu.clicked += MainMenuButton_Clicked;
+
         LevelEnd.OnPlayerEnterLevelEnd += LevelEnd_OnPlayerEnterLevelEnd;
     }
 
@@ -145,14 +141,7 @@ public class UIController : MonoBehaviour
     {
         InputActions.FindActionMap("UI").Disable();
 
-        PlayerHealth.OnMaxHealthChanged -= PlayerHealth_OnMaxHealthChanged;
-        PlayerHealth.OnCurrentHealthChanged -= PlayerHealth_OnCurrentHealthChanged;
-        HandlePlayerDeath.OnPlayerDeath -= HandlePlayerDeath_OnPlayerDeath;
-
-        Jump.OnMaxAirJumpsChanged -= Jump_OnMaxAirJumpsChanged;
-        Jump.OnCurrentAirJumpAmountChanged -= Jump_OnCurrentAirJumpAmountChanged;
-
-        CollectStar.OnCurrencyCollected -= CollectStar_OnCurrencyCollected;
+        HandleGameState.OnGameStateChanged -= HandleGameState_OnGameStateChanged;
 
         _startGameButton.clicked -= StartGameButton_Clicked;
         _levelSelectButton.clicked -= LevelSelectButton_Clicked;
@@ -170,135 +159,70 @@ public class UIController : MonoBehaviour
         _resetButton.clicked -= ResetButton_clicked;
         _zone2Button.clicked -= Zone2Button_clicked;
 
+        _choice1Button.clicked -= Choice1Button_Clicked;
+        _choice2Button.clicked -= Choice2Button_Clicked;
+        _choice3Button.clicked -= Choice3Button_Clicked;
+
+        _retryButton.clicked -= RetryButton_clicked;
+        _mainMenu.clicked -= MainMenuButton_Clicked;
+
         LevelEnd.OnPlayerEnterLevelEnd -= LevelEnd_OnPlayerEnterLevelEnd;
     }
 
     private void Start()
     {
-        _maxHealthLimit = _healthContainer.childCount;
-        _maxAmmoLimit = _healthContainer.childCount;
-        PlayerStatsData.SetCurrentCurrency(0);
+        StartCoroutine(Transition(_mainMenuPanel, TransitionLength, TransitionHoldLength));
         GetComponent<UIDocument>().rootVisualElement.Q<VisualElement>("StartButton").Focus();
     }
 
-    private void PlayerHealth_OnMaxHealthChanged(int maxHealth)
+    private void HandleGameState_OnGameStateChanged(HandleGameState.GameState newState)
     {
-        Debug.Log($"Max health changed to {maxHealth}");
-        //_maxHealth = maxHealth;
-        UpdateMaxHealth(maxHealth);
-    }
-
-    private void PlayerHealth_OnCurrentHealthChanged(int currentHealth)
-    {
-        //_currentHealth = currentHealth;
-        UpdateCurrentHealth(currentHealth);
-    }
-
-    private void HandlePlayerDeath_OnPlayerDeath()
-    {
-        Debug.Log("Player died. Reloading scene");
-        StartCoroutine(SceneReload(TransitionLength, TransitionHoldLength));
-    }
-
-    private void Jump_OnMaxAirJumpsChanged(int maxAirJumps)
-    {
-        UpdateMaxAmmo(maxAirJumps);
-    }
-
-    private void Jump_OnCurrentAirJumpAmountChanged(int currentAirJumpAmount)
-    {
-        UpdateCurrentAmmo(currentAirJumpAmount);
-    }
-
-    private void CollectStar_OnCurrencyCollected(int amount)
-    {
-        _currentCurrency += amount;
-        //Debug.Log($"Current currency: {_currentCurrency}");
-        PlayerStatsData.SetCurrentCurrency(_currentCurrency);
-    }
-
-    private void UpdateMaxHealth(int maxHealth)
-    {
-        //Debug.Log($"Health container has {_healthContainer.childCount} children");
-        for (int i = 0; i < _healthContainer.childCount; i++)
+        switch (newState)
         {
-            // set the number of children that display:flex to be the same as the max health, set the rest as none
-            if (i < maxHealth)
-            {
-                _healthContainer[i].style.display = DisplayStyle.Flex;
-            }
-            else
-            {
-                _healthContainer[i].style.display = DisplayStyle.None;
-            }
-        }
-    }
-
-    private void UpdateCurrentHealth(int currentHealth)
-    {
-        // there is one health block inside each health block container
-        // set the number of health blocks that are visible to be the same as the current health, set the rest as not visible
-        for (int i = 0; i < _healthContainer.childCount; i++)
-        {
-            // set the number of children that display:flex to be the same as the max health, set the rest as none
-            if (i < currentHealth)
-            {
-                // get the child of _healthContainer[i] and set it to visible
-                _healthContainer[i][0].visible = true;
-            }
-            else
-            {
-                // get the child of _healthContainer[i] and set it to not visible
-                _healthContainer[i][0].visible = false;
-            }
-        }
-
-    }
-
-    private void UpdateMaxAmmo(int maxAmmo)
-    {
-        for (int i = 0; i < _ammoContainer.childCount; i++)
-        {
-            // set the number of children that display:flex to be the same as the max health, set the rest as none
-            if (i < maxAmmo)
-            {
-                _ammoContainer[i].style.display = DisplayStyle.Flex;
-            }
-            else
-            {
-                _ammoContainer[i].style.display = DisplayStyle.None;
-            }
-        }
-    }
-
-    private void UpdateCurrentAmmo(int currentAmmo)
-    {
-        for (int i = 0; i < _ammoContainer.childCount; i++)
-        {
-            // set the number of children that display:flex to be the same as the max health, set the rest as none
-            if (i < currentAmmo)
-            {
-                // get the child of _healthContainer[i] and set it to visible
-                _ammoContainer[i][0].visible = true;
-            }
-            else
-            {
-                // get the child of _healthContainer[i] and set it to not visible
-                _ammoContainer[i][0].visible = false;
-            }
+            case HandleGameState.GameState.PreGameMenu:
+                break;
+            case HandleGameState.GameState.Transition:
+                break;
+            case HandleGameState.GameState.LevelStart:
+                break;
+            case HandleGameState.GameState.Gameplay:
+                break;
+            case HandleGameState.GameState.GamePaused:
+                break;
+            case HandleGameState.GameState.Shop:
+                break;
+            case HandleGameState.GameState.LevelEnd:
+                break;
+            case HandleGameState.GameState.ChoosePowerup:
+                break;
+            case HandleGameState.GameState.BossFight:
+                break;
+            case HandleGameState.GameState.RunEnd:
+                StartCoroutine(Transition(_XPPanel, TransitionLength, TransitionHoldLength));
+                break;
+            case HandleGameState.GameState.XPTally:
+                break;
+            case HandleGameState.GameState.GameRestart:
+                break;
+            case HandleGameState.GameState.GameFinished:
+                break;
+            case HandleGameState.GameState.Credits:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
         }
     }
 
     private void StartGameButton_Clicked()
     {
         OnStartGameButtonPressed?.Invoke();
-        StartCoroutine(UITransition(/*_mainMenuPanel,*/ _HUDPanel, TransitionLength, TransitionHoldLength));
+        StartCoroutine(Transition(_HUDPanel, TransitionLength, TransitionHoldLength));
         Debug.Log("Start Game button clicked");
     }
 
     private void LevelSelectButton_Clicked()
     {
-        StartCoroutine(UITransition(/*_mainMenuPanel,*/ _levelSelectPanel, TransitionLength, TransitionHoldLength));
+        StartCoroutine(Transition(_levelSelectPanel, TransitionLength, TransitionHoldLength));
         Debug.Log("Level Select button clicked");
     }
 
@@ -314,44 +238,45 @@ public class UIController : MonoBehaviour
 #endif
     }
 
+    // level select for debug only
     private void Level1Button_Clicked()
     {
         OnStartGameButtonPressed?.Invoke();
-        StartCoroutine(UITransition(/*_levelSelectPanel,*/ _HUDPanel, TransitionLength, TransitionHoldLength));
+        StartCoroutine(Transition(_HUDPanel, TransitionLength, TransitionHoldLength));
         Debug.Log("Level 1 button clicked");
     }
 
     private void Level2Button_Clicked()
     {
         OnLevelSelected?.Invoke("02BoostJumps");
-        StartCoroutine(UITransition(/*_levelSelectPanel,*/ _HUDPanel, TransitionLength, TransitionHoldLength));
+        StartCoroutine(Transition(_HUDPanel, TransitionLength, TransitionHoldLength));
         Debug.Log("Level 2 button clicked");
     }
 
     private void Level3Button_Clicked()
     {
         OnLevelSelected?.Invoke("03Grapple");
-        StartCoroutine(UITransition(/*_levelSelectPanel,*/ _HUDPanel, TransitionLength, TransitionHoldLength));
+        StartCoroutine(Transition(_HUDPanel, TransitionLength, TransitionHoldLength));
         Debug.Log("Level 3 button clicked");
     }
 
     private void Level4Button_Clicked()
     {
         OnLevelSelected?.Invoke("04Enemies");
-        StartCoroutine(UITransition(/*_levelSelectPanel,*/ _HUDPanel, TransitionLength, TransitionHoldLength));
+        StartCoroutine(Transition(_HUDPanel, TransitionLength, TransitionHoldLength));
         Debug.Log("Level 4 button clicked");
     }
 
     private void Level5Button_Clicked()
     {
         OnLevelSelected?.Invoke("05Escape");
-        StartCoroutine(UITransition(/*_levelSelectPanel,*/ _HUDPanel, TransitionLength, TransitionHoldLength));
+        StartCoroutine(Transition(_HUDPanel, TransitionLength, TransitionHoldLength));
         Debug.Log("Level 5 button clicked");
     }
 
     private void BackButton_Clicked()
     {
-        StartCoroutine(UITransition(/*_levelSelectPanel,*/ _mainMenuPanel, TransitionLength, TransitionHoldLength));
+        StartCoroutine(Transition(_mainMenuPanel, TransitionLength, TransitionHoldLength));
         Debug.Log("Back button clicked");
     }
 
@@ -380,12 +305,42 @@ public class UIController : MonoBehaviour
         Debug.Log("Zone 2 button clicked, event invoked.");
     }
 
-    private void LevelEnd_OnPlayerEnterLevelEnd(int sceneIndex)
+    private void Choice1Button_Clicked()
     {
-        StartCoroutine(SceneTransition(_HUDPanel, _HUDPanel, TransitionLength, TransitionHoldLength));
+        Debug.Log("Choice 1 button clicked");
+        StartCoroutine(Transition(OnNextLevelRequested, _HUDPanel, TransitionLength, TransitionHoldLength));
     }
 
-    private IEnumerator UITransition(/*VisualElement fromElement, */VisualElement toElement, float transitionLength, float holdLength)
+    private void Choice2Button_Clicked()
+    {
+        Debug.Log("Choice 2 button clicked");
+        StartCoroutine(Transition(OnNextLevelRequested, _HUDPanel, TransitionLength, TransitionHoldLength));
+    }
+
+    private void Choice3Button_Clicked()
+    {
+        Debug.Log("Choice 3 button clicked");
+        StartCoroutine(Transition(OnNextLevelRequested, _HUDPanel, TransitionLength, TransitionHoldLength));
+    }
+
+    private void RetryButton_clicked()
+    {
+        StartCoroutine(Transition(OnRetryButtonPressed, _HUDPanel, TransitionLength, TransitionHoldLength));
+        Debug.Log("Retry button clicked, event invoked.");
+    }
+
+    private void MainMenuButton_Clicked()
+    {
+        Debug.Log("Main Menu button clicked, event invoked.");
+        StartCoroutine(Transition(OnMainMenuButtonPressed, _mainMenuPanel, TransitionLength, TransitionHoldLength));
+    }
+
+    private void LevelEnd_OnPlayerEnterLevelEnd()
+    {
+        StartCoroutine(Transition(_boonChoicePanel, TransitionLength, TransitionHoldLength));
+    }
+
+    private IEnumerator Transition(VisualElement toElement, float transitionLength, float holdLength)
     {
         // set the transition panel size to be the same as the screen size
         _transitionPanel.style.width = Screen.width;
@@ -421,7 +376,7 @@ public class UIController : MonoBehaviour
         _transitionPanel.style.translate = _transitionStartPosition;
     }
 
-    private IEnumerator SceneTransition(VisualElement fromElement, VisualElement toElement, float transitionLength, float holdLength)
+    private IEnumerator Transition(Action action, VisualElement toElement, float transitionLength, float holdLength)
     {
         // set the transition panel size to be the same as the screen size
         _transitionPanel.style.width = Screen.width;
@@ -436,9 +391,18 @@ public class UIController : MonoBehaviour
 
         _transitionPanel.style.translate = _transitionMidPosition;
         yield return new WaitForSeconds(transitionLength);
-        fromElement.style.display = DisplayStyle.None;
+
+        // set all children of the root visual element to display none
+        foreach (VisualElement child in _uIDocument.rootVisualElement.Children())
+        {
+            child.style.display = DisplayStyle.None;
+        }
+        // set the transition panel and the toElement to display flex
+        _transitionPanel.style.display = DisplayStyle.Flex;
         toElement.style.display = DisplayStyle.Flex;
-        OnSceneTransitionRequested?.Invoke();
+
+        action?.Invoke();
+
         yield return new WaitForSeconds(holdLength);
         _transitionPanel.style.translate = _transitionEndPosition;
         yield return new WaitForSeconds(transitionLength);
@@ -448,10 +412,9 @@ public class UIController : MonoBehaviour
             value = new List<TimeValue> { TimeValue.Seconds(0) }
         };
         _transitionPanel.style.translate = _transitionStartPosition;
-
     }
 
-    private IEnumerator SceneReload(float transitionLength, float holdLength)
+    private IEnumerator SceneReload(float transitionLength, float holdLength) // for debug only
     {
         // set the transition panel size to be the same as the screen size
         _transitionPanel.style.width = Screen.width;

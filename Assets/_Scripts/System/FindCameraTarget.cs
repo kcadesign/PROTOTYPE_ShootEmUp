@@ -46,7 +46,7 @@ public class FindCameraTarget : MonoBehaviour
         }
         else if (_cinemachineCamera == null)
         {
-            Debug.LogWarning("CinemachineCamerais null.");
+            Debug.LogWarning("Cinemachine Camera is null.");
         }
         else if (targetObject == null)
         {

@@ -1,6 +1,6 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI%20Toolkit/Styles.uss?fileID=7433441132597879392&amp;guid=ba981186ade72f448ac3f069810510cb&amp;type=3#Styles"/>
-    <ui:VisualElement name="MainMenu" focusable="false" style="flex-grow: 1; background-color: rgb(0, 0, 255); width: 100%; height: 100%; align-content: auto; justify-content: center; display: flex; visibility: visible;">
+    <ui:VisualElement name="MainMenu" focusable="false" style="flex-grow: 1; background-color: rgb(0, 0, 255); width: 100%; height: 100%; align-content: auto; justify-content: center; display: none; visibility: visible;">
         <ui:VisualElement name="ButtonContainer" focusable="false" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; scale: 1 1; justify-content: center; align-self: center; align-content: center; align-items: center; width: 647px; height: 50%; aspect-ratio: auto; max-height: 76%; max-width: 100%; min-height: 0; min-width: 0%;">
             <ui:Button text="START GAME" name="StartButton" selectable="true" class="button" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 30%; width: 100%; aspect-ratio: auto; max-width: 75%; max-height: 75px;"/>
             <ui:Button text="SELECT LEVEL (DEBUG)" name="LevelSelectButton" selectable="false" focusable="true" class="button" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 30%; width: 100%; aspect-ratio: auto; max-width: 75%; max-height: 75px;"/>
@@ -74,13 +74,31 @@
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="BottomBlock" style="flex-grow: 1; margin-bottom: 24px; padding-bottom: 0; background-color: rgba(34, 117, 255, 0); margin-top: 24px; justify-content: space-between; align-items: flex-end; flex-direction: row; align-self: auto; align-content: stretch;">
-            <ui:VisualElement name="LeftColumn" style="flex-grow: 1; margin-right: 20px; background-color: rgba(192, 59, 59, 0); align-items: auto; width: 25%; height: 100%; justify-content: flex-start; flex-direction: row;">
-                <ui:Label text="STARS: " style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;"/>
-                <ui:Label text="9999" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;">
-                    <Bindings>
-                        <ui:DataBinding property="text" data-source-path="_currentCurrency" binding-mode="ToTarget"/>
-                    </Bindings>
-                </ui:Label>
+            <ui:VisualElement name="LeftColumn" style="flex-grow: 1; margin-right: 20px; background-color: rgba(192, 59, 59, 0); align-items: flex-start; width: 25%; height: 100%; justify-content: flex-end; flex-direction: column; align-self: flex-start;">
+                <ui:VisualElement name="StarsCounter" style="flex-grow: 1; flex-direction: row; height: 10%; max-height: 10%; align-items: flex-end;">
+                    <ui:Label text="STARS: " style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;"/>
+                    <ui:Label text="9999" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;">
+                        <Bindings>
+                            <ui:DataBinding property="text" data-source-path="_currentCurrency" binding-mode="ToTarget"/>
+                        </Bindings>
+                    </ui:Label>
+                </ui:VisualElement>
+                <ui:VisualElement name="XPCounter" style="flex-grow: 1; flex-direction: row; height: 10%; max-height: 10%; align-items: flex-end;">
+                    <ui:Label text="XP: " name="Label" style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;"/>
+                    <ui:Label text="9999" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;">
+                        <Bindings>
+                            <ui:DataBinding property="text" data-source-path="_totalXP" binding-mode="ToTarget" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData"/>
+                        </Bindings>
+                    </ui:Label>
+                </ui:VisualElement>
+                <ui:VisualElement name="Timer" style="flex-grow: 1; flex-direction: row; height: 10%; max-height: 10%; align-items: flex-end;">
+                    <ui:Label text="TIME:" name="TimeText" style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;"/>
+                    <ui:Label text="23:59:59" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" name="TimeValue" style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;">
+                        <Bindings>
+                            <ui:DataBinding property="text" data-source-path="_timerAsText" binding-mode="ToTarget"/>
+                        </Bindings>
+                    </ui:Label>
+                </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="MiddleColumn" style="flex-grow: 1; margin-right: 20px; background-color: rgba(192, 59, 59, 0); margin-left: 20px; width: 50%; align-items: auto; height: 100%;"/>
             <ui:VisualElement name="RightColumn" style="flex-grow: 1; margin-right: 0; background-color: rgba(192, 59, 59, 0); margin-left: 20px; justify-content: flex-end; align-items: auto; align-content: auto; width: 25%; height: 100%;">
@@ -91,19 +109,100 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement name="Experience" style="flex-grow: 1; display: none; background-color: rgba(0, 0, 0, 0.5);">
-        <ui:VisualElement name="ExperiencePanel" style="flex-grow: 1; margin-top: 10%; margin-right: 25%; margin-bottom: 10%; margin-left: 25%; background-color: rgb(0, 0, 255); justify-content: center; align-items: center; align-self: stretch; align-content: center;">
-            <ui:VisualElement name="TextContainer" style="flex-grow: 1; flex-direction: row; width: 80%; justify-content: space-between; align-items: flex-end; height: 117px; align-self: auto; max-height: 10%; min-height: auto;">
-                <ui:Label text="LEVEL 999" name="LevelText" selectable="false" focusable="false" parse-escape-sequences="true" class="progressBar_label"/>
-                <ui:Label text="999 STARS / 999 STARS " name="XPText" selectable="false" focusable="false" class="progressBar_label" style="-unity-text-align: upper-right; display: none;"/>
+    <ui:VisualElement name="Experience" style="flex-grow: 1; display: flex; background-color: rgb(255, 255, 255);">
+        <ui:VisualElement name="XPPanel" style="flex-grow: 1; margin-top: 5%; margin-right: 25%; margin-bottom: 5%; margin-left: 25%; background-color: rgb(0, 0, 255); padding-top: 5%; padding-right: 5%; padding-bottom: 5%; padding-left: 5%; justify-content: space-evenly; align-items: stretch; align-self: stretch; align-content: stretch;">
+            <ui:VisualElement name="GameOverTextContainer" style="flex-grow: 1; flex-direction: row; width: auto; justify-content: center; align-items: stretch; height: auto; align-self: center; max-height: none; min-height: auto; margin-top: 0; margin-bottom: 0; margin-right: 0; margin-left: 0; -unity-text-align: upper-center;">
+                <ui:Label text="GAME OVER" name="GameOverText" selectable="false" focusable="false" parse-escape-sequences="true" class="progressBar_label" style="font-size: 50px;"/>
             </ui:VisualElement>
-            <ui:ProgressBar value="35.4" title="my-progress" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData">
-                <Bindings>
-                    <ui:DataBinding property="lowValue" data-source-path="_lowValue" binding-mode="ToTarget"/>
-                    <ui:DataBinding property="highValue" data-source-path="_highValue" binding-mode="ToTarget"/>
-                    <ui:DataBinding property="value" data-source-path="_value" binding-mode="ToTarget"/>
-                </Bindings>
-            </ui:ProgressBar>
+            <ui:VisualElement name="StatsContainer" style="flex-grow: 1;">
+                <ui:VisualElement name="LevelTextContainer" style="flex-grow: 1; flex-direction: row; width: 100%; justify-content: flex-start; align-items: flex-end; height: auto; align-self: center; max-height: none; min-height: auto; margin-bottom: 0; margin-top: 0; margin-right: 0; margin-left: 0;">
+                    <ui:Label text="LEVEL:" name="LevelText" selectable="false" focusable="false" parse-escape-sequences="true" class="progressBar_label" style="align-items: flex-start; justify-content: center; align-self: auto; align-content: auto; width: 20%;"/>
+                    <ui:Label text="999" name="LevelValue" selectable="false" focusable="false" parse-escape-sequences="true" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" class="progressBar_label" style="align-items: flex-start; justify-content: center; align-self: auto; align-content: auto;">
+                        <Bindings>
+                            <ui:DataBinding property="text" data-source-path="_runHighestLevel" binding-mode="ToTarget"/>
+                        </Bindings>
+                    </ui:Label>
+                </ui:VisualElement>
+                <ui:VisualElement name="StarsTextContainer" style="flex-grow: 1; flex-direction: row; width: 100%; justify-content: flex-start; align-items: flex-end; height: auto; align-self: center; max-height: none; min-height: auto; margin-bottom: 0; margin-top: 0; margin-right: 0; margin-left: 0;">
+                    <ui:Label text="STARS:" name="CurrencyText" selectable="false" focusable="false" parse-escape-sequences="true" class="progressBar_label" style="align-items: flex-start; justify-content: center; align-self: auto; align-content: auto; width: 20%;"/>
+                    <ui:Label text="999" name="CurrencyText" selectable="false" focusable="false" parse-escape-sequences="true" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" class="progressBar_label" style="align-items: flex-start; justify-content: center; align-self: auto; align-content: auto;">
+                        <Bindings>
+                            <ui:DataBinding property="text" data-source-path="_runTotalCurrency" binding-mode="ToTarget"/>
+                        </Bindings>
+                    </ui:Label>
+                </ui:VisualElement>
+                <ui:VisualElement name="KillsTextContainer" style="flex-grow: 1; flex-direction: row; width: 100%; justify-content: flex-start; align-items: flex-end; height: auto; align-self: center; max-height: none; min-height: auto; margin-bottom: 0; margin-top: 0; margin-right: 0; margin-left: 0;">
+                    <ui:Label text="KILLS: " name="KillsText" selectable="false" focusable="false" parse-escape-sequences="true" class="progressBar_label" style="align-items: flex-start; justify-content: center; align-self: auto; align-content: auto; width: 20%;"/>
+                    <ui:Label text="999" name="KillsText" selectable="false" focusable="false" parse-escape-sequences="true" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" class="progressBar_label" style="align-items: flex-start; justify-content: center; align-self: auto; align-content: auto;">
+                        <Bindings>
+                            <ui:DataBinding property="text" data-source-path="_runEnemiesKilled" binding-mode="ToTarget"/>
+                        </Bindings>
+                    </ui:Label>
+                </ui:VisualElement>
+                <ui:VisualElement name="ComboTextContainer" style="flex-grow: 1; flex-direction: row; width: 100%; justify-content: flex-start; align-items: center; height: auto; align-self: center; max-height: none; min-height: auto; margin-bottom: 0; margin-top: 0; margin-right: 0; margin-left: 0;">
+                    <ui:Label text="BEST&#10;COMBO: " name="ComboText" selectable="false" focusable="false" parse-escape-sequences="true" class="progressBar_label" style="align-items: flex-start; justify-content: center; align-self: auto; align-content: auto; width: 20%;"/>
+                    <ui:Label text="999" name="ComboText" selectable="false" focusable="false" parse-escape-sequences="true" class="progressBar_label" style="align-items: flex-start; justify-content: center; align-self: auto; align-content: auto;"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="TimeTextContainer" style="flex-grow: 1; flex-direction: row; width: 100%; justify-content: flex-start; align-items: flex-end; height: auto; align-self: center; max-height: none; min-height: auto; margin-bottom: 0; margin-top: 0; margin-right: 0; margin-left: 0;">
+                    <ui:Label text="TIME: " name="TimeText" selectable="false" focusable="false" parse-escape-sequences="true" class="progressBar_label" style="align-items: flex-start; justify-content: center; align-self: auto; align-content: auto; width: 20%;"/>
+                    <ui:Label text="23H 59M 59S" name="TimeText" selectable="false" focusable="false" parse-escape-sequences="true" enable-rich-text="false" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" class="progressBar_label" style="align-items: flex-start; justify-content: center; align-self: auto; align-content: auto;">
+                        <Bindings>
+                            <ui:DataBinding property="text" data-source-path="_timerAsText" binding-mode="ToTarget"/>
+                        </Bindings>
+                    </ui:Label>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="ProgressContainer" style="flex-grow: 1; margin-top: 0%; margin-right: 0%; margin-bottom: 0%; margin-left: 0%; background-color: rgba(0, 0, 0, 0); justify-content: center; align-items: flex-start; align-self: center; align-content: auto; width: 100%; height: auto;">
+                <ui:VisualElement name="TextContainer" style="flex-grow: 1; flex-direction: row; width: 100%; justify-content: space-between; align-items: flex-end; height: auto; align-self: auto; max-height: 10%; min-height: auto; margin-bottom: 8px;">
+                    <ui:Label text="PROGRESS" name="LevelText" selectable="false" focusable="false" parse-escape-sequences="true" class="progressBar_label"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="TextContainer" style="flex-grow: 1; flex-direction: row; width: 100%; justify-content: flex-start; align-items: flex-end; height: auto; align-self: auto; max-height: 10%; min-height: auto; margin-bottom: 16px; margin-top: 0;">
+                    <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
+                        <ui:Label text="PLAYER LEVEL" name="PlayerLevelText" selectable="false" focusable="false" parse-escape-sequences="true" class="progressBar_label"/>
+                        <ui:Label text="999" name="PlayerLevelValueText" selectable="false" focusable="false" parse-escape-sequences="true" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" class="progressBar_label">
+                            <Bindings>
+                                <ui:DataBinding property="text" data-source-path="_playerLevel" binding-mode="ToTarget"/>
+                            </Bindings>
+                        </ui:Label>
+                    </ui:VisualElement>
+                    <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: flex-end;">
+                        <ui:Label text="999 " name="XPText" selectable="false" focusable="false" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" class="progressBar_label" style="-unity-text-align: upper-right; display: flex; align-self: auto;">
+                            <Bindings>
+                                <ui:DataBinding property="text" data-source-path="_xPLowValue" binding-mode="ToTarget"/>
+                            </Bindings>
+                        </ui:Label>
+                        <ui:Label text="/" name="XPText" selectable="false" focusable="false" class="progressBar_label" style="-unity-text-align: upper-right; display: flex; align-self: auto;"/>
+                        <ui:Label text="999 " name="XPText" selectable="false" focusable="false" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" class="progressBar_label" style="-unity-text-align: upper-right; display: flex; align-self: auto;">
+                            <Bindings>
+                                <ui:DataBinding property="text" data-source-path="_xPHighValue" binding-mode="ToTarget"/>
+                            </Bindings>
+                        </ui:Label>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:ProgressBar value="0" title="my-progress" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" high-value="1" style="width: 100%; height: 100px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
+                    <Bindings>
+                        <ui:DataBinding property="lowValue" data-source-path="_lowValue" binding-mode="ToTarget"/>
+                        <ui:DataBinding property="highValue" data-source-path="_highValue" binding-mode="ToTarget"/>
+                        <ui:DataBinding property="value" data-source-path="_XPBarFillValue" binding-mode="ToTarget"/>
+                    </Bindings>
+                </ui:ProgressBar>
+            </ui:VisualElement>
+            <ui:VisualElement name="ButtonContainer" style="flex-grow: 1; align-self: stretch; justify-content: flex-start; max-height: none;">
+                <ui:Button text="RETRY" name="RetryButton" selectable="false" focusable="true" class="button" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 100%; width: 100%; aspect-ratio: auto; max-width: none; max-height: 75px; align-self: center;"/>
+                <ui:Button text="MAIN MENU" name="MainMenuButton" selectable="false" focusable="true" class="button" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 100%; width: 100%; aspect-ratio: auto; max-width: none; max-height: 75px; align-self: center;"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="BoonChoice" style="flex-grow: 1; display: none; background-color: rgb(255, 255, 255);">
+        <ui:VisualElement name="BoonPanel" style="flex-grow: 1; margin-top: 10%; margin-right: 25%; margin-bottom: 10%; margin-left: 25%; background-color: rgb(0, 0, 255); justify-content: center; align-items: center; align-self: stretch; align-content: center;">
+            <ui:VisualElement name="TextContainer" style="flex-grow: 1; flex-direction: row; width: auto; justify-content: center; align-items: flex-end; height: auto; align-self: center; max-height: none; min-height: auto; margin-top: 16px; margin-bottom: 16px;">
+                <ui:Label text="BOON CHOICE" name="BoonText" selectable="false" focusable="false" parse-escape-sequences="true" class="progressBar_label" style="font-size: 50px;"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="BoonContainer" style="flex-grow: 1; flex-direction: row; align-items: flex-start; justify-content: center; align-self: center; height: auto; max-height: none; width: auto;">
+                <ui:Button text="Choice 1" name="Choice1Button" class="button" style="width: 200px; height: 200px;"/>
+                <ui:Button text="Choice 2" name="Choice2Button" class="button" style="width: 200px; height: 200px;"/>
+                <ui:Button text="Choice 3" name="Choice3Button" class="button" style="width: 200px; height: 200px;"/>
+            </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement name="Transition" class="transition" style="flex-grow: 1; position: absolute; background-color: rgb(255, 77, 255); width: 100%; height: 100%; left: auto; translate: 0% 100%; transition-duration: 2s; transition-timing-function: ease-in-out;"/>

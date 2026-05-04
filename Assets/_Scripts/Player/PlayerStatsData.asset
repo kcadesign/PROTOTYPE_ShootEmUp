@@ -16,6 +16,16 @@ MonoBehaviour:
   _maxAirJumps: 1
   _maxHealth: 3
   _currentCurrency: 0
-  _lowValue: 0
-  _highValue: 10
-  _value: 0
+  _runTotalCurrency: 0
+  _lifetimeTotalCurrency: 0
+  _playerLevel: 0
+  _currentXP: 0
+  _lifetimeXP: 0
+  _xPLowValue: 0
+  _xPHighValue: 0
+  _XPBarFillValue: 0
+  _runEnemiesKilled: 0
+  _lifetimeEnemiesKilled: 0
+  _runHighestLevel: 0
+  _lifetimeHighestLevel: 0
+  _runLength: 0
