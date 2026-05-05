@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PlayerStatsData", menuName = "Scriptable Objects/Player/PlayerStatsData")]
@@ -29,6 +28,8 @@ public class PlayerStats : ScriptableObject
 
     [Header("Combo")]
     [SerializeField] private int _comboLevel;
+    [SerializeField] private int _runBestComboLevel;
+    [SerializeField] private int _lifetimeBestComboLevel;
 
     [Header("Levels")]
     [SerializeField] private int _runHighestLevel;
@@ -101,14 +102,14 @@ public class PlayerStats : ScriptableObject
     public int GetPlayerLevel() { return _playerLevel; }
     public void IncreasePlayerLevel()
     {
-        _playerLevel ++;
+        _playerLevel++;
     }
 
     public int GetTotalXP() { return _totalXP; }
     public void AddToTotalXP(int amount)
     {
         _totalXP += amount;
-    }    
+    }
 
     public void SetLowXPValue(int lowValue)
     {
@@ -133,6 +134,38 @@ public class PlayerStats : ScriptableObject
     public void ResetRunEnemiesKilled()
     {
         _runEnemiesKilled = 0;
+    }
+    #endregion
+
+    #region Combo
+    public int GetComboLevel() { return _comboLevel; }
+    public void IncreaseComboLevel()
+    {
+        _comboLevel++;
+    }
+    public void ResetComboLevel()
+    {
+        _comboLevel = 0;
+    }
+
+    public int GetRunBestComboLevel() { return _runBestComboLevel; }
+    public void IncreaseRunBestComboLevel()
+    {
+        _runBestComboLevel++;
+    }
+    public void ResetRunBestComboLevel()
+    {
+        _runBestComboLevel = 0;
+    }
+
+    public int GetLifetimeBestComboLevel() { return _lifetimeBestComboLevel; }
+    public void IncreaseLifetimeBestComboLevel()
+    {
+        _lifetimeBestComboLevel++;
+    }
+    public void ResetLifetimeBestComboLevel()
+    {
+        _lifetimeBestComboLevel = 0;
     }
     #endregion
 

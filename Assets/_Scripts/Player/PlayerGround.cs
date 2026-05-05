@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
 public class PlayerGround : MonoBehaviour
 {
+    public static event Action<bool> OnGround;
     [SerializeField] private bool _onGround;
     private Rigidbody2D _playerRigidbody;
 
@@ -24,6 +26,7 @@ public class PlayerGround : MonoBehaviour
         if (_playerRigidbody.linearVelocityY > 0.01f)
         {
             _onGround = false;
+            OnGround?.Invoke(_onGround);
             return;
         }
 
@@ -34,6 +37,7 @@ public class PlayerGround : MonoBehaviour
         RaycastHit2D hit1 = Physics2D.Raycast(transform.position + colliderOffset + Vector3.left * RayGap, Vector2.down, groundLength, _groundLayer);
         RaycastHit2D hit2 = Physics2D.Raycast(transform.position + colliderOffset + Vector3.right * RayGap, Vector2.down, groundLength, _groundLayer);
         _onGround = hit1.collider != null || hit2.collider != null;
+        OnGround?.Invoke(_onGround);
 
         //if (_onGround)
         //{

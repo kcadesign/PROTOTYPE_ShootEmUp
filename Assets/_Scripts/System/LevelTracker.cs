@@ -15,11 +15,15 @@ public class LevelTracker : MonoBehaviour
     private void OnEnable()
     {
         HandleGameState.OnGameStateChanged += HandleGameState_OnGameStateChanged;
+
+        PlayerStatsData.ResetRunHighestLevel();
     }
 
     private void OnDisable()
     {
         HandleGameState.OnGameStateChanged -= HandleGameState_OnGameStateChanged;
+
+        PlayerStatsData.ResetRunHighestLevel();
     }
 
     private void HandleGameState_OnGameStateChanged(HandleGameState.GameState state)

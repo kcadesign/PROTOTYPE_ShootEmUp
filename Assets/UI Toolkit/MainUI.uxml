@@ -17,7 +17,7 @@
             <ui:Button text="BACK" name="BackButton" class="button" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 30%; width: 100%; aspect-ratio: auto; max-width: 75%; max-height: 75px;"/>
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement name="HUD" style="flex-grow: 1; visibility: visible; margin-top: 0; margin-right: 24px; margin-bottom: 0; margin-left: 24px; background-color: rgba(0, 255, 8, 0); justify-content: space-evenly; align-self: stretch; display: none;">
+    <ui:VisualElement name="HUD" style="flex-grow: 1; visibility: visible; margin-top: 0; margin-right: 24px; margin-bottom: 0; margin-left: 24px; background-color: rgba(0, 255, 8, 0); justify-content: space-evenly; align-self: stretch; display: flex;">
         <ui:VisualElement name="TopBlock" style="flex-grow: 1; margin-bottom: 24px; padding-bottom: 0; background-color: rgba(34, 117, 255, 0); margin-top: 24px; justify-content: space-between; align-items: flex-end; flex-direction: row; align-self: auto; align-content: stretch;">
             <ui:VisualElement name="LeftColumn" style="flex-grow: 1; margin-right: 20px; background-color: rgba(192, 59, 59, 0); align-items: flex-start; width: 25%; height: 100%; align-self: auto;">
                 <ui:VisualElement name="HealthContainer" class="healthContainer" style="flex-grow: 1; width: 100%; height: 20%; min-height: 10%; max-height: 20%; flex-direction: row;">
@@ -84,10 +84,26 @@
                     </ui:Label>
                 </ui:VisualElement>
                 <ui:VisualElement name="XPCounter" style="flex-grow: 1; flex-direction: row; height: 10%; max-height: 10%; align-items: flex-end;">
-                    <ui:Label text="XP: " name="Label" style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;"/>
+                    <ui:Label text="TOTAL XP: " name="Label" style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;"/>
                     <ui:Label text="9999" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;">
                         <Bindings>
                             <ui:DataBinding property="text" data-source-path="_totalXP" binding-mode="ToTarget" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData"/>
+                        </Bindings>
+                    </ui:Label>
+                </ui:VisualElement>
+                <ui:VisualElement name="CurrentComboCounter" style="flex-grow: 1; flex-direction: row; height: 10%; max-height: 10%; align-items: flex-end;">
+                    <ui:Label text="CURRENT COMBO:" name="Label" style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;"/>
+                    <ui:Label text="9999" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;">
+                        <Bindings>
+                            <ui:DataBinding property="text" data-source-path="_comboLevel" binding-mode="ToTarget"/>
+                        </Bindings>
+                    </ui:Label>
+                </ui:VisualElement>
+                <ui:VisualElement name="BestComboCounter" style="flex-grow: 1; flex-direction: row; height: 10%; max-height: 10%; align-items: flex-end;">
+                    <ui:Label text="BEST COMBO:" name="Label" style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;"/>
+                    <ui:Label text="9999" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;">
+                        <Bindings>
+                            <ui:DataBinding property="text" data-source-path="_runBestComboLevel" binding-mode="ToTarget"/>
                         </Bindings>
                     </ui:Label>
                 </ui:VisualElement>
@@ -109,7 +125,7 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement name="Experience" style="flex-grow: 1; display: flex; background-color: rgb(255, 255, 255);">
+    <ui:VisualElement name="Experience" style="flex-grow: 1; display: none; background-color: rgb(255, 255, 255);">
         <ui:VisualElement name="XPPanel" style="flex-grow: 1; margin-top: 5%; margin-right: 25%; margin-bottom: 5%; margin-left: 25%; background-color: rgb(0, 0, 255); padding-top: 5%; padding-right: 5%; padding-bottom: 5%; padding-left: 5%; justify-content: space-evenly; align-items: stretch; align-self: stretch; align-content: stretch;">
             <ui:VisualElement name="GameOverTextContainer" style="flex-grow: 1; flex-direction: row; width: auto; justify-content: center; align-items: stretch; height: auto; align-self: center; max-height: none; min-height: auto; margin-top: 0; margin-bottom: 0; margin-right: 0; margin-left: 0; -unity-text-align: upper-center;">
                 <ui:Label text="GAME OVER" name="GameOverText" selectable="false" focusable="false" parse-escape-sequences="true" class="progressBar_label" style="font-size: 50px;"/>
@@ -141,7 +157,11 @@
                 </ui:VisualElement>
                 <ui:VisualElement name="ComboTextContainer" style="flex-grow: 1; flex-direction: row; width: 100%; justify-content: flex-start; align-items: center; height: auto; align-self: center; max-height: none; min-height: auto; margin-bottom: 0; margin-top: 0; margin-right: 0; margin-left: 0;">
                     <ui:Label text="BEST&#10;COMBO: " name="ComboText" selectable="false" focusable="false" parse-escape-sequences="true" class="progressBar_label" style="align-items: flex-start; justify-content: center; align-self: auto; align-content: auto; width: 20%;"/>
-                    <ui:Label text="999" name="ComboText" selectable="false" focusable="false" parse-escape-sequences="true" class="progressBar_label" style="align-items: flex-start; justify-content: center; align-self: auto; align-content: auto;"/>
+                    <ui:Label text="999" name="ComboText" selectable="false" focusable="false" parse-escape-sequences="true" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" class="progressBar_label" style="align-items: flex-start; justify-content: center; align-self: auto; align-content: auto;">
+                        <Bindings>
+                            <ui:DataBinding property="text" data-source-path="_runBestComboLevel" binding-mode="ToTarget"/>
+                        </Bindings>
+                    </ui:Label>
                 </ui:VisualElement>
                 <ui:VisualElement name="TimeTextContainer" style="flex-grow: 1; flex-direction: row; width: 100%; justify-content: flex-start; align-items: flex-end; height: auto; align-self: center; max-height: none; min-height: auto; margin-bottom: 0; margin-top: 0; margin-right: 0; margin-left: 0;">
                     <ui:Label text="TIME: " name="TimeText" selectable="false" focusable="false" parse-escape-sequences="true" class="progressBar_label" style="align-items: flex-start; justify-content: center; align-self: auto; align-content: auto; width: 20%;"/>
