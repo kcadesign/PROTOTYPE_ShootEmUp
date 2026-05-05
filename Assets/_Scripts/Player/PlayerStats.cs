@@ -4,8 +4,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlayerStatsData", menuName = "Scriptable Objects/Player/PlayerStatsData")]
 public class PlayerStats : ScriptableObject
 {
-    //public Jump _player_jump;
-    //public PlayerHealth _player_health;
     [Header("Air Jump")]
     [SerializeField] private bool _allowAirJump = false;
     [SerializeField] private int _maxAirJumps = 0;
@@ -20,7 +18,6 @@ public class PlayerStats : ScriptableObject
 
     [Header("Experience")]
     [SerializeField] private int _playerLevel = 0;
-    //[SerializeField] private int _currentXP = 0;
     [SerializeField] private int _totalXP = 0;
     [SerializeField] private int _xPLowValue;
     [SerializeField] private int _xPHighValue;
@@ -30,6 +27,9 @@ public class PlayerStats : ScriptableObject
     [SerializeField] private int _runEnemiesKilled;
     [SerializeField] private int _lifetimeEnemiesKilled;
 
+    [Header("Combo")]
+    [SerializeField] private int _comboLevel;
+
     [Header("Levels")]
     [SerializeField] private int _runHighestLevel;
     [SerializeField] private int _lifetimeHighestLevel;
@@ -38,6 +38,7 @@ public class PlayerStats : ScriptableObject
     [SerializeField] private float _runLength;
     [SerializeField] private string _timerAsText;
 
+    #region Air Jump
     public bool GetCanAirJump() { return _allowAirJump; }
     public void SetCanAirJump(bool canAirJump)
     {
@@ -49,13 +50,17 @@ public class PlayerStats : ScriptableObject
     {
         _maxAirJumps = maxAirJumps;
     }
+    #endregion
 
+    #region Health
     public int GetMaxHealth() { return _maxHealth; }
     public void SetMaxHealth(int maxHealth)
     {
         _maxHealth = maxHealth;
     }
+    #endregion
 
+    #region Currency
     public int GetCurrentCurrency() { return _currentCurrency; }
     public void AddToCurrentCurrency(int amount)
     {
@@ -90,28 +95,70 @@ public class PlayerStats : ScriptableObject
     {
         _lifetimeTotalCurrency = 0;
     }
+    #endregion
 
+    #region Experience
     public int GetPlayerLevel() { return _playerLevel; }
     public void IncreasePlayerLevel()
     {
         _playerLevel ++;
     }
 
-    //public int GetCurrentXP() { return _currentXP; }
-    //public void AddToCurrentXP(int currentXP)
-    //{
-    //    _currentXP += currentXP;
-    //}
-    //public void ResetCurrentXP()
-    //{
-    //    _currentXP = 0;
-    //}
     public int GetTotalXP() { return _totalXP; }
     public void AddToTotalXP(int amount)
     {
         _totalXP += amount;
+    }    
+
+    public void SetLowXPValue(int lowValue)
+    {
+        _xPLowValue = lowValue;
+    }
+    public void SetHighXPValue(int highValue)
+    {
+        _xPHighValue = highValue;
+    }
+    public void SetCurrentXPValue(float value)
+    {
+        _XPBarFillValue = value;
+    }
+    #endregion
+
+    #region Enemies
+    public void AddEnemiesKilled()
+    {
+        _runEnemiesKilled++;
+        _lifetimeEnemiesKilled++;
+    }
+    public void ResetRunEnemiesKilled()
+    {
+        _runEnemiesKilled = 0;
+    }
+    #endregion
+
+    #region Levels
+    public int GetRunHighestLevel() { return _runHighestLevel; }
+    public void IncreaseRunHighestLevel()
+    {
+        _runHighestLevel++;
+    }
+    public void ResetRunHighestLevel()
+    {
+        _runHighestLevel = 0;
     }
 
+    public int GetLifetimeHighestLevel() { return _lifetimeHighestLevel; }
+    public void SetLifetimeHighestLevel(int level)
+    {
+        _lifetimeHighestLevel = level;
+    }
+    public void ResetLifetimeHighestLevel()
+    {
+        _lifetimeHighestLevel = 0;
+    }
+    #endregion
+
+    #region Time
     public void SetRunTime(float runTime)
     {
         _runLength = runTime;
@@ -120,6 +167,7 @@ public class PlayerStats : ScriptableObject
     {
         _timerAsText = timerText;
     }
+    #endregion
 
     public void SaveAllDataToPrefs()
     {
@@ -134,30 +182,5 @@ public class PlayerStats : ScriptableObject
         if (PlayerPrefs.HasKey("AllowAirJumps")) _allowAirJump = PlayerPrefs.GetInt("AllowAirJumps") == 1;
         if (PlayerPrefs.HasKey("MaxAirJumps")) _maxHealth = PlayerPrefs.GetInt("MaxAirJumps");
         if (PlayerPrefs.HasKey("MaxHealth")) _maxHealth = PlayerPrefs.GetInt("MaxHealth");
-    }
-
-    public void SetLowXPValue(int lowValue)
-    {
-        _xPLowValue = lowValue;
-    }
-
-    public void SetHighXPValue(int highValue)
-    {
-        _xPHighValue = highValue;
-    }
-
-    public void SetCurrentXPValue(float value)
-    {
-        _XPBarFillValue = value;
-    }
-
-    public void AddEnemiesKilled()
-    {
-        _runEnemiesKilled++;
-        _lifetimeEnemiesKilled++;
-    }
-    public void ResetRunEnemiesKilled()
-    {
-        _runEnemiesKilled = 0;
     }
 }
