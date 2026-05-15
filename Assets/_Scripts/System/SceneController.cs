@@ -120,7 +120,7 @@ public class SceneController : MonoBehaviour
 
     private async Task LoadLevelAdditive(string sceneName)
     {
-        _LoadFirstLevelAsyncOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+        _LoadFirstLevelAsyncOperation = SceneManager.LoadSceneAsync(5, LoadSceneMode.Additive);
         _LoadFirstLevelAsyncOperation.allowSceneActivation = false;
 
         if (_LoadFirstLevelAsyncOperation != null)
@@ -132,7 +132,8 @@ public class SceneController : MonoBehaviour
             }
 
             // Set firstLevelScene as the active scene
-            Scene firstLevelScene = SceneManager.GetSceneByName("01BasicMovement");
+            Scene firstLevelScene = SceneManager.GetSceneByBuildIndex(5);
+
             if (firstLevelScene.IsValid())
                 SceneManager.SetActiveScene(firstLevelScene);
 

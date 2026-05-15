@@ -54,4 +54,8 @@ public class FindCameraTarget : MonoBehaviour
         }
     }
 
+    public GameObject GetCameraTarget()
+    {
+        return _targetObject;
+    }
 }

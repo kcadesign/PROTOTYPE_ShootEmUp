@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
-
 public class UIController : MonoBehaviour
 {
     public static event Action OnStartGameButtonPressed;
@@ -23,6 +22,8 @@ public class UIController : MonoBehaviour
     public static event Action OnNextLevelRequested;
     public static event Action OnSceneReloadRequested;
 
+    public static event Action<bool> OnPauseMenuActive;
+
     [Header("References")]
     public InputActionAsset InputActions;
     public PlayerStats PlayerStatsData;
@@ -35,6 +36,7 @@ public class UIController : MonoBehaviour
     private VisualElement _HUDPanel;
     private VisualElement _boonChoicePanel;
     private VisualElement _XPPanel;
+    private VisualElement _pausePanel;
 
     // Main menu
     private Button _startGameButton;
@@ -64,6 +66,13 @@ public class UIController : MonoBehaviour
     private Button _retryButton;
     private Button _mainMenu;
 
+    // Pause menu
+    private Button _resumeButton;
+    private InputAction _cancel;
+    private bool _isPauseMenuActive = false;
+    private bool _canPause = false;
+
+
 
     [Header("Scene Transition")]
     public float TransitionLength = 1f;
@@ -74,6 +83,16 @@ public class UIController : MonoBehaviour
 
     private void Awake()
     {
+        _cancel = InputActions.FindAction("Cancel");
+
+        _mainMenuPanel = _uIDocument.rootVisualElement.Q<VisualElement>("MainMenu");
+        _levelSelectPanel = _uIDocument.rootVisualElement.Q<VisualElement>("LevelSelectMenu");
+        _transitionPanel = _uIDocument.rootVisualElement.Q<VisualElement>("Transition");
+        _HUDPanel = _uIDocument.rootVisualElement.Q<VisualElement>("HUD");
+        _XPPanel = _uIDocument.rootVisualElement.Q<VisualElement>("Experience");
+        _boonChoicePanel = _uIDocument.rootVisualElement.Q<VisualElement>("BoonChoice");
+        _pausePanel = _uIDocument.rootVisualElement.Q<VisualElement>("PauseMenu");
+
         _startGameButton = _uIDocument.rootVisualElement.Q<Button>("StartButton");
         _levelSelectButton = _uIDocument.rootVisualElement.Q<Button>("LevelSelectButton");
         _exitGameButton = _uIDocument.rootVisualElement.Q<Button>("ExitButton");
@@ -97,12 +116,8 @@ public class UIController : MonoBehaviour
         _retryButton = _uIDocument.rootVisualElement.Q<Button>("RetryButton");
         _mainMenu = _uIDocument.rootVisualElement.Q<Button>("MainMenuButton");
 
-        _mainMenuPanel = _uIDocument.rootVisualElement.Q<VisualElement>("MainMenu");
-        _levelSelectPanel = _uIDocument.rootVisualElement.Q<VisualElement>("LevelSelectMenu");
-        _transitionPanel = _uIDocument.rootVisualElement.Q<VisualElement>("Transition");
-        _HUDPanel = _uIDocument.rootVisualElement.Q<VisualElement>("HUD");
-        _XPPanel = _uIDocument.rootVisualElement.Q<VisualElement>("Experience");
-        _boonChoicePanel = _uIDocument.rootVisualElement.Q<VisualElement>("BoonChoice");
+        _resumeButton = _uIDocument.rootVisualElement.Q<Button>("ResumeButton");
+
     }
 
     private void OnEnable()
@@ -133,6 +148,8 @@ public class UIController : MonoBehaviour
 
         _retryButton.clicked += RetryButton_clicked;
         _mainMenu.clicked += MainMenuButton_Clicked;
+
+        _resumeButton.clicked += ResumeButton_Clicked;
 
         LevelEnd.OnPlayerEnterLevelEnd += LevelEnd_OnPlayerEnterLevelEnd;
     }
@@ -166,6 +183,8 @@ public class UIController : MonoBehaviour
         _retryButton.clicked -= RetryButton_clicked;
         _mainMenu.clicked -= MainMenuButton_Clicked;
 
+        _resumeButton.clicked -= ResumeButton_Clicked;
+
         LevelEnd.OnPlayerEnterLevelEnd -= LevelEnd_OnPlayerEnterLevelEnd;
     }
 
@@ -175,38 +194,69 @@ public class UIController : MonoBehaviour
         GetComponent<UIDocument>().rootVisualElement.Q<VisualElement>("StartButton").Focus();
     }
 
+    private void Update()
+    {
+        // FIX: Replace with consistent pause input across controlers (KB = Escape, Gamepad = Options)
+        if (_cancel != null && _cancel.WasPressedThisFrame() && !_isPauseMenuActive && _canPause)
+        {
+            OnPauseMenuActive?.Invoke(true);
+            ShowUIPanel(_pausePanel);
+            _isPauseMenuActive = true;
+        }
+        else if (_cancel != null && _cancel.WasPressedThisFrame() && _isPauseMenuActive && _canPause)
+        {
+            OnPauseMenuActive?.Invoke(false);
+            ShowUIPanel(_HUDPanel);
+            _isPauseMenuActive = false;
+        }
+    }
+
     private void HandleGameState_OnGameStateChanged(HandleGameState.GameState newState)
     {
         switch (newState)
         {
             case HandleGameState.GameState.PreGameMenu:
+                _canPause = false;
                 break;
             case HandleGameState.GameState.Transition:
+                _canPause = false;
                 break;
             case HandleGameState.GameState.LevelStart:
+                _canPause = false;
                 break;
             case HandleGameState.GameState.Gameplay:
+                _canPause = true;
                 break;
             case HandleGameState.GameState.GamePaused:
+                _canPause = true;
                 break;
             case HandleGameState.GameState.Shop:
+                _canPause = false;
                 break;
             case HandleGameState.GameState.LevelEnd:
+                _canPause = false;
                 break;
             case HandleGameState.GameState.ChoosePowerup:
+                _canPause = false;
                 break;
             case HandleGameState.GameState.BossFight:
+                _canPause = true;
                 break;
             case HandleGameState.GameState.RunEnd:
+                _canPause = false;
                 StartCoroutine(Transition(_XPPanel, TransitionLength, TransitionHoldLength));
                 break;
             case HandleGameState.GameState.XPTally:
+                _canPause = false;
                 break;
             case HandleGameState.GameState.GameRestart:
+                _canPause = false;
                 break;
             case HandleGameState.GameState.GameFinished:
+                _canPause = false;
                 break;
             case HandleGameState.GameState.Credits:
+                _canPause = false;
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
@@ -335,6 +385,14 @@ public class UIController : MonoBehaviour
         StartCoroutine(Transition(OnMainMenuButtonPressed, _mainMenuPanel, TransitionLength, TransitionHoldLength));
     }
 
+    private void ResumeButton_Clicked()
+    {
+        // hide pause menu, show HUD, invoke event to unpause game
+        ShowUIPanel(_HUDPanel);
+        OnPauseMenuActive?.Invoke(false);
+        _isPauseMenuActive = false;
+    }
+
     private void LevelEnd_OnPlayerEnterLevelEnd()
     {
         StartCoroutine(Transition(_boonChoicePanel, TransitionLength, TransitionHoldLength));
@@ -442,4 +500,14 @@ public class UIController : MonoBehaviour
 
     }
 
+    private void ShowUIPanel(VisualElement panelToShow)
+    {
+        // set all children of the root visual element to display none
+        foreach (VisualElement child in _uIDocument.rootVisualElement.Children())
+        {
+            child.style.display = DisplayStyle.None;
+        }
+        // set the panelToShow to display flex
+        panelToShow.style.display = DisplayStyle.Flex;
+    }
 }

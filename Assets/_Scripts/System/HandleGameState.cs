@@ -37,6 +37,7 @@ public class HandleGameState : MonoBehaviour
         HandlePlayerDeath.OnPlayerDeath += HandlePlayerDeath_OnPlayerDeath;
         UIController.OnMainMenuButtonPressed += UIController_OnMainMenuButtonPressed;
         UIController.OnRetryButtonPressed += UIController_OnRetryButtonPressed;
+        UIController.OnPauseMenuActive += UIController_OnPauseMenuActive;
     }
 
     private void OnDisable()
@@ -47,6 +48,7 @@ public class HandleGameState : MonoBehaviour
         HandlePlayerDeath.OnPlayerDeath -= HandlePlayerDeath_OnPlayerDeath;
         UIController.OnMainMenuButtonPressed -= UIController_OnMainMenuButtonPressed;
         UIController.OnRetryButtonPressed -= UIController_OnRetryButtonPressed;
+        UIController.OnPauseMenuActive -= UIController_OnPauseMenuActive;
     }
 
     private void LevelEnd_OnPlayerEnterLevelEnd()
@@ -77,6 +79,18 @@ public class HandleGameState : MonoBehaviour
         UpdateGameState(GameState.GameRestart);
         UpdateGameState(GameState.LevelStart);
         UpdateGameState(GameState.Gameplay);
+    }
+
+    private void UIController_OnPauseMenuActive(bool isActive)
+    {
+        if (isActive)
+        {
+            UpdateGameState(GameState.GamePaused);
+        }
+        else
+        {
+            UpdateGameState(GameState.Gameplay);
+        }
     }
 
     public void UpdateGameState(GameState newState)

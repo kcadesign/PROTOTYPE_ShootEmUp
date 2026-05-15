@@ -76,40 +76,40 @@
         <ui:VisualElement name="BottomBlock" style="flex-grow: 1; margin-bottom: 24px; padding-bottom: 0; background-color: rgba(34, 117, 255, 0); margin-top: 24px; justify-content: space-between; align-items: flex-end; flex-direction: row; align-self: auto; align-content: stretch;">
             <ui:VisualElement name="LeftColumn" style="flex-grow: 1; margin-right: 20px; background-color: rgba(192, 59, 59, 0); align-items: flex-start; width: 25%; height: 100%; justify-content: flex-end; flex-direction: column; align-self: flex-start;">
                 <ui:VisualElement name="StarsCounter" style="flex-grow: 1; flex-direction: row; height: 10%; max-height: 10%; align-items: flex-end;">
-                    <ui:Label text="STARS: " style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;"/>
-                    <ui:Label text="9999" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;">
+                    <ui:Label text="STARS: " class="textLabel" style="-unity-font-style: bold; font-size: 30px;"/>
+                    <ui:Label text="9999" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" class="textLabel" style="-unity-font-style: bold; font-size: 30px;">
                         <Bindings>
                             <ui:DataBinding property="text" data-source-path="_currentCurrency" binding-mode="ToTarget"/>
                         </Bindings>
                     </ui:Label>
                 </ui:VisualElement>
                 <ui:VisualElement name="XPCounter" style="flex-grow: 1; flex-direction: row; height: 10%; max-height: 10%; align-items: flex-end;">
-                    <ui:Label text="TOTAL XP: " name="Label" style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;"/>
-                    <ui:Label text="9999" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;">
+                    <ui:Label text="TOTAL XP: " name="Label" class="textLabel" style="-unity-font-style: bold; font-size: 30px;"/>
+                    <ui:Label text="9999" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" class="textLabel" style="-unity-font-style: bold; font-size: 30px;">
                         <Bindings>
                             <ui:DataBinding property="text" data-source-path="_totalXP" binding-mode="ToTarget" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData"/>
                         </Bindings>
                     </ui:Label>
                 </ui:VisualElement>
                 <ui:VisualElement name="CurrentComboCounter" style="flex-grow: 1; flex-direction: row; height: 10%; max-height: 10%; align-items: flex-end;">
-                    <ui:Label text="CURRENT COMBO:" name="Label" style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;"/>
-                    <ui:Label text="9999" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;">
+                    <ui:Label text="CURRENT COMBO:" name="Label" class="textLabel" style="-unity-font-style: bold; font-size: 30px;"/>
+                    <ui:Label text="9999" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" class="textLabel" style="-unity-font-style: bold; font-size: 30px;">
                         <Bindings>
                             <ui:DataBinding property="text" data-source-path="_comboLevel" binding-mode="ToTarget"/>
                         </Bindings>
                     </ui:Label>
                 </ui:VisualElement>
                 <ui:VisualElement name="BestComboCounter" style="flex-grow: 1; flex-direction: row; height: 10%; max-height: 10%; align-items: flex-end;">
-                    <ui:Label text="BEST COMBO:" name="Label" style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;"/>
-                    <ui:Label text="9999" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;">
+                    <ui:Label text="BEST COMBO:" name="Label" class="textLabel" style="-unity-font-style: bold; font-size: 30px;"/>
+                    <ui:Label text="9999" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" class="textLabel" style="-unity-font-style: bold; font-size: 30px;">
                         <Bindings>
                             <ui:DataBinding property="text" data-source-path="_runBestComboLevel" binding-mode="ToTarget"/>
                         </Bindings>
                     </ui:Label>
                 </ui:VisualElement>
                 <ui:VisualElement name="Timer" style="flex-grow: 1; flex-direction: row; height: 10%; max-height: 10%; align-items: flex-end;">
-                    <ui:Label text="TIME:" name="TimeText" style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;"/>
-                    <ui:Label text="23:59:59" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" name="TimeValue" style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;">
+                    <ui:Label text="TIME:" name="TimeText" class="textLabel" style="-unity-font-style: bold; font-size: 30px;"/>
+                    <ui:Label text="23:59:59" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" name="TimeValue" class="textLabel" style="-unity-font-style: bold; font-size: 30px;">
                         <Bindings>
                             <ui:DataBinding property="text" data-source-path="_timerAsText" binding-mode="ToTarget"/>
                         </Bindings>
@@ -222,6 +222,20 @@
                 <ui:Button text="Choice 1" name="Choice1Button" class="button" style="width: 200px; height: 200px;"/>
                 <ui:Button text="Choice 2" name="Choice2Button" class="button" style="width: 200px; height: 200px;"/>
                 <ui:Button text="Choice 3" name="Choice3Button" class="button" style="width: 200px; height: 200px;"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="PauseMenu" style="flex-grow: 1; display: none; background-color: rgba(0, 0, 0, 0.75);">
+        <ui:VisualElement name="PausePanel" style="flex-grow: 1; margin-top: 5%; margin-right: 25%; margin-bottom: 5%; margin-left: 25%; background-color: rgb(0, 0, 255); justify-content: center; align-items: center; align-self: stretch; align-content: center; padding-top: 5%; padding-right: 5%; padding-bottom: 5%; padding-left: 5%;">
+            <ui:VisualElement name="TextContainer" style="flex-grow: 1; flex-direction: row; width: auto; justify-content: center; align-items: flex-end; height: auto; align-self: center; max-height: none; min-height: auto; margin-top: 16px; margin-bottom: 16px;">
+                <ui:Label text="GAME PAUSED" name="PauseText" selectable="false" focusable="false" parse-escape-sequences="true" class="progressBar_label" style="font-size: 50px;"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="ButtonContainer" style="flex-grow: 1; align-self: stretch; justify-content: flex-start; max-height: none;">
+                <ui:Button text="RESUME" name="ResumeButton" selectable="false" focusable="true" class="button" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 100%; width: 100%; aspect-ratio: auto; max-width: none; max-height: 75px; align-self: center;"/>
+                <ui:Button text="RESTART" name="RetryButton" selectable="false" focusable="true" class="button" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 100%; width: 100%; aspect-ratio: auto; max-width: none; max-height: 75px; align-self: center;"/>
+                <ui:Button text="SETTINGS" name="SettingsButton" selectable="false" focusable="true" class="button" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 100%; width: 100%; aspect-ratio: auto; max-width: none; max-height: 75px; align-self: center;"/>
+                <ui:Button text="MAIN MENU" name="MainMenuButton" selectable="false" focusable="true" class="button" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 100%; width: 100%; aspect-ratio: auto; max-width: none; max-height: 75px; align-self: center;"/>
+                <ui:Button text="EXIT GAME" name="ExitButton" selectable="false" focusable="true" class="button" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 100%; width: 100%; aspect-ratio: auto; max-width: none; max-height: 75px; align-self: center;"/>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
