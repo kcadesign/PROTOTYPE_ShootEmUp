@@ -1,8 +1,11 @@
+using System;
 using Unity.Cinemachine;
 using UnityEngine;
 
 public class FindCameraTarget : MonoBehaviour
 {
+    public static event Action<GameObject> OnCameraTargetFound;
+
     private GameObject _targetObject;
     private CinemachineCamera _cinemachineCamera;
 
@@ -43,6 +46,7 @@ public class FindCameraTarget : MonoBehaviour
         {
             _cinemachineCamera.LookAt = targetObject.transform;
             _cinemachineCamera.Follow = targetObject.transform;
+            OnCameraTargetFound?.Invoke(targetObject);
         }
         else if (_cinemachineCamera == null)
         {
