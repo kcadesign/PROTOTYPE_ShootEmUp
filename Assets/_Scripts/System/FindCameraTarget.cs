@@ -30,7 +30,15 @@ public class FindCameraTarget : MonoBehaviour
         {
             Debug.Log("Target object not set. Attempting to find player by tag.");
             _targetObject = GameObject.FindGameObjectWithTag("Player");
-            SetCameraTarget(_targetObject);
+            if (_targetObject != null)
+            {
+                Debug.Log("Player found. Setting camera target.");
+                SetCameraTarget(_targetObject);
+            }
+            else
+            {
+                Debug.LogWarning("Player not found. Camera target will not be set.");
+            }
             return;
         }
         else

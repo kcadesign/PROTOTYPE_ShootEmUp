@@ -6,11 +6,12 @@ public class CameraAngleController : MonoBehaviour
     private CinemachinePanTilt _panTilt;
 
     private GameObject _target;
+    public float AngleChangeSpeed = 5f;
 
     private void Awake()
     {
         _panTilt = GetComponent<CinemachinePanTilt>();
-   }
+    }
 
     private void OnEnable()
     {
@@ -37,20 +38,18 @@ public class CameraAngleController : MonoBehaviour
         }
         else
         {
-                if (_target.transform.position.x > 0)
-                {
-                    //_cinemachineCamera.ForceCameraPosition(_cinemachineCamera.transform.position, Quaternion.Euler(0, 15, 0));
-                    Debug.Log("Target is on the right side. Setting pan tilt to 15 degrees.");
-                    _panTilt.PanAxis.Value = 15f;
-                    Debug.Log($"Pan tilt value set to: {_panTilt.PanAxis.Value}");
-                }
-                else
-                {
-                    //_cinemachineCamera.ForceCameraPosition(_cinemachineCamera.transform.position, Quaternion.Euler(0, -15, 0));
-                    Debug.Log("Target is on the left side. Setting pan tilt to -15 degrees.");
-                    _panTilt.PanAxis.Value = -15f;
-                    Debug.Log($"Pan tilt value set to: {_panTilt.PanAxis.Value}");
-                }
+            if (_target.transform.position.x > 0)
+            {
+                //Debug.Log("Target is on the right side. Setting pan tilt to 15 degrees.");
+                _panTilt.PanAxis.Value = Mathf.Lerp(_panTilt.PanAxis.Value, 15f, Time.deltaTime * AngleChangeSpeed);
+                //Debug.Log($"Pan tilt value set to: {_panTilt.PanAxis.Value}");
+            }
+            else
+            {
+                //Debug.Log("Target is on the left side. Setting pan tilt to -15 degrees.");
+                _panTilt.PanAxis.Value = Mathf.Lerp(_panTilt.PanAxis.Value, -15f, Time.deltaTime * AngleChangeSpeed);
+                //Debug.Log($"Pan tilt value set to: {_panTilt.PanAxis.Value}");
+            }
         }
     }
 }
