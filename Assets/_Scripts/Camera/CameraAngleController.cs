@@ -7,6 +7,9 @@ public class CameraAngleController : MonoBehaviour
 
     private GameObject _target;
     public float AngleChangeSpeed = 5f;
+    public float MaxPanAngle = 15f;
+    // The distance from center at which the pan reaches MaxPanAngle
+    public float MaxPanDistance = 10f;
 
     private void Awake()
     {
@@ -38,18 +41,14 @@ public class CameraAngleController : MonoBehaviour
         }
         else
         {
-            if (_target.transform.position.x > 0)
-            {
-                //Debug.Log("Target is on the right side. Setting pan tilt to 15 degrees.");
-                _panTilt.PanAxis.Value = Mathf.Lerp(_panTilt.PanAxis.Value, 15f, Time.deltaTime * AngleChangeSpeed);
-                //Debug.Log($"Pan tilt value set to: {_panTilt.PanAxis.Value}");
-            }
-            else
-            {
-                //Debug.Log("Target is on the left side. Setting pan tilt to -15 degrees.");
-                _panTilt.PanAxis.Value = Mathf.Lerp(_panTilt.PanAxis.Value, -15f, Time.deltaTime * AngleChangeSpeed);
-                //Debug.Log($"Pan tilt value set to: {_panTilt.PanAxis.Value}");
-            }
+            // Map the target's X position to an angle between -MaxPanAngle and +MaxPanAngle.
+            // When the target is at or beyond MaxPanDistance the pan reaches the full MaxPanAngle.
+            float targetX = _target.transform.position.x;
+            float normalized = Mathf.Clamp01(Mathf.Abs(targetX) / MaxPanDistance);
+            float desiredAngle = Mathf.Sign(targetX) * MaxPanAngle * normalized;
+
+            // Smoothly move current pan toward the desired angle
+            _panTilt.PanAxis.Value = Mathf.Lerp(_panTilt.PanAxis.Value, desiredAngle, Time.deltaTime * AngleChangeSpeed);
         }
     }
 }
