@@ -54,7 +54,7 @@ public class FollowPlayer : MonoBehaviour
             Debug.LogWarning("Target object is null. Cannot follow target.");
             return;
         }
-        gameObject.transform.position = _targetObject.transform.position;
+        gameObject.transform.position = new Vector3(_targetObject.transform.position.x, _targetObject.transform.position.y, gameObject.transform.position.z);
     }
 
 }
