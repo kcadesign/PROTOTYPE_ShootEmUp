@@ -34,8 +34,8 @@ public class Ghost : MonoBehaviour
             {
                 //Generate ghost
                 GameObject currentGhost = Instantiate(GhostPrefab, transform.position, transform.rotation);
-                Sprite currentSprite = GetComponent<SpriteRenderer>().sprite;
-                currentGhost.GetComponent<SpriteRenderer>().sprite = currentSprite;
+                Mesh currentSprite = GetComponent<MeshFilter>().mesh;
+                currentGhost.GetComponent<MeshFilter>().mesh = currentSprite;
                 _ghostDelaySeconds = GhostFrequency;
                 Destroy(currentGhost, GhostDecayTime);
             }
