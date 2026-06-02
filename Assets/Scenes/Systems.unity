@@ -400,7 +400,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2269326769876202860, guid: decce682802c0a947841d2e20f7822ff, type: 3}
       propertyPath: SpawnPosition.y
-      value: -5
+      value: -4.35
       objectReference: {fileID: 0}
     - target: {fileID: 5178539885882211280, guid: decce682802c0a947841d2e20f7822ff, type: 3}
       propertyPath: UIDocument
