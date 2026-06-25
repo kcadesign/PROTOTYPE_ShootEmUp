@@ -11,6 +11,7 @@ public class CollectStar : MonoBehaviour
     public float EndSize = 0.5f;
     public float VerticalMove;
     public float Duration = 1f;
+    public float zPosition = -10f;
 
     private void Start()
     {
@@ -24,12 +25,13 @@ public class CollectStar : MonoBehaviour
         while (elapsed < Duration)
         {
             elapsed += Time.deltaTime;
-            //float time = Mathf.Clamp01(elapsed / Duration);
-            float size = Mathf.Lerp(0f, EndSize, Duration);
+            float time = Mathf.Clamp01(elapsed / Duration);
+            float size = Mathf.Lerp(0f, EndSize, time);
             transform.localScale = Vector3.one * size;
 
-            float moveY = Mathf.Lerp(0f, VerticalMove, Duration);
+            float moveY = Mathf.Lerp(0f, VerticalMove, time);
             transform.localPosition += Vector3.up * moveY;
+            //transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, zPosition);
             yield return null;
         }
 

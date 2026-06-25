@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -70,8 +69,6 @@ public class Breakable : MonoBehaviour
             gameObject.SetActive(false);
 
         }
-
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -93,8 +90,6 @@ public class Breakable : MonoBehaviour
             gameObject.SetActive(false);
 
         }
-
-
     }
 
     public void InstantiatePrefab(GameObject prefab)
@@ -103,6 +98,4 @@ public class Breakable : MonoBehaviour
         // instantiate a prefab outside of its parent heirarchy
         Instantiate(prefab, spawnPosition, Quaternion.identity, null);
     }
-
-
 }

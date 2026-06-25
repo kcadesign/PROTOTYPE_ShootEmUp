@@ -445,7 +445,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   AngleChangeSpeed: 2
-  MaxPanAngle: 20
+  MaxPanAngle: 15
   MaxPanDistance: 10
 --- !u!114 &1415812927
 MonoBehaviour:
