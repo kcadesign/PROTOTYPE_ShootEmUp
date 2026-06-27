@@ -121,6 +121,8 @@ GameObject:
   - component: {fileID: 4812292485687879507}
   - component: {fileID: 8637772702089568058}
   - component: {fileID: 1972816407597967615}
+  - component: {fileID: 3133862852681090124}
+  - component: {fileID: 8991185048569566943}
   m_Layer: 9
   m_Name: Render
   m_TagString: Untagged
@@ -217,6 +219,68 @@ MonoBehaviour:
   RotateZ: 0
   _rotationSpeed: 500
   _triggerEnteredEffect: 0
+--- !u!210 &3133862852681090124
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1926104409606526552}
+  m_Enabled: 1
+  m_SortingLayerID: 839381891
+  m_SortingLayer: 2
+  m_SortingOrder: 1
+  m_SortAtRoot: 1
+  m_Sort3DAs2D: 1
+--- !u!1120581460 &8991185048569566943
+RenderAs2D:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1926104409606526552}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: b697f6a938056384e968ccf6527dac83, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_OwningSortingGroup: {fileID: 3133862852681090124}
 --- !u!1 &2289762062869176387
 GameObject:
   m_ObjectHideFlags: 0
@@ -375,6 +439,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   StarValue: 1
   EndSize: 3.5
-  VerticalMove: 0.08
+  VerticalMove: 0.05
   Duration: 0.3
   zPosition: -10

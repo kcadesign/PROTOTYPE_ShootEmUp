@@ -11,7 +11,7 @@ public class CollectStar : MonoBehaviour
     public float EndSize = 0.5f;
     public float VerticalMove;
     public float Duration = 1f;
-    public float zPosition = -10f;
+    //public float zPosition = -10f;
 
     private void Start()
     {
