@@ -217,7 +217,7 @@ MonoBehaviour:
   RotateX: 0
   RotateY: 1
   RotateZ: 0
-  _rotationSpeed: 500
+  _rotationSpeed: 800
   _triggerEnteredEffect: 0
 --- !u!210 &3133862852681090124
 SortingGroup:
@@ -438,7 +438,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   StarValue: 1
-  EndSize: 3.5
-  VerticalMove: 0.05
-  Duration: 0.3
-  zPosition: -10
+  SizeMultiplier: 0.05
+  VerticalMoveMultiplier: 0.05
+  Duration: 0.5
