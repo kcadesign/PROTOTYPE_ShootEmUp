@@ -49,8 +49,8 @@
                 <ui:Label text="HEALTH" style="color: rgb(0, 0, 255); -unity-font-style: bold; font-size: 30px;"/>
             </ui:VisualElement>
             <ui:VisualElement name="MiddleColumn" style="flex-grow: 1; margin-right: 20px; background-color: rgba(192, 59, 59, 0); margin-left: 20px; width: 30%; align-items: auto; height: 100%;"/>
-            <ui:VisualElement name="RightColumn" style="flex-grow: 1; margin-right: 0; background-color: rgba(192, 59, 59, 0); margin-left: 20px; justify-content: flex-start; align-items: flex-start; align-content: flex-start; width: 25%; height: 100%; flex-direction: column;">
-                <ui:VisualElement name="AmmoContainer" class="ammoContainer" style="flex-grow: 1; width: 20%; height: 100%; min-height: 100%; max-height: 100%; flex-direction: column; align-self: flex-start;">
+            <ui:VisualElement name="RightColumn" style="flex-grow: 1; margin-right: 0; background-color: rgba(192, 59, 59, 0); margin-left: 20px; justify-content: flex-start; align-items: flex-end; align-content: flex-start; width: 25%; height: 100%; flex-direction: column;">
+                <ui:VisualElement name="AmmoContainer" class="ammoContainer" style="flex-grow: 1; width: 20%; height: 100%; min-height: 100%; max-height: 100%; flex-direction: column; align-self: flex-end;">
                     <ui:VisualElement name="AmmoBlockContainer" class="ammoBlockContainer" style="flex-grow: 1; visibility: visible; background-color: rgba(0, 0, 255, 0); border-left-color: rgb(0, 0, 255); border-right-color: rgb(0, 0, 255); border-top-color: rgb(0, 0, 255); border-bottom-color: rgb(0, 0, 255); margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px; display: none;">
                         <ui:VisualElement name="AmmoBlock" class="ammoBlock" style="flex-grow: 1; visibility: visible; background-color: rgb(0, 0, 255); border-top-width: 4px; border-right-width: 4px; border-bottom-width: 4px; border-left-width: 4px; border-left-color: rgb(0, 0, 255); border-right-color: rgb(0, 0, 255); border-top-color: rgb(0, 0, 255); border-bottom-color: rgb(0, 0, 255);"/>
                     </ui:VisualElement>
