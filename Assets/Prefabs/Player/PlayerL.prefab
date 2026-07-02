@@ -5441,7 +5441,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   Grapple: {fileID: 530978034007891282}
   PlayerAnimator: {fileID: 27600907644046539}
-  JumpHeight: 4.8
+  JumpHeight: 5
   TimeToJumpApex: 0.6
   AirJumpMultiplier: 1.3
   AscendingGravity: 1.5
