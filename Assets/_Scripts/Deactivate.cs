@@ -66,11 +66,11 @@ public class Deactivate : MonoBehaviour
     public void ResetObject()
     {
         _isUsed = false;
-        _collider.enabled = true;
 
         // turn on base render and turn off outline render
         GrappleInactiveRender.SetActive(false);
         GrappleActiveRender.SetActive(true);
+        _collider.enabled = true;
     }
 
 }
