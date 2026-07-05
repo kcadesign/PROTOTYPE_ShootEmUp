@@ -1,46 +1,76 @@
 using UnityEngine;
+using static Unity.VisualScripting.Metadata;
 
 public class Deactivate : MonoBehaviour
 {
+    private Collider2D _collider;
+    public GameObject GrappleActiveRender;
+    public GameObject GrappleInactiveRender;
+
+    private bool _isUsed = false;
+    private float _timer = 0f;
+    public float RespawnDelay = 3f;
+
+    private void Awake()
+    {
+        _collider = GetComponent<Collider2D>();
+        if (_collider == null)
+        {
+            Debug.LogWarning("No Collider2D component found on " + name);
+        }
+    }
+
+    private void Update()
+    {
+        if (!_isUsed)
+        {
+            _timer = 0f;
+        }
+        else if (_isUsed)
+        {
+            _timer += Time.deltaTime;
+
+            if (_timer >= RespawnDelay)
+            {
+                ResetObject();
+                _timer = 0f;
+            }
+        }
+
+
+    }
+
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
             if (collision.GetComponentInChildren<Grapple>().GetIsGrappling())
             {
-                gameObject.SetActive(false);
+                ObjectUsed();
             }
         }
     }
 
-    // NEEDS TO BE IMPLEMENTED
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.CompareTag("Player"))
-    //    {
-    //        if (collision.GetComponentInChildren<Grapple>().GetIsGrappling())
-    //        {
-    //            //gameObject.SetActive(false);
-    //            // turn off collider and base render
-    //            ObjectUsed();
-    //        }
-    //    }
-    //}
+    public void ObjectUsed()
+    {
+        _isUsed = true;
+        _collider.enabled = false;
 
-    //public void ObjectUsed()
-    //{
-    //    _isUsed = true;
-    //    gameObject.GetComponent<Collider2D>().enabled = false;
-    //    SpriteRenderer baseRender = gameObject.GetComponentInChildren<SpriteRenderer>();
-    //    // turn on outline render
-    //}
+        // turn on outline render
+        GrappleActiveRender.SetActive(false);
+        GrappleInactiveRender.SetActive(true);
+    }
 
-    //public void ResetObject()
-    //{
-    //    _isUsed = false;
-    //    gameObject.GetComponent<Collider2D>().enabled = true;
-    //    SpriteRenderer baseRender = gameObject.GetComponentInChildren<SpriteRenderer>();
-    //    // turn on base render and turn off outline render
-    //}
+    public void ResetObject()
+    {
+        _isUsed = false;
+        _collider.enabled = true;
+
+        // turn on base render and turn off outline render
+        GrappleInactiveRender.SetActive(false);
+        GrappleActiveRender.SetActive(true);
+    }
 
 }
