@@ -8,13 +8,16 @@ public class FloatTowards : MonoBehaviour
 
     private void Awake()
     {
-        _desiredPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        _desiredPosition = transform.position;
     }
 
     private void FixedUpdate()
     {
-        _desiredPosition = TriggerCollision.GetTargetPosition();
-        transform.position = Vector3.MoveTowards(transform.position, _desiredPosition, MoveSpeed * Time.deltaTime);
+        if (TriggerCollision != null)
+        {
+            _desiredPosition = TriggerCollision.GetTargetPosition();
+            transform.position = Vector3.MoveTowards(transform.position, _desiredPosition, MoveSpeed * Time.deltaTime);
+        }
     }
 
 
