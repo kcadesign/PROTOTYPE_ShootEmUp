@@ -8,7 +8,7 @@ public class FloatTowards : MonoBehaviour
 
     private void Awake()
     {
-        _desiredPosition = new Vector3(transform.position.x, 0, 0);
+        _desiredPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
     }
 
     private void FixedUpdate()
