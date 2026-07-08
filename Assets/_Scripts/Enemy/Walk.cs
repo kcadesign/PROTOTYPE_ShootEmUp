@@ -18,15 +18,15 @@ public class Walk : MonoBehaviour
 
     private bool _moveLeft = false;
 
-    [SerializeField] private LayerMask _wallLayer;
+    [SerializeField] private LayerMask _wallCheckLayers;
     [SerializeField] private LayerMask _groundLayer;
 
 
     private void Update()
     {
 
-        RaycastHit2D wallLeft = Physics2D.Raycast(transform.position + Vector3.left * RayOffset, Vector2.left, RayLength, _wallLayer);
-        RaycastHit2D wallRight = Physics2D.Raycast(transform.position + Vector3.right * RayOffset, Vector2.right, RayLength, _wallLayer);
+        RaycastHit2D wallLeft = Physics2D.Raycast(transform.position + Vector3.left * RayOffset, Vector2.left, RayLength, _wallCheckLayers);
+        RaycastHit2D wallRight = Physics2D.Raycast(transform.position + Vector3.right * RayOffset, Vector2.right, RayLength, _wallCheckLayers);
         _wallLeft = wallLeft.collider != null;
         _wallRight = wallRight.collider != null;
 
