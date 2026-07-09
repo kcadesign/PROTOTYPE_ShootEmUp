@@ -5065,7 +5065,7 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0.0015630325, y: -0.14769621}
-  m_Size: {x: 0.59353966, y: 0.9991286}
+  m_Size: {x: 0.6334909, y: 0.9991286}
   m_Direction: 0
 --- !u!50 &7239616914105786631
 Rigidbody2D:
@@ -5408,7 +5408,7 @@ MonoBehaviour:
   _onGround: 0
   groundLength: 0.15
   colliderOffset: {x: 0, y: -0.55, z: 0}
-  RayGap: 0.33
+  RayGap: 0.26
   _groundLayer:
     serializedVersion: 2
     m_Bits: 8
