@@ -25007,7 +25007,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   levelLength: 4
   StartBlocks:
-  - {fileID: 4436149508919251820, guid: 0aab871e5759e464ea411eaf15c2138a, type: 3}
+  - {fileID: 3539369953087823998, guid: 9f7e068d19b76eb4abe6a7df98e4d4c4, type: 3}
   levelBlocks:
   - {fileID: 362708672490193368, guid: 645b6a015d9eb794fa9d1a2bfcf1bf21, type: 3}
   - {fileID: 362708672490193368, guid: d2d5a5f2b52ee644aa7f167df437d271, type: 3}
