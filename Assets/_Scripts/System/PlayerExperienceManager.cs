@@ -18,6 +18,8 @@ public class PlayerExperienceManager : MonoBehaviour
     private int _nextLevelXP;
 
     private float _experienceBarFillAmount;
+    private float _experienceBarCurrentFillAmount;
+    public float XPBarFillSpeed = 0.5f;
 
     private void Awake()
     {
@@ -100,6 +102,16 @@ public class PlayerExperienceManager : MonoBehaviour
         UpdateLevel();
     }
 
+    private void Update()
+    {
+        //if(_experienceBarCurrentFillAmount < _experienceBarFillAmount)
+        //{
+        //    _experienceBarCurrentFillAmount = Mathf.MoveTowards(_experienceBarCurrentFillAmount, _experienceBarFillAmount, Time.deltaTime * XPBarFillSpeed);
+        //    PlayerStatsData.SetCurrentXPValue(_experienceBarCurrentFillAmount);
+        //}
+
+    }
+
     public void AddExperience()
     {
         _totalXP = PlayerStatsData.GetTotalXP();
@@ -141,7 +153,19 @@ public class PlayerExperienceManager : MonoBehaviour
         PlayerStatsData.SetHighXPValue(highValue);
 
         _experienceBarFillAmount = (float)lowValue / (float)highValue;
-        PlayerStatsData.SetCurrentXPValue(_experienceBarFillAmount);
+        // move towards target fill amount smoothly
+        StartCoroutine(XPBarFillCoroutine(_experienceBarFillAmount));
+    }
+
+    private IEnumerator XPBarFillCoroutine(float targetFillAmount)
+    {
+        while (_experienceBarCurrentFillAmount < targetFillAmount)
+        {
+            _experienceBarCurrentFillAmount = Mathf.MoveTowards(_experienceBarCurrentFillAmount, targetFillAmount, Time.deltaTime * XPBarFillSpeed);
+            PlayerStatsData.SetCurrentXPValue(_experienceBarCurrentFillAmount);
+            yield return null;
+        }
+        _experienceBarCurrentFillAmount = targetFillAmount;
     }
 
     private IEnumerator DelayXPTally(float delay)
