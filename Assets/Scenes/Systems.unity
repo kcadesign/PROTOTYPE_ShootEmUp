@@ -410,6 +410,50 @@ PrefabInstance:
       propertyPath: UIDocument
       value: 
       objectReference: {fileID: 2035703671}
+    - target: {fileID: 5338903947281834151, guid: decce682802c0a947841d2e20f7822ff, type: 3}
+      propertyPath: ExperienceCurve.m_Curve.Array.data[1].time
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5338903947281834151, guid: decce682802c0a947841d2e20f7822ff, type: 3}
+      propertyPath: ExperienceCurve.m_Curve.Array.data[0].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5338903947281834151, guid: decce682802c0a947841d2e20f7822ff, type: 3}
+      propertyPath: ExperienceCurve.m_Curve.Array.data[1].value
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 5338903947281834151, guid: decce682802c0a947841d2e20f7822ff, type: 3}
+      propertyPath: ExperienceCurve.m_Curve.Array.data[0].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5338903947281834151, guid: decce682802c0a947841d2e20f7822ff, type: 3}
+      propertyPath: ExperienceCurve.m_Curve.Array.data[1].inSlope
+      value: 118.2733
+      objectReference: {fileID: 0}
+    - target: {fileID: 5338903947281834151, guid: decce682802c0a947841d2e20f7822ff, type: 3}
+      propertyPath: ExperienceCurve.m_Curve.Array.data[0].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5338903947281834151, guid: decce682802c0a947841d2e20f7822ff, type: 3}
+      propertyPath: ExperienceCurve.m_Curve.Array.data[1].inWeight
+      value: 0.020318795
+      objectReference: {fileID: 0}
+    - target: {fileID: 5338903947281834151, guid: decce682802c0a947841d2e20f7822ff, type: 3}
+      propertyPath: ExperienceCurve.m_Curve.Array.data[1].outSlope
+      value: 118.2733
+      objectReference: {fileID: 0}
+    - target: {fileID: 5338903947281834151, guid: decce682802c0a947841d2e20f7822ff, type: 3}
+      propertyPath: ExperienceCurve.m_Curve.Array.data[0].outWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5338903947281834151, guid: decce682802c0a947841d2e20f7822ff, type: 3}
+      propertyPath: ExperienceCurve.m_Curve.Array.data[0].tangentMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5338903947281834151, guid: decce682802c0a947841d2e20f7822ff, type: 3}
+      propertyPath: ExperienceCurve.m_Curve.Array.data[1].tangentMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6220966072371424203, guid: decce682802c0a947841d2e20f7822ff, type: 3}
       propertyPath: m_Name
       value: GameManager

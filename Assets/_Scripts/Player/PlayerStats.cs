@@ -17,10 +17,12 @@ public class PlayerStats : ScriptableObject
 
     [Header("Experience")]
     [SerializeField] private int _playerLevel = 0;
-    [SerializeField] private int _totalXP = 0;
-    [SerializeField] private int _xPLowValue;
-    [SerializeField] private int _xPHighValue;
-    [SerializeField] private float _XPBarFillValue;
+    [SerializeField] private int _runExp = 0;
+    [SerializeField] private int _storedExp = 0;
+    [SerializeField] private int _totalExp = 0;
+    [SerializeField] private int _expBarLowValue;
+    [SerializeField] private int _expBarHighValue;
+    [SerializeField] private float _expBarFillValue;
 
     [Header("Enemies")]
     [SerializeField] private int _runEnemiesKilled;
@@ -105,23 +107,52 @@ public class PlayerStats : ScriptableObject
         _playerLevel++;
     }
 
-    public int GetTotalXP() { return _totalXP; }
-    public void AddToTotalXP(int amount)
+    public int GetRunExp() { return _runExp; }
+    public void IncreaseRunExp(int amount)
     {
-        _totalXP += amount;
+        _runExp += amount;
+    }
+    public void SetRunExp(int amount)
+    {
+        _runExp = amount;
+    }
+    public void ResetRunExp()
+    {
+        _runExp = 0;
     }
 
-    public void SetLowXPValue(int lowValue)
+    public int GetStoredExp() { return _storedExp; }
+    public void SetStoredExp(int amount)
     {
-        _xPLowValue = lowValue;
+        _storedExp = amount;
     }
-    public void SetHighXPValue(int highValue)
+    public void ResetStoredExp()
     {
-        _xPHighValue = highValue;
+        _storedExp = 0;
     }
-    public void SetCurrentXPValue(float value)
+
+    public int GetTotalExp() { return _totalExp; }
+    public void IncreaseTotalExp(int amount)
     {
-        _XPBarFillValue = value;
+        _totalExp += amount;
+    }
+
+
+    public void SetLowExpValue(int lowValue)
+    {
+        _expBarLowValue = lowValue;
+    }
+    public void SetHighExpValue(int highValue)
+    {
+        _expBarHighValue = highValue;
+    }
+    public void SetExpBarFillValue(float value)
+    {
+        _expBarFillValue = value;
+    }
+    public float GetExpBarFillValue()
+    {
+        return _expBarFillValue;
     }
     #endregion
 
