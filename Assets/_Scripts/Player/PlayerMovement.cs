@@ -118,4 +118,10 @@ public class PlayerMovement : MonoBehaviour
     {
         return _moveAmount.x;
     }
+
+    public void IncreaseMoveSpeed(float amount)
+    {
+        MoveSpeed += amount;
+        Debug.Log($"Player Move Speed Increased! New Move Speed: {MoveSpeed}");
+    }
 }

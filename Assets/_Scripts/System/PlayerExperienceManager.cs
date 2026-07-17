@@ -2,11 +2,11 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static UnityEngine.Rendering.DebugUI;
-
 
 public class PlayerExperienceManager : MonoBehaviour
 {
+    public static event Action<int> OnPlayerLevelUp;
+
     public UIDocument UIDocument;
     public PlayerStats PlayerStatsData;
 
@@ -211,7 +211,9 @@ public class PlayerExperienceManager : MonoBehaviour
             yield return new WaitForSeconds(1f);
             _barValue = 0;
             PlayerStatsData.SetExpBarFillValue(_barValue);
-            PlayerStatsData.IncreasePlayerLevel();
+
+            LevelUp();
+
             _levelUpRemainder = (_storedExp + _runExp) - _expToLevel;
             Debug.Log($"Level Up! Remainder: {_levelUpRemainder}");
 
@@ -254,6 +256,7 @@ public class PlayerExperienceManager : MonoBehaviour
     private void LevelUp()
     {
         PlayerStatsData.IncreasePlayerLevel();
+        OnPlayerLevelUp?.Invoke(PlayerStatsData.GetPlayerLevel());
     }
 
     private void IncrementNextLevelExp()

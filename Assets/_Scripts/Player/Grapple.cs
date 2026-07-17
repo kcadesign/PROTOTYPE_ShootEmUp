@@ -14,7 +14,7 @@ public class Grapple : MonoBehaviour
     public GameObject Player;
     private Rigidbody2D _playerRigidbody;
     public LineRenderer LineRenderer;
-    private Collider2D _playerGrappleCollider;
+    private CircleCollider2D _playerGrappleCollider;
 
     private bool _isGrounded;
     private bool _isGrappling;
@@ -33,7 +33,7 @@ public class Grapple : MonoBehaviour
     {
         _jump = InputActions.FindAction("Jump");
         _playerRigidbody = Player.GetComponent<Rigidbody2D>();
-        _playerGrappleCollider = GetComponent<Collider2D>();
+        _playerGrappleCollider = GetComponent<CircleCollider2D>();
 
         LineRenderer.enabled = false;
         GrappleTip.SetActive(false);
@@ -154,5 +154,11 @@ public class Grapple : MonoBehaviour
     public bool GetIsGrappling()
     {
         return _isGrappling;
+    }
+
+    public void IncreaseGrappleRange(float amount)
+    {
+        _playerGrappleCollider.radius += amount;
+
     }
 }
