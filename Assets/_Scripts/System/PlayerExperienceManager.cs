@@ -28,12 +28,14 @@ public class PlayerExperienceManager : MonoBehaviour
     private int _totalExp;
     private float _barValue = 0;
     private int _expToLevel = 15;
-    private float _levelUpRemainder = 0;
-    public float ExpGrowth = 1.15f;
+    private int _levelUpRemainder = 0;
+    public float ExpToLevelGrowth = 1.15f;
 
     private void Awake()
     {
         //PlayerStatsData.ResetCurrentXP();
+        Debug.Log($"Player Experience Manager: OnEnable - Current Level: {_currentLevel}, Total Exp: {_totalExp}, Stored Exp: {_storedExp}, Run Exp: {_runExp}");
+        Debug.Log($"Player Stats Data: OnEnableCurrent Level: {PlayerStatsData.GetPlayerLevel()}, Total Exp: {PlayerStatsData.GetTotalExp()}, Stored Exp: {PlayerStatsData.GetStoredExp()}, Run Exp: {PlayerStatsData.GetRunExp()}");
     }
 
     private void OnEnable()
@@ -96,7 +98,7 @@ public class PlayerExperienceManager : MonoBehaviour
                 StartCoroutine(DelayXPTally(3f));
                 break;
             case HandleGameState.GameState.GameRestart:
-                //PlayerStatsData.ResetCurrentXP();
+                ResetRunValues();
                 break;
             case HandleGameState.GameState.GameFinished:
                 break;
@@ -217,7 +219,7 @@ public class PlayerExperienceManager : MonoBehaviour
             _levelUpRemainder = (_storedExp + _runExp) - _expToLevel;
             Debug.Log($"Level Up! Remainder: {_levelUpRemainder}");
 
-            _expToLevel = Mathf.RoundToInt(_expToLevel * ExpGrowth);
+            _expToLevel = Mathf.RoundToInt(_expToLevel * ExpToLevelGrowth);
             PlayerStatsData.SetHighExpValue(_expToLevel);
 
             while (_barValue < _levelUpRemainder)
@@ -227,6 +229,8 @@ public class PlayerExperienceManager : MonoBehaviour
                 PlayerStatsData.SetExpBarFillValue(fillValue);
                 yield return null;
             }
+            _storedExp = _levelUpRemainder;
+            _levelUpRemainder = 0;
         }
         else if ((_storedExp + _runExp) < _expToLevel)
         {
@@ -238,9 +242,20 @@ public class PlayerExperienceManager : MonoBehaviour
                 yield return null;
             }
         }
-        _storedExp += _runExp;
-        PlayerStatsData.ResetRunExp();
+        StoreRunExp();
         PlayerStatsData.SetStoredExp(_storedExp);
+        ResetRunExp();
+        PlayerStatsData.ResetRunExp();
+    }
+
+    private void ResetRunExp()
+    {
+        _runExp = 0;
+    }
+
+    private void StoreRunExp()
+    {
+        _storedExp += _runExp;
     }
 
     private IEnumerator AnimateBarFill(float fromvalue, float toValue)
@@ -261,11 +276,18 @@ public class PlayerExperienceManager : MonoBehaviour
 
     private void IncrementNextLevelExp()
     {
-        _expToLevel = Mathf.RoundToInt(_expToLevel * ExpGrowth);
+        _expToLevel = Mathf.RoundToInt(_expToLevel * ExpToLevelGrowth);
     }
 
     private void UpdateUINextLevel()
     {
         PlayerStatsData.SetHighExpValue(_expToLevel);
+    }
+
+    private void ResetRunValues()
+    {
+        _runExp = 0;
+        PlayerStatsData.ResetRunExp();
+        PlayerStatsData.ResetRunEnemiesKilled();
     }
 }

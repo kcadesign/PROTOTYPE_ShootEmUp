@@ -1,4 +1,5 @@
 using UnityEngine;
+using EditorAttributes;
 
 [CreateAssetMenu(fileName = "PlayerStatsData", menuName = "Scriptable Objects/Player/PlayerStatsData")]
 public class PlayerStats : ScriptableObject
@@ -246,5 +247,32 @@ public class PlayerStats : ScriptableObject
         if (PlayerPrefs.HasKey("AllowAirJumps")) _allowAirJump = PlayerPrefs.GetInt("AllowAirJumps") == 1;
         if (PlayerPrefs.HasKey("MaxAirJumps")) _maxHealth = PlayerPrefs.GetInt("MaxAirJumps");
         if (PlayerPrefs.HasKey("MaxHealth")) _maxHealth = PlayerPrefs.GetInt("MaxHealth");
+    }
+
+    [Button("Reset All Data")]
+    public void ResetAllData()
+    {
+        _allowAirJump = true;
+        _maxAirJumps = 1;
+        _maxHealth = 3;
+        _currentCurrency = 0;
+        _runTotalCurrency = 0;
+        _lifetimeTotalCurrency = 0;
+        _playerLevel = 0;
+        _runExp = 0;
+        _storedExp = 0;
+        _totalExp = 0;
+        _expBarLowValue = 0;
+        _expBarHighValue = 0;
+        _expBarFillValue = 0f;
+        _runEnemiesKilled = 0;
+        _lifetimeEnemiesKilled = 0;
+        _comboLevel = 0;
+        _runBestComboLevel = 0;
+        _lifetimeBestComboLevel = 0;
+        _runHighestLevel = 0;
+        _lifetimeHighestLevel = 0;
+        _runLength = 0f;
+        _timerAsText = "00:00";
     }
 }

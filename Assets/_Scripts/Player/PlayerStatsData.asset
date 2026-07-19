@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b154c48787b30c641a7d2a94da0edceb, type: 3}
   m_Name: PlayerStatsData
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
-  _allowAirJump: 0
+  _allowAirJump: 1
   _maxAirJumps: 1
   _maxHealth: 3
   _currentCurrency: 0
   _runTotalCurrency: 0
-  _lifetimeTotalCurrency: 187
+  _lifetimeTotalCurrency: 0
   _playerLevel: 0
   _runExp: 0
   _storedExp: 0
@@ -26,11 +26,11 @@ MonoBehaviour:
   _expBarHighValue: 0
   _expBarFillValue: 0
   _runEnemiesKilled: 0
-  _lifetimeEnemiesKilled: 194
+  _lifetimeEnemiesKilled: 0
   _comboLevel: 0
   _runBestComboLevel: 0
-  _lifetimeBestComboLevel: 2
+  _lifetimeBestComboLevel: 0
   _runHighestLevel: 0
-  _lifetimeHighestLevel: 1
-  _runLength: 53.676052
-  _timerAsText: 00:53
+  _lifetimeHighestLevel: 0
+  _runLength: 0
+  _timerAsText: 00:00
