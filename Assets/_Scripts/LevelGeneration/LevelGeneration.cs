@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class LevelGeneration : MonoBehaviour
 {
@@ -23,9 +24,16 @@ public class LevelGeneration : MonoBehaviour
 
     private void Start()
     {
+        StartCoroutine(GenerateLevel());
+    }
+
+    private IEnumerator GenerateLevel()
+    {
         ChooseAndPlaceStartBlock();
 
-        ChooseAndPlaceMidBlocks();
+        yield return null;
+
+        yield return StartCoroutine(ChooseAndPlaceMidBlocks());
 
         ChooseAndPlaceEndBlock();
     }
@@ -35,22 +43,27 @@ public class LevelGeneration : MonoBehaviour
         Instantiate(StartBlocks[Random.Range(0, StartBlocks.Length)], new Vector3(0, _yPosition, 0), Quaternion.identity, transform);
     }
 
-    private void ChooseAndPlaceMidBlocks()
+    private IEnumerator ChooseAndPlaceMidBlocks()
     {
-        // Randomly instantiate level blocks equal to the level length
         for (int i = 0; i < levelLength; i++)
         {
             _newBlockIndex = Random.Range(0, levelBlocks.Length);
-            // Ensure that the same block is not placed consecutively
+
             if (_newBlockIndex == _placedBlockIndex)
             {
                 _newBlockIndex = (_newBlockIndex + 1) % levelBlocks.Length;
             }
+
             GameObject block = levelBlocks[_newBlockIndex];
 
             IncementYPosition(YPositionIncrement);
+
             Instantiate(block, new Vector3(0, _yPosition, 0), Quaternion.identity, transform);
+
             _placedBlockIndex = _newBlockIndex;
+
+            // Wait one frame before creating the next block
+            yield return null;
         }
     }
 
