@@ -112,6 +112,7 @@
     border-right-width: 8px;
     border-bottom-width: 8px;
     border-left-width: 8px;
+    filter: tint(rgb(255, 77, 255));
 }
 
 .ammoContainer {

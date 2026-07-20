@@ -2,9 +2,9 @@
     <Style src="project://database/Assets/UI%20Toolkit/Styles.uss?fileID=7433441132597879392&amp;guid=ba981186ade72f448ac3f069810510cb&amp;type=3#Styles"/>
     <ui:VisualElement name="MainMenu" focusable="false" style="flex-grow: 1; background-color: rgb(0, 0, 255); width: 100%; height: 100%; align-content: auto; justify-content: center; display: none; visibility: visible;">
         <ui:VisualElement name="ButtonContainer" focusable="false" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; scale: 1 1; justify-content: center; align-self: center; align-content: center; align-items: center; width: 647px; height: 50%; aspect-ratio: auto; max-height: 76%; max-width: 100%; min-height: 0; min-width: 0%;">
-            <ui:Button text="START GAME" name="StartButton" selectable="true" class="button" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 30%; width: 100%; aspect-ratio: auto; max-width: 75%; max-height: 75px;"/>
-            <ui:Button text="SELECT LEVEL (DEBUG)" name="LevelSelectButton" selectable="false" focusable="true" class="button" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 30%; width: 100%; aspect-ratio: auto; max-width: 75%; max-height: 75px;"/>
-            <ui:Button text="EXIT" name="ExitButton" selectable="false" focusable="true" class="button" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 30%; width: 100%; aspect-ratio: auto; max-width: 75%; max-height: 75px;"/>
+            <ui:Button text="START GAME" name="StartButton" selectable="true" enabled="true" class="button" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 30%; width: 100%; aspect-ratio: auto; max-width: 75%; max-height: 75px;"/>
+            <ui:Button text="SELECT LEVEL (DEBUG)" name="LevelSelectButton" selectable="true" focusable="true" class="button" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 30%; width: 100%; aspect-ratio: auto; max-width: 75%; max-height: 75px;"/>
+            <ui:Button text="EXIT" name="ExitButton" selectable="true" focusable="true" class="button" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 30%; width: 100%; aspect-ratio: auto; max-width: 75%; max-height: 75px;"/>
         </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement name="LevelSelectMenu" style="flex-grow: 1; background-color: rgb(0, 0, 255); width: 100%; height: 100%; align-content: auto; justify-content: center; display: none; visibility: visible;">
@@ -17,7 +17,7 @@
             <ui:Button text="BACK" name="BackButton" class="button" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 30%; width: 100%; aspect-ratio: auto; max-width: 75%; max-height: 75px;"/>
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement name="HUD" style="flex-grow: 1; visibility: visible; margin-top: 0; margin-right: 24px; margin-bottom: 0; margin-left: 24px; background-color: rgba(0, 255, 8, 0); justify-content: space-evenly; align-self: stretch; display: flex;">
+    <ui:VisualElement name="HUD" style="flex-grow: 1; visibility: visible; margin-top: 0; margin-right: 24px; margin-bottom: 0; margin-left: 24px; background-color: rgba(0, 255, 8, 0); justify-content: space-evenly; align-self: stretch; display: none;">
         <ui:VisualElement name="TopBlock" style="flex-grow: 1; margin-bottom: 24px; padding-bottom: 0; background-color: rgba(34, 117, 255, 0); margin-top: 24px; justify-content: space-between; align-items: flex-end; flex-direction: row; align-self: auto; align-content: stretch;">
             <ui:VisualElement name="LeftColumn" style="flex-grow: 1; margin-right: 20px; background-color: rgba(192, 59, 59, 0); align-items: flex-start; width: 25%; height: 100%; align-self: auto;">
                 <ui:VisualElement name="HealthContainer" class="healthContainer" style="flex-grow: 1; width: 100%; height: 20%; min-height: 10%; max-height: 20%; flex-direction: row;">
@@ -213,15 +213,53 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement name="BoonChoice" style="flex-grow: 1; display: none; background-color: rgb(255, 255, 255);">
+    <ui:VisualElement name="BoonChoice" style="flex-grow: 1; display: flex; background-color: rgb(255, 255, 255);">
         <ui:VisualElement name="BoonPanel" style="flex-grow: 1; margin-top: 10%; margin-right: 25%; margin-bottom: 10%; margin-left: 25%; background-color: rgb(0, 0, 255); justify-content: center; align-items: center; align-self: stretch; align-content: center;">
             <ui:VisualElement name="TextContainer" style="flex-grow: 1; flex-direction: row; width: auto; justify-content: center; align-items: flex-end; height: auto; align-self: center; max-height: none; min-height: auto; margin-top: 16px; margin-bottom: 16px;">
                 <ui:Label text="BOON CHOICE" name="BoonText" selectable="false" focusable="false" parse-escape-sequences="true" class="progressBar_label" style="font-size: 50px;"/>
             </ui:VisualElement>
             <ui:VisualElement name="BoonContainer" style="flex-grow: 1; flex-direction: row; align-items: flex-start; justify-content: center; align-self: center; height: auto; max-height: none; width: auto;">
-                <ui:Button text="Choice 1" name="Choice1Button" class="button" style="width: 200px; height: 200px;"/>
-                <ui:Button text="Choice 2" name="Choice2Button" class="button" style="width: 200px; height: 200px;"/>
-                <ui:Button text="Choice 3" name="Choice3Button" class="button" style="width: 200px; height: 200px;"/>
+                <ui:Button text="" name="Choice1Button" data-source="project://database/Assets/_Scripts/Cards/CardUIData.asset?fileID=11400000&amp;guid=601f2f5adefd6b64b8eb7265a01ad82d&amp;type=2#CardUIData" data-source-path="Card1" class="button" style="width: 200px; height: 250px; background-image: url(&quot;project://database/Assets/Artwork/Glitch_texture_01.png?fileID=2800000&amp;guid=ccd740f9b3001414a89c67b7a2a4acf7&amp;type=3#Glitch_texture_01&quot;); align-items: stretch; justify-content: space-around; padding-top: 16px; padding-right: 16px; padding-bottom: 16px; padding-left: 16px;">
+                    <ui:Image data-source="" data-source-path="" style="background-image: url(&quot;project://database/Assets/Artwork/Enemies/RoundEnemy_01.psd?fileID=641042480451610497&amp;guid=abc37b72d1f31ed4383605aa14e843ab&amp;type=3#RoundEnemy_01_0&quot;); min-height: auto; aspect-ratio: 1; align-self: center; align-content: auto; justify-content: center; align-items: auto; width: auto; height: 50%; background-size: 100% 100%;">
+                        <Bindings>
+                            <ui:DataBinding property="style.backgroundImage" data-source-path="CardImage" binding-mode="ToTarget"/>
+                        </Bindings>
+                    </ui:Image>
+                    <ui:Label text="1" data-source="" style="white-space: normal; font-size: 15px; -unity-font-definition: resource(&quot;FlatSkin/Font/Roboto-Medium&quot;);">
+                        <Bindings>
+                            <ui:DataBinding property="text" data-source-path="CardText" binding-mode="ToTarget"/>
+                        </Bindings>
+                    </ui:Label>
+                    <ui:Label text="1"/>
+                </ui:Button>
+                <ui:Button text="" name="Choice2Button" data-source="project://database/Assets/_Scripts/Cards/CardUIData.asset?fileID=11400000&amp;guid=601f2f5adefd6b64b8eb7265a01ad82d&amp;type=2#CardUIData" data-source-path="Card2" class="button" style="width: 200px; height: 250px; background-image: url(&quot;project://database/Assets/Artwork/Glitch_texture_01.png?fileID=2800000&amp;guid=ccd740f9b3001414a89c67b7a2a4acf7&amp;type=3#Glitch_texture_01&quot;); align-items: stretch; justify-content: space-around; padding-top: 16px; padding-right: 16px; padding-bottom: 16px; padding-left: 16px;">
+                    <ui:Image data-source="" data-source-path="" style="background-image: url(&quot;project://database/Assets/Artwork/Enemies/RoundEnemy_01.psd?fileID=641042480451610497&amp;guid=abc37b72d1f31ed4383605aa14e843ab&amp;type=3#RoundEnemy_01_0&quot;); min-height: auto; aspect-ratio: 1; align-self: center; align-content: auto; justify-content: center; align-items: auto; width: auto; height: 50%;">
+                        <Bindings>
+                            <ui:DataBinding property="style.backgroundImage" data-source-path="CardImage" binding-mode="ToTarget"/>
+                        </Bindings>
+                    </ui:Image>
+                    <ui:Label text="1" data-source="" style="white-space: normal; font-size: 15px; -unity-font-definition: resource(&quot;FlatSkin/Font/Roboto-Medium&quot;);">
+                        <Bindings>
+                            <ui:DataBinding property="text" data-source-path="CardText" binding-mode="ToTarget"/>
+                        </Bindings>
+                    </ui:Label>
+                    <ui:Label text="2"/>
+                </ui:Button>
+                <ui:Button text="" name="Choice3Button" data-source="project://database/Assets/_Scripts/Cards/CardUIData.asset?fileID=11400000&amp;guid=601f2f5adefd6b64b8eb7265a01ad82d&amp;type=2#CardUIData" data-source-path="Card3" class="button" style="width: 200px; height: 250px; background-image: url(&quot;project://database/Assets/Artwork/Glitch_texture_01.png?fileID=2800000&amp;guid=ccd740f9b3001414a89c67b7a2a4acf7&amp;type=3#Glitch_texture_01&quot;); align-items: stretch; justify-content: space-around; padding-top: 16px; padding-right: 16px; padding-bottom: 16px; padding-left: 16px;">
+                    <ui:Image data-source="" data-source-path="" style="background-image: url(&quot;project://database/Assets/Artwork/Enemies/RoundEnemy_01.psd?fileID=641042480451610497&amp;guid=abc37b72d1f31ed4383605aa14e843ab&amp;type=3#RoundEnemy_01_0&quot;); min-height: auto; aspect-ratio: 1; align-self: center; align-content: auto; justify-content: center; align-items: auto; width: auto; height: 50%;">
+                        <Bindings>
+                            <ui:DataBinding property="style.backgroundImage" data-source-path="CardImage" binding-mode="ToTarget"/>
+                        </Bindings>
+                    </ui:Image>
+                    <ui:Label text="1" data-source="" style="white-space: normal; font-size: 15px; -unity-font-definition: resource(&quot;FlatSkin/Font/Roboto-Medium&quot;);">
+                        <Bindings>
+                            <ui:DataBinding property="text" data-source-path="CardText" binding-mode="ToTarget"/>
+                        </Bindings>
+                    </ui:Label>
+                    <ui:Label text="3"/>
+                </ui:Button>
+                <ui:Button text="Choice 2" name="Choice2Button" class="button" style="width: 200px; height: 200px; display: none;"/>
+                <ui:Button text="Choice 3" name="Choice3Button" class="button" style="width: 200px; height: 200px; display: none;"/>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

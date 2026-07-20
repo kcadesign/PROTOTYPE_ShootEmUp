@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 699081af3d6e33a4cb21fb7ee2ffa341, type: 3}
+  m_Name: CardUIData
+  m_EditorClassIdentifier: Assembly-CSharp::CardUI
+  Card1: {fileID: 11400000, guid: 6eeaed9b5d6358d4998466ea65b41fb0, type: 2}
+  Card2: {fileID: 11400000, guid: df1f6152022de894996678095023f204, type: 2}
+  Card3: {fileID: 11400000, guid: fb7b40fc0d3850244bedf73cd6d2318f, type: 2}

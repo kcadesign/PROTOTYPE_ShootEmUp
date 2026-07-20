@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 347576d4c66670e4599d6dcf0071bbac, type: 3}
+  m_Name: TestCard2
+  m_EditorClassIdentifier: Assembly-CSharp::Card
+  CardImage: {fileID: 2144740408288633511, guid: 9a354dec1b0bbf04db329640742c8902, type: 3}
+  CardText: Card 2 description
+  CardType: 1
+  EffectValue: 0
+  IsUnique: 0
+  UnlockLevel: 0
