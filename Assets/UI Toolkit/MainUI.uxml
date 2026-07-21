@@ -17,7 +17,7 @@
             <ui:Button text="BACK" name="BackButton" class="button" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 30%; width: 100%; aspect-ratio: auto; max-width: 75%; max-height: 75px;"/>
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement name="HUD" style="flex-grow: 1; visibility: visible; margin-top: 0; margin-right: 24px; margin-bottom: 0; margin-left: 24px; background-color: rgba(0, 255, 8, 0); justify-content: space-evenly; align-self: stretch; display: none;">
+    <ui:VisualElement name="HUD" style="flex-grow: 1; visibility: visible; margin-top: 0; margin-right: 24px; margin-bottom: 0; margin-left: 24px; background-color: rgba(0, 255, 8, 0); justify-content: space-evenly; align-self: stretch; display: flex;">
         <ui:VisualElement name="TopBlock" style="flex-grow: 1; margin-bottom: 24px; padding-bottom: 0; background-color: rgba(34, 117, 255, 0); margin-top: 24px; justify-content: space-between; align-items: flex-end; flex-direction: row; align-self: auto; align-content: stretch;">
             <ui:VisualElement name="LeftColumn" style="flex-grow: 1; margin-right: 20px; background-color: rgba(192, 59, 59, 0); align-items: flex-start; width: 25%; height: 100%; align-self: auto;">
                 <ui:VisualElement name="HealthContainer" class="healthContainer" style="flex-grow: 1; width: 100%; height: 20%; min-height: 10%; max-height: 20%; flex-direction: row;">
@@ -75,45 +75,47 @@
         </ui:VisualElement>
         <ui:VisualElement name="BottomBlock" style="flex-grow: 1; margin-bottom: 24px; padding-bottom: 0; background-color: rgba(34, 117, 255, 0); margin-top: 24px; justify-content: space-between; align-items: flex-end; flex-direction: row; align-self: auto; align-content: stretch;">
             <ui:VisualElement name="LeftColumn" style="flex-grow: 1; margin-right: 20px; background-color: rgba(192, 59, 59, 0); align-items: flex-start; width: 25%; height: 100%; justify-content: flex-end; flex-direction: column; align-self: flex-start;">
-                <ui:VisualElement name="StarsCounter" style="flex-grow: 1; flex-direction: row; height: 10%; max-height: 10%; align-items: flex-end;">
-                    <ui:Label text="STARS: " class="textLabel" style="-unity-font-style: bold; font-size: 30px;"/>
-                    <ui:Label text="9999" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" class="textLabel" style="-unity-font-style: bold; font-size: 30px;">
-                        <Bindings>
-                            <ui:DataBinding property="text" data-source-path="_currentCurrency" binding-mode="ToTarget"/>
-                        </Bindings>
-                    </ui:Label>
-                </ui:VisualElement>
-                <ui:VisualElement name="XPCounter" style="flex-grow: 1; flex-direction: row; height: 10%; max-height: 10%; align-items: flex-end;">
-                    <ui:Label text="RUN EXP: " name="Label" class="textLabel" style="-unity-font-style: bold; font-size: 30px;"/>
-                    <ui:Label text="9999" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" class="textLabel" style="-unity-font-style: bold; font-size: 30px;">
-                        <Bindings>
-                            <ui:DataBinding property="text" data-source-path="_runExp" binding-mode="ToTarget" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData"/>
-                        </Bindings>
-                    </ui:Label>
-                </ui:VisualElement>
-                <ui:VisualElement name="CurrentComboCounter" style="flex-grow: 1; flex-direction: row; height: 10%; max-height: 10%; align-items: flex-end;">
-                    <ui:Label text="CURRENT COMBO:" name="Label" class="textLabel" style="-unity-font-style: bold; font-size: 30px;"/>
-                    <ui:Label text="9999" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" class="textLabel" style="-unity-font-style: bold; font-size: 30px;">
-                        <Bindings>
-                            <ui:DataBinding property="text" data-source-path="_comboLevel" binding-mode="ToTarget"/>
-                        </Bindings>
-                    </ui:Label>
-                </ui:VisualElement>
-                <ui:VisualElement name="BestComboCounter" style="flex-grow: 1; flex-direction: row; height: 10%; max-height: 10%; align-items: flex-end;">
-                    <ui:Label text="BEST COMBO:" name="Label" class="textLabel" style="-unity-font-style: bold; font-size: 30px;"/>
-                    <ui:Label text="9999" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" class="textLabel" style="-unity-font-style: bold; font-size: 30px;">
-                        <Bindings>
-                            <ui:DataBinding property="text" data-source-path="_runBestComboLevel" binding-mode="ToTarget"/>
-                        </Bindings>
-                    </ui:Label>
-                </ui:VisualElement>
-                <ui:VisualElement name="Timer" style="flex-grow: 1; flex-direction: row; height: 10%; max-height: 10%; align-items: flex-end;">
-                    <ui:Label text="TIME:" name="TimeText" class="textLabel" style="-unity-font-style: bold; font-size: 30px;"/>
-                    <ui:Label text="23:59:59" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" name="TimeValue" class="textLabel" style="-unity-font-style: bold; font-size: 30px;">
-                        <Bindings>
-                            <ui:DataBinding property="text" data-source-path="_timerAsText" binding-mode="ToTarget"/>
-                        </Bindings>
-                    </ui:Label>
+                <ui:VisualElement name="StatsContainer" style="flex-grow: 1; background-color: rgba(255, 255, 255, 0.25); padding-top: 20px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; width: 100%; height: 20%; max-height: 50%; justify-content: space-around; align-content: center; align-self: flex-start; align-items: flex-start;">
+                    <ui:VisualElement name="StarsCounter" style="flex-grow: 1; flex-direction: row; height: 10%; max-height: none; align-items: flex-end;">
+                        <ui:Label text="STARS: " class="textLabel" style="-unity-font-style: bold; font-size: 30px;"/>
+                        <ui:Label text="9999" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" class="textLabel" style="-unity-font-style: bold; font-size: 30px;">
+                            <Bindings>
+                                <ui:DataBinding property="text" data-source-path="_currentCurrency" binding-mode="ToTarget"/>
+                            </Bindings>
+                        </ui:Label>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="XPCounter" style="flex-grow: 1; flex-direction: row; height: 10%; max-height: none; align-items: flex-end;">
+                        <ui:Label text="RUN EXP: " name="Label" class="textLabel" style="-unity-font-style: bold; font-size: 30px;"/>
+                        <ui:Label text="9999" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" class="textLabel" style="-unity-font-style: bold; font-size: 30px;">
+                            <Bindings>
+                                <ui:DataBinding property="text" data-source-path="_runExp" binding-mode="ToTarget" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData"/>
+                            </Bindings>
+                        </ui:Label>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="CurrentComboCounter" style="flex-grow: 1; flex-direction: row; height: 10%; max-height: none; align-items: flex-end;">
+                        <ui:Label text="CURRENT COMBO:" name="Label" class="textLabel" style="-unity-font-style: bold; font-size: 30px;"/>
+                        <ui:Label text="9999" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" class="textLabel" style="-unity-font-style: bold; font-size: 30px;">
+                            <Bindings>
+                                <ui:DataBinding property="text" data-source-path="_comboLevel" binding-mode="ToTarget"/>
+                            </Bindings>
+                        </ui:Label>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="BestComboCounter" style="flex-grow: 1; flex-direction: row; height: 10%; max-height: none; align-items: flex-end;">
+                        <ui:Label text="BEST COMBO:" name="Label" class="textLabel" style="-unity-font-style: bold; font-size: 30px;"/>
+                        <ui:Label text="9999" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" class="textLabel" style="-unity-font-style: bold; font-size: 30px;">
+                            <Bindings>
+                                <ui:DataBinding property="text" data-source-path="_runBestComboLevel" binding-mode="ToTarget"/>
+                            </Bindings>
+                        </ui:Label>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Timer" style="flex-grow: 1; flex-direction: row; height: 10%; max-height: none; align-items: flex-end;">
+                        <ui:Label text="TIME:" name="TimeText" class="textLabel" style="-unity-font-style: bold; font-size: 30px;"/>
+                        <ui:Label text="23:59:59" data-source="project://database/Assets/_Scripts/Player/PlayerStatsData.asset?fileID=11400000&amp;guid=b2fb527e51a842f44874ab8d4b14c143&amp;type=2#PlayerStatsData" name="TimeValue" class="textLabel" style="-unity-font-style: bold; font-size: 30px;">
+                            <Bindings>
+                                <ui:DataBinding property="text" data-source-path="_timerAsText" binding-mode="ToTarget"/>
+                            </Bindings>
+                        </ui:Label>
+                    </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="MiddleColumn" style="flex-grow: 1; margin-right: 20px; background-color: rgba(192, 59, 59, 0); margin-left: 20px; width: 50%; align-items: auto; height: 100%;"/>
@@ -213,54 +215,77 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement name="BoonChoice" style="flex-grow: 1; display: flex; background-color: rgb(255, 255, 255);">
-        <ui:VisualElement name="BoonPanel" style="flex-grow: 1; margin-top: 10%; margin-right: 25%; margin-bottom: 10%; margin-left: 25%; background-color: rgb(0, 0, 255); justify-content: center; align-items: center; align-self: stretch; align-content: center;">
-            <ui:VisualElement name="TextContainer" style="flex-grow: 1; flex-direction: row; width: auto; justify-content: center; align-items: flex-end; height: auto; align-self: center; max-height: none; min-height: auto; margin-top: 16px; margin-bottom: 16px;">
+    <ui:VisualElement name="BoonChoice" style="flex-grow: 1; display: none; background-color: rgb(255, 255, 255);">
+        <ui:VisualElement name="BoonPanel" style="flex-grow: 1; margin-top: 10%; margin-right: 25%; margin-bottom: 10%; margin-left: 25%; background-color: rgb(0, 0, 255); justify-content: center; align-items: center; align-self: stretch; align-content: center; padding-top: 90px; padding-right: 130px; padding-bottom: 90px; padding-left: 130px;">
+            <ui:VisualElement name="TextContainer" style="flex-grow: 1; flex-direction: row; width: auto; justify-content: center; align-items: center; height: auto; align-self: center; max-height: none; min-height: auto; margin-top: 16px; margin-bottom: 16px;">
                 <ui:Label text="BOON CHOICE" name="BoonText" selectable="false" focusable="false" parse-escape-sequences="true" class="progressBar_label" style="font-size: 50px;"/>
             </ui:VisualElement>
-            <ui:VisualElement name="BoonContainer" style="flex-grow: 1; flex-direction: row; align-items: flex-start; justify-content: center; align-self: center; height: auto; max-height: none; width: auto;">
+            <ui:VisualElement name="BoonContainer" style="flex-grow: 1; flex-direction: row; align-items: flex-start; justify-content: space-between; align-self: center; height: auto; max-height: none; width: 100%;">
                 <ui:Button text="" name="Choice1Button" data-source="project://database/Assets/_Scripts/Cards/CardUIData.asset?fileID=11400000&amp;guid=601f2f5adefd6b64b8eb7265a01ad82d&amp;type=2#CardUIData" data-source-path="Card1" class="button" style="width: 200px; height: 250px; background-image: url(&quot;project://database/Assets/Artwork/Glitch_texture_01.png?fileID=2800000&amp;guid=ccd740f9b3001414a89c67b7a2a4acf7&amp;type=3#Glitch_texture_01&quot;); align-items: stretch; justify-content: space-around; padding-top: 16px; padding-right: 16px; padding-bottom: 16px; padding-left: 16px;">
                     <ui:Image data-source="" data-source-path="" style="background-image: url(&quot;project://database/Assets/Artwork/Enemies/RoundEnemy_01.psd?fileID=641042480451610497&amp;guid=abc37b72d1f31ed4383605aa14e843ab&amp;type=3#RoundEnemy_01_0&quot;); min-height: auto; aspect-ratio: 1; align-self: center; align-content: auto; justify-content: center; align-items: auto; width: auto; height: 50%; background-size: 100% 100%;">
                         <Bindings>
                             <ui:DataBinding property="style.backgroundImage" data-source-path="CardImage" binding-mode="ToTarget"/>
                         </Bindings>
                     </ui:Image>
-                    <ui:Label text="1" data-source="" style="white-space: normal; font-size: 15px; -unity-font-definition: resource(&quot;FlatSkin/Font/Roboto-Medium&quot;);">
+                    <ui:Label text="1" data-source="" name="Description" style="white-space: normal; font-size: 15px; -unity-font-definition: resource(&quot;FlatSkin/Font/Roboto-Medium&quot;);">
                         <Bindings>
-                            <ui:DataBinding property="text" data-source-path="CardText" binding-mode="ToTarget"/>
+                            <ui:DataBinding property="text" data-source-path="CardDescription" binding-mode="ToTarget"/>
                         </Bindings>
                     </ui:Label>
-                    <ui:Label text="1"/>
+                    <ui:Label text="1" name="Cost">
+                        <Bindings>
+                            <ui:DataBinding property="text" data-source-path="CardCost" binding-mode="ToTarget"/>
+                        </Bindings>
+                    </ui:Label>
+                    <Bindings>
+                        <ui:DataBinding property="style.backgroundImage" data-source-path="CardBackground" binding-mode="ToTarget"/>
+                    </Bindings>
+                    <ui:Label text="1" data-source="" name="LineupNumber" style="white-space: normal; font-size: 15px; -unity-font-definition: resource(&quot;FlatSkin/Font/Roboto-Medium&quot;); display: none;"/>
                 </ui:Button>
                 <ui:Button text="" name="Choice2Button" data-source="project://database/Assets/_Scripts/Cards/CardUIData.asset?fileID=11400000&amp;guid=601f2f5adefd6b64b8eb7265a01ad82d&amp;type=2#CardUIData" data-source-path="Card2" class="button" style="width: 200px; height: 250px; background-image: url(&quot;project://database/Assets/Artwork/Glitch_texture_01.png?fileID=2800000&amp;guid=ccd740f9b3001414a89c67b7a2a4acf7&amp;type=3#Glitch_texture_01&quot;); align-items: stretch; justify-content: space-around; padding-top: 16px; padding-right: 16px; padding-bottom: 16px; padding-left: 16px;">
-                    <ui:Image data-source="" data-source-path="" style="background-image: url(&quot;project://database/Assets/Artwork/Enemies/RoundEnemy_01.psd?fileID=641042480451610497&amp;guid=abc37b72d1f31ed4383605aa14e843ab&amp;type=3#RoundEnemy_01_0&quot;); min-height: auto; aspect-ratio: 1; align-self: center; align-content: auto; justify-content: center; align-items: auto; width: auto; height: 50%;">
+                    <ui:Image data-source="" data-source-path="" style="background-image: url(&quot;project://database/Assets/Artwork/Enemies/RoundEnemy_01.psd?fileID=641042480451610497&amp;guid=abc37b72d1f31ed4383605aa14e843ab&amp;type=3#RoundEnemy_01_0&quot;); min-height: auto; aspect-ratio: 1; align-self: center; align-content: auto; justify-content: center; align-items: auto; width: auto; height: 50%; background-size: 100% 100%;">
                         <Bindings>
                             <ui:DataBinding property="style.backgroundImage" data-source-path="CardImage" binding-mode="ToTarget"/>
                         </Bindings>
                     </ui:Image>
-                    <ui:Label text="1" data-source="" style="white-space: normal; font-size: 15px; -unity-font-definition: resource(&quot;FlatSkin/Font/Roboto-Medium&quot;);">
+                    <ui:Label text="1" data-source="" name="Description" style="white-space: normal; font-size: 15px; -unity-font-definition: resource(&quot;FlatSkin/Font/Roboto-Medium&quot;);">
                         <Bindings>
-                            <ui:DataBinding property="text" data-source-path="CardText" binding-mode="ToTarget"/>
+                            <ui:DataBinding property="text" data-source-path="CardDescription" binding-mode="ToTarget"/>
                         </Bindings>
                     </ui:Label>
-                    <ui:Label text="2"/>
+                    <ui:Label text="1" name="Cost">
+                        <Bindings>
+                            <ui:DataBinding property="text" data-source-path="CardCost" binding-mode="ToTarget"/>
+                        </Bindings>
+                    </ui:Label>
+                    <Bindings>
+                        <ui:DataBinding property="style.backgroundImage" data-source-path="CardBackground" binding-mode="ToTarget"/>
+                    </Bindings>
+                    <ui:Label text="2" data-source="" name="LineupNumber" style="white-space: normal; font-size: 15px; -unity-font-definition: resource(&quot;FlatSkin/Font/Roboto-Medium&quot;); display: none;"/>
                 </ui:Button>
                 <ui:Button text="" name="Choice3Button" data-source="project://database/Assets/_Scripts/Cards/CardUIData.asset?fileID=11400000&amp;guid=601f2f5adefd6b64b8eb7265a01ad82d&amp;type=2#CardUIData" data-source-path="Card3" class="button" style="width: 200px; height: 250px; background-image: url(&quot;project://database/Assets/Artwork/Glitch_texture_01.png?fileID=2800000&amp;guid=ccd740f9b3001414a89c67b7a2a4acf7&amp;type=3#Glitch_texture_01&quot;); align-items: stretch; justify-content: space-around; padding-top: 16px; padding-right: 16px; padding-bottom: 16px; padding-left: 16px;">
-                    <ui:Image data-source="" data-source-path="" style="background-image: url(&quot;project://database/Assets/Artwork/Enemies/RoundEnemy_01.psd?fileID=641042480451610497&amp;guid=abc37b72d1f31ed4383605aa14e843ab&amp;type=3#RoundEnemy_01_0&quot;); min-height: auto; aspect-ratio: 1; align-self: center; align-content: auto; justify-content: center; align-items: auto; width: auto; height: 50%;">
+                    <ui:Image data-source="" data-source-path="" style="background-image: url(&quot;project://database/Assets/Artwork/Enemies/RoundEnemy_01.psd?fileID=641042480451610497&amp;guid=abc37b72d1f31ed4383605aa14e843ab&amp;type=3#RoundEnemy_01_0&quot;); min-height: auto; aspect-ratio: 1; align-self: center; align-content: auto; justify-content: center; align-items: auto; width: auto; height: 50%; background-size: 100% 100%;">
                         <Bindings>
                             <ui:DataBinding property="style.backgroundImage" data-source-path="CardImage" binding-mode="ToTarget"/>
                         </Bindings>
                     </ui:Image>
-                    <ui:Label text="1" data-source="" style="white-space: normal; font-size: 15px; -unity-font-definition: resource(&quot;FlatSkin/Font/Roboto-Medium&quot;);">
+                    <ui:Label text="1" data-source="" name="Description" style="white-space: normal; font-size: 15px; -unity-font-definition: resource(&quot;FlatSkin/Font/Roboto-Medium&quot;);">
                         <Bindings>
-                            <ui:DataBinding property="text" data-source-path="CardText" binding-mode="ToTarget"/>
+                            <ui:DataBinding property="text" data-source-path="CardDescription" binding-mode="ToTarget"/>
                         </Bindings>
                     </ui:Label>
-                    <ui:Label text="3"/>
+                    <ui:Label text="1" name="Cost">
+                        <Bindings>
+                            <ui:DataBinding property="text" data-source-path="CardCost" binding-mode="ToTarget"/>
+                        </Bindings>
+                    </ui:Label>
+                    <Bindings>
+                        <ui:DataBinding property="style.backgroundImage" data-source-path="CardBackground" binding-mode="ToTarget"/>
+                    </Bindings>
+                    <ui:Label text="3" data-source="" name="LineupNumber" style="white-space: normal; font-size: 15px; -unity-font-definition: resource(&quot;FlatSkin/Font/Roboto-Medium&quot;); display: none;"/>
                 </ui:Button>
-                <ui:Button text="Choice 2" name="Choice2Button" class="button" style="width: 200px; height: 200px; display: none;"/>
-                <ui:Button text="Choice 3" name="Choice3Button" class="button" style="width: 200px; height: 200px; display: none;"/>
             </ui:VisualElement>
+            <ui:Button text="SKIP" name="SkipButton" class="button" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 30%; width: 100%; aspect-ratio: auto; max-width: 100%; max-height: 75px;"/>
         </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement name="PauseMenu" style="flex-grow: 1; display: none; background-color: rgba(0, 0, 0, 0.75);">

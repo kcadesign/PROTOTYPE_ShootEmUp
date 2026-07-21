@@ -32,12 +32,14 @@ public class HandleTime : MonoBehaviour
             case HandleGameState.GameState.Shop:
                 break;
             case HandleGameState.GameState.LevelEnd:
+                SlowTime(0.25f, 2f);
                 break;
             case HandleGameState.GameState.ChoosePowerup:
                 break;
             case HandleGameState.GameState.BossFight:
                 break;
             case HandleGameState.GameState.RunEnd:
+                SlowTime(0.25f, 2f);
                 break;
             case HandleGameState.GameState.XPTally:
                 break;
@@ -64,5 +66,14 @@ public class HandleTime : MonoBehaviour
         }
     }
 
+    private void SlowTime(float slowAmount, float duration)
+    {
+        Time.timeScale -= slowAmount;
+        Invoke("ResetTime", duration);
+    }
 
+    private void ResetTime()
+    {
+        Time.timeScale = 1f;
+    }
 }

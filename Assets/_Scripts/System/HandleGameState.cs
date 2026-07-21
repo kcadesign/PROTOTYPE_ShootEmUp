@@ -53,6 +53,7 @@ public class HandleGameState : MonoBehaviour
 
     private void LevelEnd_OnPlayerEnterLevelEnd()
     {
+        UpdateGameState(GameState.LevelEnd);
         UpdateGameState(GameState.ChoosePowerup);
     }
 

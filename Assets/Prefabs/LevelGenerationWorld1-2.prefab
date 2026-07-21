@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe0dd324c44a7b439a36c269f6d79a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  levelLength: 4
+  levelLength: 1
   StartBlocks:
   - {fileID: 3539369953087823998, guid: b61be656cdd25d24eb74624511fb23d8, type: 3}
   - {fileID: 3539369953087823998, guid: 9f7e068d19b76eb4abe6a7df98e4d4c4, type: 3}

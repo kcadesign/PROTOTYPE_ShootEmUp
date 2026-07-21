@@ -4,7 +4,9 @@ using UnityEngine;
 public class Card : ScriptableObject
 {
     public Sprite CardImage;
-    public string CardText;
+    public Sprite CardBackground;
+    public string CardDescription;
+    public string CardCost;
     public CardTypeEnum CardType;
     public float EffectValue;
     public bool IsUnique;
@@ -13,6 +15,10 @@ public class Card : ScriptableObject
     public enum CardTypeEnum
     {
         None,
-        ExampleCardType1
+        ExampleCardType1,
+        ExampleCardType2,
+        ExampleCardType3
     }
+
+
 }

@@ -14,4 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardUI
   Card1: {fileID: 11400000, guid: 6eeaed9b5d6358d4998466ea65b41fb0, type: 2}
   Card2: {fileID: 11400000, guid: df1f6152022de894996678095023f204, type: 2}
-  Card3: {fileID: 11400000, guid: fb7b40fc0d3850244bedf73cd6d2318f, type: 2}
+  Card3: {fileID: 11400000, guid: e4688d089915faa4ab2b72429e7a42f8, type: 2}
+  MainDeck:
+  - {fileID: 11400000, guid: 6eeaed9b5d6358d4998466ea65b41fb0, type: 2}
+  - {fileID: 11400000, guid: df1f6152022de894996678095023f204, type: 2}
+  - {fileID: 11400000, guid: fb7b40fc0d3850244bedf73cd6d2318f, type: 2}
+  - {fileID: 11400000, guid: e4688d089915faa4ab2b72429e7a42f8, type: 2}
+  - {fileID: 11400000, guid: 3728839f7eb1630479c01ab86a934e97, type: 2}
+  RunDeck:
+  - {fileID: 11400000, guid: 6eeaed9b5d6358d4998466ea65b41fb0, type: 2}
+  - {fileID: 11400000, guid: df1f6152022de894996678095023f204, type: 2}
+  - {fileID: 11400000, guid: fb7b40fc0d3850244bedf73cd6d2318f, type: 2}
+  - {fileID: 11400000, guid: e4688d089915faa4ab2b72429e7a42f8, type: 2}
+  - {fileID: 11400000, guid: 3728839f7eb1630479c01ab86a934e97, type: 2}

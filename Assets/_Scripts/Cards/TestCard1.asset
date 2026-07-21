@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: TestCard1
   m_EditorClassIdentifier: Assembly-CSharp::Card
   CardImage: {fileID: 641042480451610497, guid: abc37b72d1f31ed4383605aa14e843ab, type: 3}
+  CardBackground: {fileID: 21300000, guid: ccd740f9b3001414a89c67b7a2a4acf7, type: 3}
   CardText: Card 1 description
-  CardType: 1
+  CardType: 2
   EffectValue: 0
   IsUnique: 0
   UnlockLevel: 0

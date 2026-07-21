@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: TestCard2
   m_EditorClassIdentifier: Assembly-CSharp::Card
   CardImage: {fileID: 2144740408288633511, guid: 9a354dec1b0bbf04db329640742c8902, type: 3}
+  CardBackground: {fileID: 21300000, guid: ccd740f9b3001414a89c67b7a2a4acf7, type: 3}
   CardText: Card 2 description
   CardType: 1
   EffectValue: 0
