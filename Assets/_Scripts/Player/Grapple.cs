@@ -28,6 +28,8 @@ public class Grapple : MonoBehaviour
 
     public float GrappleSpeed = 10f;
     public float LaunchForceMultiplier = 2f;
+    // tolerance (in world units) used to avoid exact float equality when checking arrival
+    public float GrappleTolerance = 0.05f;
 
     private void Awake()
     {
@@ -73,10 +75,8 @@ public class Grapple : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        UpdateClosestGrapplePoint();
-
         _isGrounded = PlayerGround.GetOnGround();
         if (_jump.WasPressedThisFrame()
             && !_isGrounded
@@ -86,6 +86,11 @@ public class Grapple : MonoBehaviour
             StartCoroutine(GrappleCoroutine());
             //_isGrappling = true;
         }
+    }
+
+    private void Update()
+    {
+        UpdateClosestGrapplePoint();
     }
 
     private void UpdateClosestGrapplePoint()
@@ -127,21 +132,39 @@ public class Grapple : MonoBehaviour
     {
         Vector3 desiredGrapplePosition = _closestGrapplePoint.transform.position;
         float originalGravityScale = _playerRigidbody.gravityScale;
-        while (Player.transform.position != desiredGrapplePosition)
+        float sqrTolerance = GrappleTolerance * GrappleTolerance;
+
+        // prepare physics state for controlled movement
+        _playerRigidbody.linearVelocity = Vector2.zero;
+        _playerRigidbody.gravityScale = 0f;
+
+        _isGrappling = true;
+        LineRenderer.enabled = true;
+
+        // move using FixedUpdate / physics to keep consistent behaviour across frame rates
+        while (((Vector2)Player.transform.position - (Vector2)desiredGrapplePosition).sqrMagnitude > sqrTolerance)
         {
-            _isGrappling = true;
-            LineRenderer.enabled = true;
-            LineRenderer.SetPosition(0, transform.position);
+            LineRenderer.SetPosition(0, Player.transform.position);
             LineRenderer.SetPosition(1, desiredGrapplePosition);
-            _playerRigidbody.linearVelocity = Vector2.zero; // reset velocity to prevent physics interference
-            _playerRigidbody.gravityScale = 0f; // disable gravity while grappling
-            Player.transform.position = Vector3.MoveTowards(transform.position, desiredGrapplePosition, GrappleSpeed * Time.deltaTime);
-            yield return null;
+
+            Vector2 currentPos = _playerRigidbody.position;
+            Vector2 nextPos = Vector2.MoveTowards(currentPos, desiredGrapplePosition, GrappleSpeed * Time.fixedDeltaTime);
+            _playerRigidbody.MovePosition(nextPos);
+
+            yield return new WaitForFixedUpdate();
         }
+
+        // snap to exact target to avoid tiny residual differences
+        _playerRigidbody.MovePosition(desiredGrapplePosition);
+        Player.transform.position = desiredGrapplePosition;
+
+        Debug.Log("Reached grapple point");
         LineRenderer.enabled = false;
         _playerRigidbody.gravityScale = originalGravityScale; // re-enable gravity after grappling
         _isGrappling = false;
         LaunchPlayer();
+        Debug.Log("Launched player");
+
         PlayerJump.ResetAirJumps();
 
     }
