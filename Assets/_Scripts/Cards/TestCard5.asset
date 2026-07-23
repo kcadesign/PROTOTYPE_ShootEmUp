@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Card
   CardImage: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   CardBackground: {fileID: -1827154929375697458, guid: cd43ca818c2994a448434621092c8647, type: 3}
-  CardText: Card 5 description
+  CardDescription: TESTTEST TESTTEST
+  CardCost: 10
   CardType: 1
   EffectValue: 0
   IsUnique: 1
