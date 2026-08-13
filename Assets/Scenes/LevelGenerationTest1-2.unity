@@ -23005,6 +23005,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1133878016}
     m_Modifications:
+    - target: {fileID: 2542684186632610893, guid: ad126e38499bfa448b5f087dfdd8579f, type: 3}
+      propertyPath: levelLength
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4330816491047381741, guid: ad126e38499bfa448b5f087dfdd8579f, type: 3}
       propertyPath: m_Name
       value: LevelGenerationWorld1-2

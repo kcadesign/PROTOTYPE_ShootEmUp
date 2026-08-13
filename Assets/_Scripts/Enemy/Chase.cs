@@ -27,8 +27,10 @@ public class Chase : MonoBehaviour
             Vector3 targetPosition = new Vector3(transform.position.x, targetY, transform.position.z);
             transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * FollowSpeed);
         }
-        else
+        else if (_player == null)
         {
+            _player = GameObject.FindGameObjectWithTag("Player");
+
             Debug.LogWarning("Player not found. Make sure the player GameObject has the tag 'Player'.");
         }
 

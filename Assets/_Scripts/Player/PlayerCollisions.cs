@@ -73,8 +73,7 @@ public class PlayerCollisions : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy")
-            && _playerJump.GetIsAirJumping()
+        if (collision.gameObject.CompareTag("Enemy") && _playerJump.GetIsAirJumping()
             /*&& _playerRigidbody.linearVelocityY > 0*/)
         {
             //collision.GetComponent<Health>()?.Damage(1); // Assuming the enemy has a Health component
@@ -100,6 +99,10 @@ public class PlayerCollisions : MonoBehaviour
             }
         }
 
+        if (collision.gameObject.CompareTag("Chaser") || collision.gameObject.CompareTag("Spike"))
+        {
+            _playerHealth.SetHealthZero();
+        }
     }
 
     private IEnumerator Knockback(float duration, float power, Vector2 direction)
