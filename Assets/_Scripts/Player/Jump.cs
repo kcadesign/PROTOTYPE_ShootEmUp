@@ -301,8 +301,7 @@ public class Jump : MonoBehaviour
 
         _airJumps--;
 
-        OnCurrentAirJumpAmountChanged?.Invoke(_airJumps
-        );
+        OnCurrentAirJumpAmountChanged?.Invoke(_airJumps);
 
         _desireJump = false;
 
@@ -472,9 +471,7 @@ public class Jump : MonoBehaviour
 
         _airJumps += renewJumpAmount;
 
-        OnCurrentAirJumpAmountChanged?.Invoke(
-            _airJumps
-        );
+        OnCurrentAirJumpAmountChanged?.Invoke(_airJumps);
     }
 
     private void OnValidate()

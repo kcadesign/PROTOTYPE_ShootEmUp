@@ -47166,13 +47166,33 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2971928380386325060, guid: 058351c100648a54ba6f5ec5dd83892a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 132771786}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5750847392312031157, guid: 058351c100648a54ba6f5ec5dd83892a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2099110458}
   m_SourcePrefab: {fileID: 100100000, guid: 058351c100648a54ba6f5ec5dd83892a, type: 3}
 --- !u!4 &2099110456 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2971928380386325060, guid: 058351c100648a54ba6f5ec5dd83892a, type: 3}
   m_PrefabInstance: {fileID: 2099110455}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2099110457 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5750847392312031157, guid: 058351c100648a54ba6f5ec5dd83892a, type: 3}
+  m_PrefabInstance: {fileID: 2099110455}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2099110458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099110457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77b63f7307f0c9b4a95363ab7a302358, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChaserCollisions
 --- !u!1 &2101070124
 GameObject:
   m_ObjectHideFlags: 0
