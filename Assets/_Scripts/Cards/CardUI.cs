@@ -12,7 +12,8 @@ public class CardUI : ScriptableObject
 
     public List<Card> MainDeck; // Main deck that stores every possible card. This deck is not changed at runtime.
     [SerializeField] private List<Card> RunDeck; // Fill this deck at the beginning of each run
-    
+    [SerializeField] private List<Card> SelectedCards; // Cards the player has picked so far in the current run
+
     public void InitialiseRunDeck()
     {
         RunDeck = new List<Card>(MainDeck);

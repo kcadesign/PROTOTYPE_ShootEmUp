@@ -19,6 +19,10 @@ public class UIController : MonoBehaviour
     public static event Action OnRetryButtonPressed;
     public static event Action OnMainMenuButtonPressed;
 
+    public static event Action OnCard1Pressed;
+    public static event Action OnCard2Pressed;
+    public static event Action OnCard3Pressed;
+
     public static event Action OnNextLevelRequested;
     public static event Action OnSceneReloadRequested;
 
@@ -358,18 +362,27 @@ public class UIController : MonoBehaviour
     private void Choice1Button_Clicked()
     {
         Debug.Log("Choice 1 button clicked");
+        // Run card specific code (heal player, etc)
+        // Add selected card to the selected cards list
+        OnCard1Pressed?.Invoke();
         StartCoroutine(Transition(OnNextLevelRequested, _HUDPanel, TransitionLength, TransitionHoldLength));
     }
 
     private void Choice2Button_Clicked()
     {
         Debug.Log("Choice 2 button clicked");
+        // Run card specific code (heal player, etc)
+        // Add selected card to the selected cards list
+        OnCard2Pressed?.Invoke();
         StartCoroutine(Transition(OnNextLevelRequested, _HUDPanel, TransitionLength, TransitionHoldLength));
     }
 
     private void Choice3Button_Clicked()
     {
         Debug.Log("Choice 3 button clicked");
+        // Run card specific code (heal player, etc)
+        // Add selected card to the selected cards list
+        OnCard3Pressed?.Invoke();
         StartCoroutine(Transition(OnNextLevelRequested, _HUDPanel, TransitionLength, TransitionHoldLength));
     }
 

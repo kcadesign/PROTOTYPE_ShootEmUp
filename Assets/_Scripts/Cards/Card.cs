@@ -17,7 +17,8 @@ public class Card : ScriptableObject
         None,
         ExampleCardType1,
         ExampleCardType2,
-        ExampleCardType3
+        ExampleCardType3,
+        Heal
     }
 
 

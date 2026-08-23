@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 699081af3d6e33a4cb21fb7ee2ffa341, type: 3}
   m_Name: CardUIData
   m_EditorClassIdentifier: Assembly-CSharp::CardUI
-  Card1: {fileID: 11400000, guid: fb7b40fc0d3850244bedf73cd6d2318f, type: 2}
-  Card2: {fileID: 11400000, guid: 3728839f7eb1630479c01ab86a934e97, type: 2}
+  Card1: {fileID: 11400000, guid: 6eeaed9b5d6358d4998466ea65b41fb0, type: 2}
+  Card2: {fileID: 11400000, guid: e4688d089915faa4ab2b72429e7a42f8, type: 2}
   Card3: {fileID: 11400000, guid: df1f6152022de894996678095023f204, type: 2}
   MainDeck:
   - {fileID: 11400000, guid: 6eeaed9b5d6358d4998466ea65b41fb0, type: 2}
@@ -21,8 +21,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fb7b40fc0d3850244bedf73cd6d2318f, type: 2}
   - {fileID: 11400000, guid: e4688d089915faa4ab2b72429e7a42f8, type: 2}
   - {fileID: 11400000, guid: 3728839f7eb1630479c01ab86a934e97, type: 2}
+  - {fileID: 11400000, guid: 79a3c5812bfe0a94696a7d1aa3311580, type: 2}
   RunDeck:
   - {fileID: 11400000, guid: 6eeaed9b5d6358d4998466ea65b41fb0, type: 2}
   - {fileID: 11400000, guid: df1f6152022de894996678095023f204, type: 2}
   - {fileID: 11400000, guid: fb7b40fc0d3850244bedf73cd6d2318f, type: 2}
-  - {fileID: 11400000, guid: e4688d089915faa4ab2b72429e7a42f8, type: 2}
+  - {fileID: 11400000, guid: 3728839f7eb1630479c01ab86a934e97, type: 2}
+  - {fileID: 11400000, guid: 79a3c5812bfe0a94696a7d1aa3311580, type: 2}
+  SelectedCards: []
