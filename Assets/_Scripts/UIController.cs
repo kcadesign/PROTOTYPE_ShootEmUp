@@ -19,9 +19,7 @@ public class UIController : MonoBehaviour
     public static event Action OnRetryButtonPressed;
     public static event Action OnMainMenuButtonPressed;
 
-    public static event Action OnCard1Pressed;
-    public static event Action OnCard2Pressed;
-    public static event Action OnCard3Pressed;
+    public static event Action<int> OnCardSelected; // Pass the index of the selected card (0, 1, or 2)
 
     public static event Action OnNextLevelRequested;
     public static event Action OnSceneReloadRequested;
@@ -364,7 +362,7 @@ public class UIController : MonoBehaviour
         Debug.Log("Choice 1 button clicked");
         // Run card specific code (heal player, etc)
         // Add selected card to the selected cards list
-        OnCard1Pressed?.Invoke();
+        OnCardSelected?.Invoke(0); // Invoke the event with the index of the selected card
         StartCoroutine(Transition(OnNextLevelRequested, _HUDPanel, TransitionLength, TransitionHoldLength));
     }
 
@@ -373,7 +371,7 @@ public class UIController : MonoBehaviour
         Debug.Log("Choice 2 button clicked");
         // Run card specific code (heal player, etc)
         // Add selected card to the selected cards list
-        OnCard2Pressed?.Invoke();
+        OnCardSelected?.Invoke(1); // Invoke the event with the index of the selected card
         StartCoroutine(Transition(OnNextLevelRequested, _HUDPanel, TransitionLength, TransitionHoldLength));
     }
 
@@ -382,7 +380,7 @@ public class UIController : MonoBehaviour
         Debug.Log("Choice 3 button clicked");
         // Run card specific code (heal player, etc)
         // Add selected card to the selected cards list
-        OnCard3Pressed?.Invoke();
+        OnCardSelected?.Invoke(2); // Invoke the event with the index of the selected card
         StartCoroutine(Transition(OnNextLevelRequested, _HUDPanel, TransitionLength, TransitionHoldLength));
     }
 

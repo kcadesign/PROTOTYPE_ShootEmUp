@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "New Card", menuName = "Scriptable Objects/Cards/Card")]
 public class Card : ScriptableObject
@@ -12,6 +13,8 @@ public class Card : ScriptableObject
     public bool IsUnique;
     public int UnlockLevel;
 
+    public UnityEvent OnCardSelected;
+
     public enum CardTypeEnum
     {
         None,
@@ -21,5 +24,8 @@ public class Card : ScriptableObject
         Heal
     }
 
-
+    public void SelectCard()
+    {
+        OnCardSelected?.Invoke();
+    }
 }

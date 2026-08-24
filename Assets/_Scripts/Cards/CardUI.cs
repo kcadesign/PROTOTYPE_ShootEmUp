@@ -78,4 +78,14 @@ public class CardUI : ScriptableObject
         Card2 = null;
         Card3 = null;
     }
+
+    public void AddSelectedCard(Card card)
+    {
+            SelectedCards.Add(card);
+    }
+
+    public void ClearSelectedCardList()
+    {
+        SelectedCards.Clear();
+    }
 }
