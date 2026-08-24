@@ -12,17 +12,25 @@ public class PlayerHealth : MonoBehaviour
     private void OnEnable()
     {
         SceneController.OnLevelLoaded += SceneController_OnLevelLoaded;
+        Heal1HP.OnHeal1HP += Heal1HP_OnHeal1HP;
     }
 
     private void OnDisable()
     {
         SceneController.OnLevelLoaded -= SceneController_OnLevelLoaded;
+        Heal1HP.OnHeal1HP -= Heal1HP_OnHeal1HP;
     }
 
     private void SceneController_OnLevelLoaded()
     {
-        Debug.Log("Level loaded. Resetting player health");
-        ResetHealth(); // Reset health when a new level is loaded
+        //Debug.Log("Level loaded. Resetting player health");
+        //ResetHealth(); // Reset health when a new level is loaded
+    }
+
+    private void Heal1HP_OnHeal1HP()
+    {
+        Debug.Log("Card heal signal recieved by player health script");
+        Heal(1);
     }
 
     private void Start()

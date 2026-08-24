@@ -13,6 +13,7 @@ public class Card : ScriptableObject
     public bool IsUnique;
     public int UnlockLevel;
 
+    [Header("Card Effect")]
     public UnityEvent OnCardSelected;
 
     public enum CardTypeEnum
@@ -24,8 +25,9 @@ public class Card : ScriptableObject
         Heal
     }
 
-    public void SelectCard()
+    public void ActivateCardEffect()
     {
         OnCardSelected?.Invoke();
+        Debug.Log("Running card effect for: " + name);
     }
 }

@@ -38,6 +38,7 @@ public class CardManager : MonoBehaviour
         switch (state)
         {
             case HandleGameState.GameState.PreGameMenu:
+                CardUIData.ClearSelectedCardList();
                 break;
             case HandleGameState.GameState.Transition:
                 break;
@@ -84,18 +85,21 @@ public class CardManager : MonoBehaviour
                 // add card to selected cards list
                 CardUIData.AddSelectedCard(_card1);
                 // run card 1 powerup logic
+                _card1.ActivateCardEffect();
                 break;
             case 1:
                 Debug.Log($"{(_card2 != null ? _card2.name : "None")} selected");
                 // add card to selected cards list
                 CardUIData.AddSelectedCard(_card2);
                 // run card 2 powerup logic
+                _card2.ActivateCardEffect();
                 break;
             case 2:
                 Debug.Log($"{(_card3 != null ? _card3.name : "None")} selected");
                 // add card to selected cards list
                 CardUIData.AddSelectedCard(_card3);
                 // run card 3 powerup logic
+                _card3.ActivateCardEffect();
                 break;
             default:
                 break;
