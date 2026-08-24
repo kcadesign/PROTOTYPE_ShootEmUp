@@ -75,11 +75,13 @@ public class Jump : MonoBehaviour
     private void OnEnable()
     {
         UIController.OnToggleAirJumpPressed += UIController_OnToggleAirJumpPressed;
+        DoubleBoostJump.OnDoubleBoostJump += DoubleBoostJump_OnDoubleBoostJump;
     }
 
     private void OnDisable()
     {
         UIController.OnToggleAirJumpPressed -= UIController_OnToggleAirJumpPressed;
+        DoubleBoostJump.OnDoubleBoostJump -= DoubleBoostJump_OnDoubleBoostJump;
     }
 
     private void Start()
@@ -418,6 +420,11 @@ public class Jump : MonoBehaviour
         OnCurrentAirJumpAmountChanged?.Invoke(_airJumps);
     }
 
+    private void DoubleBoostJump_OnDoubleBoostJump()
+    {
+        SetAirJumpMultiplier(AirJumpMultiplier * 1.25f);
+    }
+
     public void ResetAirJumps()
     {
         _airJumps = MaxAirJumps;
@@ -472,6 +479,11 @@ public class Jump : MonoBehaviour
         _airJumps += renewJumpAmount;
 
         OnCurrentAirJumpAmountChanged?.Invoke(_airJumps);
+    }
+
+    public void SetAirJumpMultiplier(float airJumpMultiplier)
+    {
+        AirJumpMultiplier = airJumpMultiplier;
     }
 
     private void OnValidate()
