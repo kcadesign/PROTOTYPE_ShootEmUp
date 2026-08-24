@@ -29,6 +29,7 @@ public class UIController : MonoBehaviour
     [Header("References")]
     public InputActionAsset InputActions;
     public PlayerStats PlayerStatsData;
+    public CardUI CardUIData;
     [SerializeField] private UIDocument _uIDocument;
 
     // Panels
@@ -359,28 +360,40 @@ public class UIController : MonoBehaviour
 
     private void Choice1Button_Clicked()
     {
+        if (CardUIData.Card1Cost > PlayerStatsData.GetCurrentCurrency())
+        {
+            Debug.Log("Not enough currency to purchase Card 1");
+            return;
+        }
         Debug.Log("Choice 1 button clicked");
-        // Run card specific code (heal player, etc)
-        // Add selected card to the selected cards list
         OnCardSelected?.Invoke(0); // Invoke the event with the index of the selected card
+        // subtract used currency from player stats
         StartCoroutine(Transition(OnNextLevelRequested, _HUDPanel, TransitionLength, TransitionHoldLength));
     }
 
     private void Choice2Button_Clicked()
     {
+        if (CardUIData.Card2Cost > PlayerStatsData.GetCurrentCurrency())
+        {
+            Debug.Log("Not enough currency to purchase Card 2");
+            return;
+        }
         Debug.Log("Choice 2 button clicked");
-        // Run card specific code (heal player, etc)
-        // Add selected card to the selected cards list
         OnCardSelected?.Invoke(1); // Invoke the event with the index of the selected card
+        // subtract used currency from player stats
         StartCoroutine(Transition(OnNextLevelRequested, _HUDPanel, TransitionLength, TransitionHoldLength));
     }
 
     private void Choice3Button_Clicked()
     {
+        if (CardUIData.Card3Cost > PlayerStatsData.GetCurrentCurrency())
+        {
+            Debug.Log("Not enough currency to purchase Card 3");
+            return;
+        }
         Debug.Log("Choice 3 button clicked");
-        // Run card specific code (heal player, etc)
-        // Add selected card to the selected cards list
         OnCardSelected?.Invoke(2); // Invoke the event with the index of the selected card
+        // subtract used currency from player stats
         StartCoroutine(Transition(OnNextLevelRequested, _HUDPanel, TransitionLength, TransitionHoldLength));
     }
 

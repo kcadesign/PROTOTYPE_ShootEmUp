@@ -405,6 +405,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   InputActions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   PlayerStatsData: {fileID: 11400000, guid: b2fb527e51a842f44874ab8d4b14c143, type: 2}
+  CardUIData: {fileID: 11400000, guid: 601f2f5adefd6b64b8eb7265a01ad82d, type: 2}
   _uIDocument: {fileID: 2035703671}
   TransitionLength: 0.75
   TransitionHoldLength: 0.5

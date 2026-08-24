@@ -7,7 +7,7 @@ public class Card : ScriptableObject
     public Sprite CardImage;
     public Sprite CardBackground;
     public string CardDescription;
-    public string CardCost;
+    public int CardCost;
     public CardTypeEnum CardType;
     public float EffectValue;
     public bool IsUnique;

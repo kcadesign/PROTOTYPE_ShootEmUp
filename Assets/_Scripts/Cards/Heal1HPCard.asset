@@ -23,9 +23,9 @@ MonoBehaviour:
   OnCardSelected:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11400000, guid: 63a4e269d54c29449ac5fb85debbb918, type: 2}
-        m_TargetAssemblyTypeName: UnityEditor.MonoScript, UnityEditor.CoreModule
-        m_MethodName: 
+      - m_Target: {fileID: 11400000, guid: 7448905038891ef41b7a3af3be79ddc6, type: 2}
+        m_TargetAssemblyTypeName: Heal1HP, Assembly-CSharp
+        m_MethodName: ApplyEffect
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

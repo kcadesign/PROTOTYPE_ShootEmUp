@@ -8,6 +8,10 @@ public class CardManager : MonoBehaviour
     private Card _card2;
     private Card _card3;
 
+    private int _card1Cost;
+    private int _card2Cost;
+    private int _card3Cost;
+
     private void OnEnable()
     {
         HandleGameState.OnGameStateChanged += HandleGameState_OnGameStateChanged;
@@ -32,9 +36,6 @@ public class CardManager : MonoBehaviour
 
     private void HandleGameState_OnGameStateChanged(HandleGameState.GameState state)
     {
-        //if (state == HandleGameState.GameState.ChoosePowerup)
-        //{
-        //}
         switch (state)
         {
             case HandleGameState.GameState.PreGameMenu:
@@ -53,9 +54,10 @@ public class CardManager : MonoBehaviour
             case HandleGameState.GameState.LevelEnd:
                 break;
             case HandleGameState.GameState.ChoosePowerup:
-                // populate cards from deck
-                CardUIData.ChooseNewCards();
+                //ResetCardCosts();
+                CardUIData.ChooseNewCards(); // populate cards from deck
                 GetCardSelection();
+                //GetCardCosts();
                 break;
             case HandleGameState.GameState.BossFight:
                 break;
@@ -114,5 +116,19 @@ public class CardManager : MonoBehaviour
         Debug.Log("Card 1: " + (_card1 != null ? _card1.name : "None"));
         Debug.Log("Card 2: " + (_card2 != null ? _card2.name : "None"));
         Debug.Log("Card 3: " + (_card3 != null ? _card3.name : "None"));
+    }
+
+    private void GetCardCosts()
+    {
+        _card1Cost = _card1.CardCost;
+        _card2Cost = _card2.CardCost;
+        _card3Cost = _card3.CardCost;
+    }
+
+    private void ResetCardCosts()
+    {
+        _card1Cost = 0;
+        _card2Cost = 0;
+        _card3Cost = 0;
     }
 }

@@ -10,6 +10,10 @@ public class CardUI : ScriptableObject
     public Card Card2;
     public Card Card3;
 
+    public int Card1Cost;
+    public int Card2Cost;
+    public int Card3Cost;
+
     public List<Card> MainDeck; // Main deck that stores every possible card. This deck is not changed at runtime.
     [SerializeField] private List<Card> RunDeck; // Fill this deck at the beginning of each run
     [SerializeField] private List<Card> SelectedCards; // Cards the player has picked so far in the current run
@@ -62,12 +66,15 @@ public class CardUI : ScriptableObject
         {
             case 0:
                 Card1 = card;
+                Card1Cost = card.CardCost;
                 break;
             case 1:
                 Card2 = card;
+                Card2Cost = card.CardCost;
                 break;
             case 2:
                 Card3 = card;
+                Card3Cost = card.CardCost;
                 break;
         }
     }
