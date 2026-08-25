@@ -360,40 +360,43 @@ public class UIController : MonoBehaviour
 
     private void Choice1Button_Clicked()
     {
-        if (CardUIData.Card1Cost > PlayerStatsData.GetCurrentCurrency())
+        int card1Cost = CardUIData.GetCardCost(0);
+        if (card1Cost > PlayerStatsData.GetCurrentCurrency())
         {
             Debug.Log("Not enough currency to purchase Card 1");
             return;
         }
         Debug.Log("Choice 1 button clicked");
         OnCardSelected?.Invoke(0); // Invoke the event with the index of the selected card
-        // subtract used currency from player stats
+        PlayerStatsData.SubtractFromCurrentCurrency(card1Cost); // subtract used currency from player stats
         StartCoroutine(Transition(OnNextLevelRequested, _HUDPanel, TransitionLength, TransitionHoldLength));
     }
 
     private void Choice2Button_Clicked()
     {
-        if (CardUIData.Card2Cost > PlayerStatsData.GetCurrentCurrency())
+        int card2Cost = CardUIData.GetCardCost(1);
+        if (card2Cost > PlayerStatsData.GetCurrentCurrency())
         {
             Debug.Log("Not enough currency to purchase Card 2");
             return;
         }
         Debug.Log("Choice 2 button clicked");
         OnCardSelected?.Invoke(1); // Invoke the event with the index of the selected card
-        // subtract used currency from player stats
+        PlayerStatsData.SubtractFromCurrentCurrency(card2Cost); // subtract used currency from player stats
         StartCoroutine(Transition(OnNextLevelRequested, _HUDPanel, TransitionLength, TransitionHoldLength));
     }
 
     private void Choice3Button_Clicked()
     {
-        if (CardUIData.Card3Cost > PlayerStatsData.GetCurrentCurrency())
+        int card3Cost = CardUIData.GetCardCost(2);
+        if (card3Cost > PlayerStatsData.GetCurrentCurrency())
         {
             Debug.Log("Not enough currency to purchase Card 3");
             return;
         }
         Debug.Log("Choice 3 button clicked");
         OnCardSelected?.Invoke(2); // Invoke the event with the index of the selected card
-        // subtract used currency from player stats
+        PlayerStatsData.SubtractFromCurrentCurrency(card3Cost); // subtract used currency from player stats
         StartCoroutine(Transition(OnNextLevelRequested, _HUDPanel, TransitionLength, TransitionHoldLength));
     }
 

@@ -8,14 +8,36 @@ public class Chase : MonoBehaviour
     public float FollowSpeed = 2f;
     public float CreepSpeed = 1f;
 
+    private HandleGameState.GameState _currentGameState;
+
     private void Awake()
     {
         // find the player in the scene by searching for the "Player" tag
         _player = GameObject.FindGameObjectWithTag("Player");
     }
 
+    private void OnEnable()
+    {
+        HandleGameState.OnGameStateChanged += HandleGameState_OnGameStateChanged;
+    }
+
+    private void OnDisable()
+    {
+        HandleGameState.OnGameStateChanged -= HandleGameState_OnGameStateChanged;
+    }
+
+    private void HandleGameState_OnGameStateChanged(HandleGameState.GameState state)
+    {
+        _currentGameState = state;
+    }
+
     private void FixedUpdate()
     {
+        if(_currentGameState == HandleGameState.GameState.LevelEnd || _currentGameState == HandleGameState.GameState.ChoosePowerup)
+        {
+            return; // Stop chasing when the game state is LevelEnd
+        }
+
         // Lerp towards the player's position but only use the y axis and add an offset to it so the enemy is slightly below the player.
         // Do not allow the enemy to move downward: only allow upward movement by clamping the target y.
         if (_player != null)
