@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6045406476073287426
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1910601082031478944}
+  - component: {fileID: 5667071425909359638}
+  m_Layer: 0
+  m_Name: LevelGenerationWorld1-3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1910601082031478944
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6045406476073287426}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5667071425909359638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6045406476073287426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fe0dd324c44a7b439a36c269f6d79a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  levelLength: 1
+  StartBlocks:
+  - {fileID: 3539369953087823998, guid: b61be656cdd25d24eb74624511fb23d8, type: 3}
+  - {fileID: 3539369953087823998, guid: 9f7e068d19b76eb4abe6a7df98e4d4c4, type: 3}
+  levelBlocks:
+  - {fileID: 362708672490193368, guid: 645b6a015d9eb794fa9d1a2bfcf1bf21, type: 3}
+  - {fileID: 362708672490193368, guid: d2d5a5f2b52ee644aa7f167df437d271, type: 3}
+  - {fileID: 362708672490193368, guid: cddf76b92ff64c447b1c681d6399c1b5, type: 3}
+  - {fileID: 362708672490193368, guid: dc598ae87f8615c46a98e014f830f12c, type: 3}
+  - {fileID: 362708672490193368, guid: 319d93bf52eaa534aa6bc631cae13c8a, type: 3}
+  - {fileID: 6953749668272057640, guid: ffc4104c2485bae4880b7e1bf92c07c0, type: 3}
+  EndBlocks:
+  - {fileID: 8528184639890961990, guid: cd9eae6c65fd7b547903319ed7251a85, type: 3}
+  YPositionIncrement: 40

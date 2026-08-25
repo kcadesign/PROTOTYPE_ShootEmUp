@@ -9,6 +9,7 @@ public class SceneController : MonoBehaviour
 {
     //public static event Action OnGameStarted;
     public static event Action OnLevelLoaded;
+    public static event Action OnNoMoreLevels;
 
     private AsyncOperation _LoadFirstLevelAsyncOperation;
 
@@ -18,6 +19,7 @@ public class SceneController : MonoBehaviour
     private bool _initialScenesLoaded = false;
 
     private int _nextSceneToLoad = 0;
+    private bool _isSceneToLoad = false;
 
     private void Awake()
     {
@@ -93,19 +95,53 @@ public class SceneController : MonoBehaviour
 
     private async void UIController_OnStartGameButtonPressed()
     {
-        // FIX: awaiting unloading causes the scene to not unload
-        await LoadLevelAdditive("01BasicMovement").ConfigureAwait(false);
+        try
+        {
+            await LoadLevelAdditive("LevelGenerationTest1-1");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogException(ex);
+        }
+    }
+
+    private async Task LoadLevelAdditive(string sceneName)
+    {
+        try
+        {
+            // Load by name (use the sceneName parameter)
+            _LoadFirstLevelAsyncOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+            if (_LoadFirstLevelAsyncOperation == null)
+            {
+                Debug.LogWarning($"Failed to start loading scene '{sceneName}'.");
+                return;
+            }
+
+            _LoadFirstLevelAsyncOperation.allowSceneActivation = true;
+            while (!_LoadFirstLevelAsyncOperation.isDone)
+                await Task.Yield();
+
+            Scene firstLevelScene = SceneManager.GetSceneByName(sceneName);
+            if (firstLevelScene.IsValid())
+                SceneManager.SetActiveScene(firstLevelScene);
+
+            Debug.Log("First level activated.");
+            OnLevelLoaded?.Invoke();
+        }
+        catch (Exception ex)
+        {
+            Debug.LogException(ex);
+        }
     }
 
     private async void UIController_OnLevelSelected(string sceneName) // DEBUG only
     {
-        await LoadLevelAdditive(sceneName).ConfigureAwait(false);
+        await LoadLevelAdditive(sceneName);
     }
 
     private async void UIController_OnRetryButtonPressed()
     {
-        // FIX: Currently doesnt unload last scene
-        await LoadLevelAdditiveReplace(5).ConfigureAwait(false);
+        await LoadLevelAdditiveReplace(5);
     }
 
     private async void UIController_OnMainMenuButtonPressed()
@@ -115,62 +151,67 @@ public class SceneController : MonoBehaviour
 
     private static void UnloadActiveScene()
     {
+        Debug.Log($"Unloading active scene: {SceneManager.GetActiveScene().name}");
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
-    }
-
-    private async Task LoadLevelAdditive(string sceneName)
-    {
-        _LoadFirstLevelAsyncOperation = SceneManager.LoadSceneAsync(5, LoadSceneMode.Additive);
-        _LoadFirstLevelAsyncOperation.allowSceneActivation = false;
-
-        if (_LoadFirstLevelAsyncOperation != null)
-        {
-            _LoadFirstLevelAsyncOperation.allowSceneActivation = true;
-            while (!_LoadFirstLevelAsyncOperation.isDone)
-            {
-                await Task.Yield();
-            }
-
-            // Set firstLevelScene as the active scene
-            Scene firstLevelScene = SceneManager.GetSceneByBuildIndex(5);
-
-            if (firstLevelScene.IsValid())
-                SceneManager.SetActiveScene(firstLevelScene);
-
-            Debug.Log("First level activated.");
-        }
-
-        //OnGameStarted?.Invoke();
-        OnLevelLoaded?.Invoke();
-    }
-
-    private async void UIController_OnNextLevelRequested()
-    {
-        await LoadLevelAdditiveReplace(_nextSceneToLoad).ConfigureAwait(false);
     }
 
     private async Task LoadLevelAdditiveReplace(int sceneIndex)
     {
-        AsyncOperation loadNewLevelOperation = SceneManager.LoadSceneAsync(sceneIndex, LoadSceneMode.Additive);
-        loadNewLevelOperation.allowSceneActivation = false;
-        UnloadActiveScene();
-
-        if (loadNewLevelOperation != null)
+        try
         {
-            loadNewLevelOperation.allowSceneActivation = true;
-            while (!loadNewLevelOperation.isDone)
+            // Capture the scene we will unload AFTER the new scene is active
+            Scene sceneToUnload = SceneManager.GetActiveScene();
+
+            // Start loading the new scene additively
+            AsyncOperation loadNewLevelOperation = SceneManager.LoadSceneAsync(sceneIndex, LoadSceneMode.Additive);
+            if (loadNewLevelOperation == null)
             {
-                await Task.Yield();
+                Debug.LogWarning($"Failed to start loading scene index {sceneIndex}.");
+                return;
             }
 
-            // Set newScene as the active scene
+            loadNewLevelOperation.allowSceneActivation = true;
+            while (!loadNewLevelOperation.isDone)
+                await Task.Yield();
+
+            // Find the new scene instance and set it active
             Scene newScene = SceneManager.GetSceneByBuildIndex(sceneIndex);
             if (newScene.IsValid())
                 SceneManager.SetActiveScene(newScene);
 
-            Debug.Log("New level activated.");
+            // Now safely unload the previous active scene
+            if (sceneToUnload.IsValid())
+            {
+                AsyncOperation unloadOp = SceneManager.UnloadSceneAsync(sceneToUnload);
+                if (unloadOp != null)
+                {
+                    while (!unloadOp.isDone)
+                        await Task.Yield();
+                }
+            }
+
+            Debug.Log($"New level ({sceneIndex}) activated.");
+            OnLevelLoaded?.Invoke();
         }
-        OnLevelLoaded?.Invoke();
+        catch (Exception ex)
+        {
+            Debug.LogException(ex);
+        }
+    }
+
+    private async void UIController_OnNextLevelRequested()
+    {
+        Debug.Log($"Next level requested: {_nextSceneToLoad}");
+        if (!_isSceneToLoad)
+        {
+            OnNoMoreLevels?.Invoke();
+            //unload the current active scene and return to the main menu
+            UnloadActiveScene();
+        }
+        else
+        {
+            await LoadLevelAdditiveReplace(_nextSceneToLoad);
+        }
     }
 
     private async void UIController_OnSceneReloadRequested() // DEBUG only
@@ -197,10 +238,10 @@ public class SceneController : MonoBehaviour
         Scene reloadedScene = default;
         for (int i = 0; i < SceneManager.sceneCount; i++)
         {
-            Scene s = SceneManager.GetSceneAt(i);
-            if (s.name == currentLevel.name && s.handle != originalHandle)
+            Scene scene = SceneManager.GetSceneAt(i);
+            if (scene.name == currentLevel.name && scene.handle != originalHandle)
             {
-                reloadedScene = s;
+                reloadedScene = scene;
                 break;
             }
         }
@@ -231,8 +272,19 @@ public class SceneController : MonoBehaviour
 
     private void LevelEnd_OnPlayerEnterLevelEnd()
     {
-        int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
-        _nextSceneToLoad = nextSceneIndex;
+        int nextSceneIndex;
+        // if the current scene is the last level, unload the current scene and return to the main menu
+        if (SceneManager.GetActiveScene().buildIndex >= SceneManager.sceneCountInBuildSettings - 1)
+        {
+            _isSceneToLoad = false;
+            return;
+        }
+        else
+        {
+            _isSceneToLoad = true;
+            nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+            _nextSceneToLoad = nextSceneIndex;
+        }
     }
 
 

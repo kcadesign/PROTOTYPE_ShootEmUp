@@ -64,6 +64,7 @@ public class UIController : MonoBehaviour
     private Button _choice1Button;
     private Button _choice2Button;
     private Button _choice3Button;
+    private Button _skipChoiceButton;
 
     // Run end menu
     private Button _retryButton;
@@ -115,6 +116,7 @@ public class UIController : MonoBehaviour
         _choice1Button = _uIDocument.rootVisualElement.Q<Button>("Choice1Button");
         _choice2Button = _uIDocument.rootVisualElement.Q<Button>("Choice2Button");
         _choice3Button = _uIDocument.rootVisualElement.Q<Button>("Choice3Button");
+        _skipChoiceButton = _uIDocument.rootVisualElement.Q<Button>("SkipButton");
 
         _retryButton = _uIDocument.rootVisualElement.Q<Button>("RetryButton");
         _mainMenu = _uIDocument.rootVisualElement.Q<Button>("MainMenuButton");
@@ -148,6 +150,7 @@ public class UIController : MonoBehaviour
         _choice1Button.clicked += Choice1Button_Clicked;
         _choice2Button.clicked += Choice2Button_Clicked;
         _choice3Button.clicked += Choice3Button_Clicked;
+        _skipChoiceButton.clicked += SkipChoiceButton_Clicked;
 
         _retryButton.clicked += RetryButton_clicked;
         _mainMenu.clicked += MainMenuButton_Clicked;
@@ -182,6 +185,7 @@ public class UIController : MonoBehaviour
         _choice1Button.clicked -= Choice1Button_Clicked;
         _choice2Button.clicked -= Choice2Button_Clicked;
         _choice3Button.clicked -= Choice3Button_Clicked;
+        _skipChoiceButton.clicked -= SkipChoiceButton_Clicked;
 
         _retryButton.clicked -= RetryButton_clicked;
         _mainMenu.clicked -= MainMenuButton_Clicked;
@@ -253,6 +257,7 @@ public class UIController : MonoBehaviour
                 _canPause = false;
                 break;
             case HandleGameState.GameState.GameRestart:
+                StartCoroutine(Transition(_mainMenuPanel, TransitionLength, TransitionHoldLength));
                 _canPause = false;
                 break;
             case HandleGameState.GameState.GameFinished:
@@ -397,6 +402,12 @@ public class UIController : MonoBehaviour
         Debug.Log("Choice 3 button clicked");
         OnCardSelected?.Invoke(2); // Invoke the event with the index of the selected card
         PlayerStatsData.SubtractFromCurrentCurrency(card3Cost); // subtract used currency from player stats
+        StartCoroutine(Transition(OnNextLevelRequested, _HUDPanel, TransitionLength, TransitionHoldLength));
+    }
+
+    private void SkipChoiceButton_Clicked()
+    {
+        Debug.Log("Skip Choice button clicked");
         StartCoroutine(Transition(OnNextLevelRequested, _HUDPanel, TransitionLength, TransitionHoldLength));
     }
 
