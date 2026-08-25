@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-[CreateAssetMenu(fileName = "DoubleBoostJumpCardEffect", menuName = "Scriptable Objects/Cards/DoubleBoostJumpCardEffect")]
+[CreateAssetMenu(fileName = "DoubleBoostJumpCardEffect", menuName = "Scriptable Objects/Cards/Card Effects/DoubleBoostJumpCardEffect")]
 public class DoubleBoostJump : CardEffect
 {
     public static event Action OnDoubleBoostJump; // Event to notify when the player uses double boost jump

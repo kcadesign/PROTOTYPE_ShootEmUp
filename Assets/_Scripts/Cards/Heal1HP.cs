@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Heal1HPCardEffect", menuName = "Scriptable Objects/Cards/Heal1HPCardEffect")]
+[CreateAssetMenu(fileName = "Heal1HPCardEffect", menuName = "Scriptable Objects/Cards/Card Effects/Heal1HPCardEffect")]
 public class Heal1HP : CardEffect
 {
     public static event Action OnHeal1HP; // Event to notify when the player heals 1 HP

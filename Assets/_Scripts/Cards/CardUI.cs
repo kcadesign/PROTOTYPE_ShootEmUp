@@ -6,14 +6,17 @@ using EditorAttributes;
 [CreateAssetMenu(fileName = "New Card UI", menuName = "Scriptable Objects/Cards/Card UI")]
 public class CardUI : ScriptableObject
 {
+    [Header("Card Slots")]
     public Card Card1;
     public Card Card2;
     public Card Card3;
 
+    [Header("Card Costs")]
     [SerializeField] private int _card1Cost;
     [SerializeField] private int _card2Cost;
     [SerializeField] private int _card3Cost;
 
+    [Header("Decks")]
     public List<Card> MainDeck; // Main deck that stores every possible card. This deck is not changed at runtime.
     [SerializeField] private List<Card> RunDeck; // Fill this deck at the beginning of each run
     [SerializeField] private List<Card> SelectedCards; // Cards the player has picked so far in the current run
