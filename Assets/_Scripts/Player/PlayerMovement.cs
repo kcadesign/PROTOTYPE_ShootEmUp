@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     public Grapple Grapple;
     private WallJump _wallJump;
     private Jump _jump;
-    private PlayerCollisions _playerCollisions;
+    private PlayerBodyCollisions _playerCollisions;
 
     public Animator PlayerAnimator;
 
@@ -36,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
         _playerGround = GetComponent<PlayerGround>();
         _wallJump = GetComponent<WallJump>();
         _jump = GetComponent<Jump>();
-        _playerCollisions = GetComponent<PlayerCollisions>();
+        _playerCollisions = GetComponent<PlayerBodyCollisions>();
 
     }
 

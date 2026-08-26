@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class PlayerCollisions : MonoBehaviour
+public class PlayerBodyCollisions : MonoBehaviour
 {
     public static event Action OnDamageCollision;
     private PlayerMovement _playerMovement;
@@ -45,10 +45,15 @@ public class PlayerCollisions : MonoBehaviour
         MultiplyLaunchMultiplier(1.5f);
         Debug.Log("Launch multiplier increased to: " + LaunchMultiplier);
     }
-
+    // --------------------------------------------------------------------------------
+    // FIX: Where is the separation between this collision script and the stomp script?
+    // This script should be called handle player body collisions and only deal with things touching the player body
+    // The stomp script should only deal with collisions with the stomp zone
+    // --------------------------------------------------------------------------------
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.IsTouching(_playerBodyCollider)) return;
+        // if the player is boost jumping...
         if (collision.gameObject.CompareTag("Enemy")
             && _playerJump.GetIsAirJumping()
             && _playerRigidbody.linearVelocityY > 0)
@@ -98,7 +103,6 @@ public class PlayerCollisions : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy") && _playerJump.GetIsAirJumping()
             /*&& _playerRigidbody.linearVelocityY > 0*/)
         {
-            //collision.GetComponent<Health>()?.Damage(1); // Assuming the enemy has a Health component
             if (collision.gameObject.GetComponent<Health>() != null)
             {
                 collision.gameObject.GetComponent<Health>().Damage(1);

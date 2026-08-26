@@ -6,13 +6,13 @@ public class Shield : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerCollisions.OnDamageCollision += PlayerCollisions_OnDamageCollision;
+        PlayerBodyCollisions.OnDamageCollision += PlayerCollisions_OnDamageCollision;
         ShieldPlayer.OnShield += ShieldPlayer_OnShield;
     }
 
     private void OnDisable()
     {
-        PlayerCollisions.OnDamageCollision -= PlayerCollisions_OnDamageCollision;
+        PlayerBodyCollisions.OnDamageCollision -= PlayerCollisions_OnDamageCollision;
         ShieldPlayer.OnShield -= ShieldPlayer_OnShield;
     }
 
