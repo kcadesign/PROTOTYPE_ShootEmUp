@@ -47,11 +47,13 @@ public class PlayerCollisions : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Obstacle"))
         {
-            if (_playerHealth != null && !Shield.GetIsShieldActive())
+            if (_playerHealth != null)
             {
-                Debug.Log("Player RECEIVED damage - Collided with TRIGGER: " + collision.gameObject.name);
-
-                _playerHealth.Damage(1);
+                if (!Shield.GetIsShieldActive())
+                {
+                    Debug.Log("Player RECEIVED damage - Collided with TRIGGER: " + collision.gameObject.name);
+                    _playerHealth.Damage(1);
+                }
                 OnDamageCollision?.Invoke();
                 // push the player away in the opposite direction of the collision
                 Vector2 contactPoint = collision.ClosestPoint(transform.position);
@@ -89,10 +91,13 @@ public class PlayerCollisions : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("Player RECEIVED damage - Collided with COLLIDER: " + collision.gameObject.name);
-            if (_playerHealth != null && !Shield.GetIsShieldActive())
+            if (_playerHealth != null)
             {
-                _playerHealth.Damage(1);
+                if (!Shield.GetIsShieldActive())
+                {
+                    Debug.Log("Player RECEIVED damage - Collided with COLLIDER: " + collision.gameObject.name);
+                    _playerHealth.Damage(1);
+                }
                 OnDamageCollision?.Invoke();
                 // push the player away in the opposite direction of the collision
                 Vector2 contactPoint = collision.GetContact(0).point;
