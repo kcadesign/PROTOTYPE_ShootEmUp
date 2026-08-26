@@ -12,19 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 699081af3d6e33a4cb21fb7ee2ffa341, type: 3}
   m_Name: CardUIData
   m_EditorClassIdentifier: Assembly-CSharp::CardUI
-  Card1: {fileID: 11400000, guid: 79a3c5812bfe0a94696a7d1aa3311580, type: 2}
-  Card2: {fileID: 11400000, guid: b32922242d5e1ec40b9c96a086431e5d, type: 2}
-  Card3: {fileID: 11400000, guid: 1089d993f061ab648aa56a4c1ddb81ba, type: 2}
-  _card1Cost: 2
-  _card2Cost: 3
-  _card3Cost: 5
+  Card1: {fileID: 0}
+  Card2: {fileID: 0}
+  Card3: {fileID: 0}
+  _card1Cost: 3
+  _card2Cost: 4
+  _card3Cost: 2
   MainDeck:
   - {fileID: 11400000, guid: 79a3c5812bfe0a94696a7d1aa3311580, type: 2}
   - {fileID: 11400000, guid: 1089d993f061ab648aa56a4c1ddb81ba, type: 2}
   - {fileID: 11400000, guid: 2dae7c573f4f3524c8584ca8e2363725, type: 2}
   - {fileID: 11400000, guid: b32922242d5e1ec40b9c96a086431e5d, type: 2}
+  - {fileID: 11400000, guid: 2007c0e4ead12bd4a9ba6e147a5478e0, type: 2}
   RunDeck:
   - {fileID: 11400000, guid: 79a3c5812bfe0a94696a7d1aa3311580, type: 2}
+  - {fileID: 11400000, guid: 1089d993f061ab648aa56a4c1ddb81ba, type: 2}
   - {fileID: 11400000, guid: 2dae7c573f4f3524c8584ca8e2363725, type: 2}
   - {fileID: 11400000, guid: b32922242d5e1ec40b9c96a086431e5d, type: 2}
   SelectedCards: []

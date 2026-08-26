@@ -15,7 +15,7 @@ MonoBehaviour:
   CardImage: {fileID: 641042480451610497, guid: abc37b72d1f31ed4383605aa14e843ab, type: 3}
   CardBackground: {fileID: -1827154929375697458, guid: cd43ca818c2994a448434621092c8647, type: 3}
   CardDescription: Increase boost jump height
-  CardCost: 5
+  CardCost: 6
   CardType: 0
   EffectValue: 0
   IsUnique: 1

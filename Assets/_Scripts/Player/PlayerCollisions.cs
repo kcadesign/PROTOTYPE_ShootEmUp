@@ -30,6 +30,22 @@ public class PlayerCollisions : MonoBehaviour
         _playerBodyCollider = GetComponent<Collider2D>();
     }
 
+    private void OnEnable()
+    {
+        EnemyLaunchMultiplier.OnMultiplyEnemyLaunch += EnemyLaunchMultiplier_OnMultiplyEnemyLaunch;
+    }
+
+    private void OnDisable()
+    {
+        EnemyLaunchMultiplier.OnMultiplyEnemyLaunch -= EnemyLaunchMultiplier_OnMultiplyEnemyLaunch;
+    }
+
+    private void EnemyLaunchMultiplier_OnMultiplyEnemyLaunch()
+    {
+        MultiplyLaunchMultiplier(1.5f);
+        Debug.Log("Launch multiplier increased to: " + LaunchMultiplier);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.IsTouching(_playerBodyCollider)) return;
@@ -140,4 +156,8 @@ public class PlayerCollisions : MonoBehaviour
         return _isKnockbackActive;
     }
 
+    public void MultiplyLaunchMultiplier(float amount)
+    {
+        LaunchMultiplier *= amount;
+    }
 }

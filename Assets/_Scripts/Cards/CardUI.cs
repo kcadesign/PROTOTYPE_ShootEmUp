@@ -29,9 +29,9 @@ public class CardUI : ScriptableObject
     [Button("Refresh Card Choices")]
     public void ChooseNewCards()
     {
-        if (Card1 != null) Destroy(Card1);
-        if (Card2 != null) Destroy(Card2);
-        if (Card3 != null) Destroy(Card3);
+        if (Card1 != null) Card1 = null;
+        if (Card2 != null) Card2 = null;
+        if (Card3 != null) Card3 = null;
 
         List<Card> newCardChoices = new List<Card>();
 
