@@ -1,14 +1,17 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class PlayerCollisions : MonoBehaviour
 {
+    public static event Action OnDamageCollision;
     private PlayerMovement _playerMovement;
     private Jump _playerJump;
     private PlayerHealth _playerHealth;
     public Grapple PlayerGrapple;
     private Rigidbody2D _playerRigidbody;
     private Collider2D _playerBodyCollider;
+    public Shield Shield;
 
     [Header("Knockback Settings")]
     public float KnockbackDuration = 0.5f;
@@ -44,11 +47,12 @@ public class PlayerCollisions : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Obstacle"))
         {
-            if (_playerHealth != null)
+            if (_playerHealth != null && !Shield.GetIsShieldActive())
             {
                 Debug.Log("Player RECEIVED damage - Collided with TRIGGER: " + collision.gameObject.name);
 
                 _playerHealth.Damage(1);
+                OnDamageCollision?.Invoke();
                 // push the player away in the opposite direction of the collision
                 Vector2 contactPoint = collision.ClosestPoint(transform.position);
                 Vector2 pushDirection = (Vector2)(transform.position) - contactPoint;
@@ -86,9 +90,10 @@ public class PlayerCollisions : MonoBehaviour
         else if (collision.gameObject.CompareTag("Enemy"))
         {
             Debug.Log("Player RECEIVED damage - Collided with COLLIDER: " + collision.gameObject.name);
-            if (_playerHealth != null)
+            if (_playerHealth != null && !Shield.GetIsShieldActive())
             {
                 _playerHealth.Damage(1);
+                OnDamageCollision?.Invoke();
                 // push the player away in the opposite direction of the collision
                 Vector2 contactPoint = collision.GetContact(0).point;
                 Vector2 pushDirection = (Vector2)(transform.position) - contactPoint;
@@ -129,4 +134,5 @@ public class PlayerCollisions : MonoBehaviour
     {
         return _isKnockbackActive;
     }
+
 }
