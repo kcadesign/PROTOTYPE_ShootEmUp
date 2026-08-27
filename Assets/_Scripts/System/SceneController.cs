@@ -141,7 +141,17 @@ public class SceneController : MonoBehaviour
 
     private async void UIController_OnRetryButtonPressed()
     {
-        await LoadLevelAdditiveReplace(5);
+        UnloadActiveScene();
+
+        try
+        {
+            await LoadLevelAdditive("LevelGenerationTest1-1");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogException(ex);
+        }
+
     }
 
     private async void UIController_OnMainMenuButtonPressed()

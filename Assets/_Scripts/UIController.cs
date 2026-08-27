@@ -158,6 +158,7 @@ public class UIController : MonoBehaviour
         _resumeButton.clicked += ResumeButton_Clicked;
 
         LevelEnd.OnPlayerEnterLevelEnd += LevelEnd_OnPlayerEnterLevelEnd;
+        SceneController.OnNoMoreLevels += SceneController_OnNoMoreLevels;
     }
 
     private void OnDisable()
@@ -193,6 +194,7 @@ public class UIController : MonoBehaviour
         _resumeButton.clicked -= ResumeButton_Clicked;
 
         LevelEnd.OnPlayerEnterLevelEnd -= LevelEnd_OnPlayerEnterLevelEnd;
+        SceneController.OnNoMoreLevels -= SceneController_OnNoMoreLevels;
     }
 
     private void Start()
@@ -257,7 +259,7 @@ public class UIController : MonoBehaviour
                 _canPause = false;
                 break;
             case HandleGameState.GameState.GameRestart:
-                StartCoroutine(Transition(_mainMenuPanel, TransitionLength, TransitionHoldLength));
+                //StartCoroutine(Transition(_mainMenuPanel, TransitionLength, TransitionHoldLength));
                 _canPause = false;
                 break;
             case HandleGameState.GameState.GameFinished:
@@ -434,6 +436,11 @@ public class UIController : MonoBehaviour
     private void LevelEnd_OnPlayerEnterLevelEnd()
     {
         StartCoroutine(Transition(_boonChoicePanel, TransitionLength, TransitionHoldLength));
+    }
+
+    private void SceneController_OnNoMoreLevels()
+    {
+        StartCoroutine(Transition(_mainMenuPanel, TransitionLength, TransitionHoldLength));
     }
 
     private IEnumerator Transition(VisualElement toElement, float transitionLength, float holdLength)
