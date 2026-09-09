@@ -27,7 +27,7 @@ public class PlayerExperienceManager : MonoBehaviour
     private int _storedExp;
     private int _totalExp;
     private float _barValue = 0;
-    private int _expToLevel = 15;
+    private int _expToLevel = 50;
     private int _levelUpRemainder = 0;
     public float ExpToLevelGrowth = 1.15f;
 
