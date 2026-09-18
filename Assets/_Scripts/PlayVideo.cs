@@ -1,53 +1,63 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Video;
 
-public class HandleTime : MonoBehaviour
+public class PlayVideo : MonoBehaviour
 {
+    public static event Action OnVideoFinished;
+    private VideoPlayer _videoPlayer;
+
+    private void Awake()
+    {
+        _videoPlayer = GetComponent<VideoPlayer>();
+        if (_videoPlayer == null)
+        {
+            Debug.LogError("VideoPlayer component not found on the GameObject.");
+        }
+
+        _videoPlayer.timeReference = VideoTimeReference.Freerun;
+    }
+
     private void OnEnable()
     {
         HandleGameState.OnGameStateChanged += HandleGameState_OnGameStateChanged;
-        PlayVideo.OnVideoFinished += PlayVideo_OnVideoFinished;
     }
 
     private void OnDisable()
     {
         HandleGameState.OnGameStateChanged -= HandleGameState_OnGameStateChanged;
-        PlayVideo.OnVideoFinished -= PlayVideo_OnVideoFinished;
     }
 
-    private void PlayVideo_OnVideoFinished()
+    private void HandleGameState_OnGameStateChanged(HandleGameState.GameState newState)
     {
-        PauseTime(false);
-    }
-
-    private void HandleGameState_OnGameStateChanged(HandleGameState.GameState state)
-    {
-        switch (state)
+        switch (newState)
         {
             case HandleGameState.GameState.PreGameMenu:
                 break;
             case HandleGameState.GameState.Transition:
                 break;
             case HandleGameState.GameState.LevelStart:
-                PauseTime(true);
+                // Play the video here
+                StartCoroutine(PlayVideoCoroutine());
                 break;
             case HandleGameState.GameState.Gameplay:
-                PauseTime(false);
                 break;
             case HandleGameState.GameState.GamePaused:
-                PauseTime(true);
                 break;
             case HandleGameState.GameState.Shop:
+
                 break;
             case HandleGameState.GameState.LevelEnd:
-                SlowTime(0.25f, 2f);
+
                 break;
             case HandleGameState.GameState.ChoosePowerup:
+
                 break;
             case HandleGameState.GameState.BossFight:
                 break;
             case HandleGameState.GameState.RunEnd:
-                SlowTime(0.25f, 2f);
+
                 break;
             case HandleGameState.GameState.XPTally:
                 break;
@@ -58,32 +68,18 @@ public class HandleTime : MonoBehaviour
             case HandleGameState.GameState.Credits:
                 break;
             default:
-                throw new ArgumentOutOfRangeException(nameof(state), state, null);
+                throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
         }
     }
 
-    private void PauseTime(bool pause)
+    private IEnumerator PlayVideoCoroutine()
     {
-        if (pause)
+        if (_videoPlayer != null)
         {
-            Time.timeScale = 0f;
-            Debug.Log("Time Paused");
+            _videoPlayer.Play();
+            yield return new WaitForSecondsRealtime((float)_videoPlayer.length);
+            _videoPlayer.Stop();
+            OnVideoFinished?.Invoke();
         }
-        else
-        {
-            Time.timeScale = 1f;
-            Debug.Log("Time Running");
-        }
-    }
-
-    private void SlowTime(float slowAmount, float duration)
-    {
-        Time.timeScale -= slowAmount;
-        Invoke(nameof(ResetTime), duration);
-    }
-
-    private void ResetTime()
-    {
-        Time.timeScale = 1f;
     }
 }

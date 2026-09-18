@@ -40,6 +40,8 @@ public class HandleGameState : MonoBehaviour
         UIController.OnPauseMenuActive += UIController_OnPauseMenuActive;
 
         SceneController.OnNoMoreLevels += SceneController_OnNoMoreLevels;
+
+        PlayVideo.OnVideoFinished += PlayVideo_OnVideoFinished;
     }
 
     private void OnDisable()
@@ -53,6 +55,8 @@ public class HandleGameState : MonoBehaviour
         UIController.OnPauseMenuActive -= UIController_OnPauseMenuActive;
 
         SceneController.OnNoMoreLevels -= SceneController_OnNoMoreLevels;
+
+        PlayVideo.OnVideoFinished -= PlayVideo_OnVideoFinished;
     }
 
     private void LevelEnd_OnPlayerEnterLevelEnd()
@@ -64,7 +68,7 @@ public class HandleGameState : MonoBehaviour
     private void SceneController_OnLevelLoaded()
     {
         UpdateGameState(GameState.LevelStart);
-        UpdateGameState(GameState.Gameplay);
+        //UpdateGameState(GameState.Gameplay);
     }
 
     private void HandlePlayerDeath_OnPlayerDeath()
@@ -83,7 +87,7 @@ public class HandleGameState : MonoBehaviour
     {
         UpdateGameState(GameState.GameRestart);
         UpdateGameState(GameState.LevelStart);
-        UpdateGameState(GameState.Gameplay);
+        //UpdateGameState(GameState.Gameplay);
     }
 
     private void UIController_OnPauseMenuActive(bool isActive)
@@ -102,6 +106,11 @@ public class HandleGameState : MonoBehaviour
     {
         UpdateGameState(GameState.GameRestart);
         UpdateGameState(GameState.PreGameMenu);
+    }
+
+    private void PlayVideo_OnVideoFinished()
+    {
+        UpdateGameState(GameState.Gameplay);
     }
 
     public void UpdateGameState(GameState newState)

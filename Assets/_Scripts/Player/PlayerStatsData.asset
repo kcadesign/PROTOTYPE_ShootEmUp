@@ -31,6 +31,6 @@ MonoBehaviour:
   _runBestComboLevel: 0
   _lifetimeBestComboLevel: 0
   _runHighestLevel: 0
-  _lifetimeHighestLevel: 0
+  _lifetimeHighestLevel: 1
   _runLength: 0
   _timerAsText: 00:00

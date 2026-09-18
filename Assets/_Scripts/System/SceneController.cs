@@ -21,6 +21,8 @@ public class SceneController : MonoBehaviour
     private int _nextSceneToLoad = 0;
     private bool _isSceneToLoad = false;
 
+    private string _firstLevel = "Level_GenerationTest1-1";
+
     private void Awake()
     {
         _scenesToLoad.Clear();
@@ -97,7 +99,7 @@ public class SceneController : MonoBehaviour
     {
         try
         {
-            await LoadLevelAdditive("LevelGenerationTest1-1");
+            await LoadLevelAdditive(_firstLevel);
         }
         catch (Exception ex)
         {
@@ -145,7 +147,7 @@ public class SceneController : MonoBehaviour
 
         try
         {
-            await LoadLevelAdditive("LevelGenerationTest1-1");
+            await LoadLevelAdditive(_firstLevel);
         }
         catch (Exception ex)
         {

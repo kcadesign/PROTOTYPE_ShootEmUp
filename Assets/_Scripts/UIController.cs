@@ -457,7 +457,7 @@ public class UIController : MonoBehaviour
         };
 
         _transitionPanel.style.translate = _transitionMidPosition;
-        yield return new WaitForSeconds(transitionLength);
+        yield return new WaitForSecondsRealtime(transitionLength);
 
         // set all children of the root visual element to display none
         foreach (VisualElement child in _uIDocument.rootVisualElement.Children())
@@ -468,9 +468,9 @@ public class UIController : MonoBehaviour
         _transitionPanel.style.display = DisplayStyle.Flex;
         toElement.style.display = DisplayStyle.Flex;
 
-        yield return new WaitForSeconds(holdLength);
+        yield return new WaitForSecondsRealtime(holdLength);
         _transitionPanel.style.translate = _transitionEndPosition;
-        yield return new WaitForSeconds(transitionLength);
+        yield return new WaitForSecondsRealtime(transitionLength);
 
         _transitionPanel.style.transitionDuration = new StyleList<TimeValue>
         {
@@ -493,7 +493,7 @@ public class UIController : MonoBehaviour
         };
 
         _transitionPanel.style.translate = _transitionMidPosition;
-        yield return new WaitForSeconds(transitionLength);
+        yield return new WaitForSecondsRealtime(transitionLength);
 
         // set all children of the root visual element to display none
         foreach (VisualElement child in _uIDocument.rootVisualElement.Children())
@@ -506,9 +506,9 @@ public class UIController : MonoBehaviour
 
         action?.Invoke();
 
-        yield return new WaitForSeconds(holdLength);
+        yield return new WaitForSecondsRealtime(holdLength);
         _transitionPanel.style.translate = _transitionEndPosition;
-        yield return new WaitForSeconds(transitionLength);
+        yield return new WaitForSecondsRealtime(transitionLength);
 
         _transitionPanel.style.transitionDuration = new StyleList<TimeValue>
         {
@@ -531,11 +531,11 @@ public class UIController : MonoBehaviour
         };
 
         _transitionPanel.style.translate = _transitionMidPosition;
-        yield return new WaitForSeconds(transitionLength);
+        yield return new WaitForSecondsRealtime(transitionLength);
         OnSceneReloadRequested?.Invoke();
-        yield return new WaitForSeconds(holdLength);
+        yield return new WaitForSecondsRealtime(holdLength);
         _transitionPanel.style.translate = _transitionEndPosition;
-        yield return new WaitForSeconds(transitionLength);
+        yield return new WaitForSecondsRealtime(transitionLength);
 
         _transitionPanel.style.transitionDuration = new StyleList<TimeValue>
         {
