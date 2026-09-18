@@ -6,7 +6,10 @@ using UnityEngine.Video;
 public class PlayVideo : MonoBehaviour
 {
     public static event Action OnVideoFinished;
+
+    public VideoLibrary VideoLibraryData;
     private VideoPlayer _videoPlayer;
+    private VideoClip _videoClip;
 
     private void Awake()
     {
@@ -38,7 +41,8 @@ public class PlayVideo : MonoBehaviour
             case HandleGameState.GameState.Transition:
                 break;
             case HandleGameState.GameState.LevelStart:
-                // Play the video here
+                SelectRandomClip(1);
+                AddClipToPlayer(_videoClip);
                 StartCoroutine(PlayVideoCoroutine());
                 break;
             case HandleGameState.GameState.Gameplay:
@@ -80,6 +84,40 @@ public class PlayVideo : MonoBehaviour
             yield return new WaitForSecondsRealtime((float)_videoPlayer.length);
             _videoPlayer.Stop();
             OnVideoFinished?.Invoke();
+        }
+    }
+
+    private void SelectRandomClip(int worldIndex)
+    {
+        if (VideoLibraryData != null && VideoLibraryData.World1VideoClips.Length > 0)
+        {
+            switch (worldIndex)
+            {
+                case 1:
+                    _videoClip = VideoLibraryData.SelectWorld1Clip();
+                    break;
+                case 2:
+                    _videoClip = VideoLibraryData.SelectWorld2Clip();
+                    break;
+                case 3:
+                    _videoClip = VideoLibraryData.SelectWorld3Clip();
+                    break;
+                default:
+                    Debug.LogWarning("Invalid world index.");
+                    return;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("No video clips available in the VideoLibraryData.");
+        }
+    }
+
+    private void AddClipToPlayer(VideoClip clip)
+    {
+        if (_videoPlayer != null)
+        {
+            _videoPlayer.clip = clip;
         }
     }
 }
