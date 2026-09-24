@@ -159,6 +159,7 @@ public class UIController : MonoBehaviour
 
         LevelEnd.OnPlayerEnterLevelEnd += LevelEnd_OnPlayerEnterLevelEnd;
         SceneController.OnNoMoreLevels += SceneController_OnNoMoreLevels;
+        PlayerExperienceManager.OnExpTallied += PlayerExperienceManager_OnExpTallied;
     }
 
     private void OnDisable()
@@ -195,6 +196,7 @@ public class UIController : MonoBehaviour
 
         LevelEnd.OnPlayerEnterLevelEnd -= LevelEnd_OnPlayerEnterLevelEnd;
         SceneController.OnNoMoreLevels -= SceneController_OnNoMoreLevels;
+        PlayerExperienceManager.OnExpTallied -= PlayerExperienceManager_OnExpTallied;
     }
 
     private void Start()
@@ -257,6 +259,7 @@ public class UIController : MonoBehaviour
                 break;
             case HandleGameState.GameState.XPTally:
                 _canPause = false;
+                InputActions.FindActionMap("UI").Disable();
                 break;
             case HandleGameState.GameState.GameRestart:
                 //StartCoroutine(Transition(_mainMenuPanel, TransitionLength, TransitionHoldLength));
@@ -441,6 +444,11 @@ public class UIController : MonoBehaviour
     private void SceneController_OnNoMoreLevels()
     {
         StartCoroutine(Transition(_mainMenuPanel, TransitionLength, TransitionHoldLength));
+    }
+
+    private void PlayerExperienceManager_OnExpTallied()
+    {
+        InputActions.FindActionMap("UI").Enable();
     }
 
     private IEnumerator Transition(VisualElement toElement, float transitionLength, float holdLength)

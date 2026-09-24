@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 public class PlayerExperienceManager : MonoBehaviour
 {
     public static event Action<int> OnPlayerLevelUp;
+    public static event Action OnExpTallied;
 
     public UIDocument UIDocument;
     public PlayerStats PlayerStatsData;
@@ -246,6 +247,7 @@ public class PlayerExperienceManager : MonoBehaviour
         PlayerStatsData.SetStoredExp(_storedExp);
         ResetRunExp();
         PlayerStatsData.ResetRunExp();
+        OnExpTallied?.Invoke();
     }
 
     private void ResetRunExp()
