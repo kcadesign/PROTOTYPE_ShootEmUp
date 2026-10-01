@@ -830,6 +830,7 @@ GameObject:
   - component: {fileID: 379929508582955042}
   - component: {fileID: 4420511555501128586}
   - component: {fileID: 6695286281254940845}
+  - component: {fileID: 5506588789146315811}
   m_Layer: 0
   m_Name: Chaser
   m_TagString: Chaser
@@ -967,7 +968,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.9703718}
+  m_Offset: {x: 0, y: -0.9854886}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -977,7 +978,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 31.797398, y: 2.5045967}
+  m_Size: {x: 31.797398, y: 2.4743629}
   m_EdgeRadius: 0
 --- !u!50 &4420511555501128586
 Rigidbody2D:
@@ -1021,6 +1022,18 @@ MonoBehaviour:
   DistanceOffset: -4.5
   FollowSpeed: 1
   CreepSpeed: 0.25
+--- !u!114 &5506588789146315811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5750847392312031157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77b63f7307f0c9b4a95363ab7a302358, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChaserCollisions
 --- !u!1 &6273608783029632066
 GameObject:
   m_ObjectHideFlags: 0

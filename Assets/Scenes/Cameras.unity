@@ -397,7 +397,7 @@ MonoBehaviour:
   TargetOffset: {x: 0, y: 3, z: 0}
   Damping: {x: 0, y: 0.25, z: 0}
   Lookahead:
-    Enabled: 1
+    Enabled: 0
     Time: 0.3
     Smoothing: 7
     IgnoreY: 0
@@ -408,7 +408,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1415812917}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f453f694addf4275988fac205bc91968, type: 3}
   m_Name: 
