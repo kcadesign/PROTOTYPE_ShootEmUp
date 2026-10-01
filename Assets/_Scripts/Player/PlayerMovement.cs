@@ -61,8 +61,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
-
-
         _playerRigidbody.linearVelocity = new Vector2(_moveAmount.x * MoveSpeed, _playerRigidbody.linearVelocity.y);
 
         if (_moveAmount.x != 0)

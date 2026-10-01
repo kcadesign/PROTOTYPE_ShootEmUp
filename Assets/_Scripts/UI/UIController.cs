@@ -72,7 +72,7 @@ public class UIController : MonoBehaviour
 
     // Pause menu
     private Button _resumeButton;
-    private InputAction _cancel;
+    private InputAction _pause;
     private bool _isPauseMenuActive = false;
     private bool _canPause = false;
 
@@ -87,7 +87,7 @@ public class UIController : MonoBehaviour
 
     private void Awake()
     {
-        _cancel = InputActions.FindAction("Cancel");
+        _pause = InputActions.FindAction("Pause");
 
         _mainMenuPanel = _uIDocument.rootVisualElement.Q<VisualElement>("MainMenu");
         _levelSelectPanel = _uIDocument.rootVisualElement.Q<VisualElement>("LevelSelectMenu");
@@ -208,13 +208,13 @@ public class UIController : MonoBehaviour
     private void Update()
     {
         // FIX: Replace with consistent pause input across controlers (KB = Escape, Gamepad = Options)
-        if (_cancel != null && _cancel.WasPressedThisFrame() && !_isPauseMenuActive && _canPause)
+        if (_pause != null && _pause.WasPressedThisFrame() && !_isPauseMenuActive && _canPause)
         {
             OnPauseMenuActive?.Invoke(true);
             ShowUIPanel(_pausePanel);
             _isPauseMenuActive = true;
         }
-        else if (_cancel != null && _cancel.WasPressedThisFrame() && _isPauseMenuActive && _canPause)
+        else if (_pause != null && _pause.WasPressedThisFrame() && _isPauseMenuActive && _canPause)
         {
             OnPauseMenuActive?.Invoke(false);
             ShowUIPanel(_HUDPanel);

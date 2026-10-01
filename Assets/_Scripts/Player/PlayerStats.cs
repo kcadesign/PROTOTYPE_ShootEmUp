@@ -4,6 +4,9 @@ using EditorAttributes;
 [CreateAssetMenu(fileName = "PlayerStatsData", menuName = "Scriptable Objects/Player/PlayerStatsData")]
 public class PlayerStats : ScriptableObject
 {
+    [Header("Stamina")]
+    [SerializeField] private int _maxStamina = 1;
+
     [Header("Air Jump")]
     [SerializeField] private bool _allowAirJump = false;
     [SerializeField] private int _maxAirJumps = 0;
@@ -41,6 +44,9 @@ public class PlayerStats : ScriptableObject
     [Header("Time")]
     [SerializeField] private float _runLength;
     [SerializeField] private string _timerAsText;
+
+    public int GetMaxStamina() => _maxStamina;
+    public void SetMaxStamina(int value) => _maxStamina = value;
 
     #region Air Jump
     public bool GetCanAirJump() { return _allowAirJump; }
