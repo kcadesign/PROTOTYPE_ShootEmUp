@@ -13,10 +13,11 @@ public class Jump : MonoBehaviour
     [Header("Input References")]
     private HandlePlayerInput _handlePlayerInput;
     private InputActionAsset _inputActions;
-    private InputAction _jump;
+    private InputAction _jumpInput;
 
     [Header("Component References")]
     private Rigidbody2D _playerRigidbody;
+    private Stamina _playerStamina;
     private PlayerGround _playerGround;
     public Grapple Grapple;
     private Dash _dash;
@@ -62,9 +63,10 @@ public class Jump : MonoBehaviour
 
         _inputActions = _handlePlayerInput.InputActions;
 
-        _jump = _inputActions.FindAction("Jump");
+        _jumpInput = _inputActions.FindAction("Jump");
 
         _playerRigidbody = GetComponent<Rigidbody2D>();
+        _playerStamina = GetComponent<Stamina>();
 
         _playerGround = GetComponent<PlayerGround>();
 
@@ -116,7 +118,7 @@ public class Jump : MonoBehaviour
 
             OnAirJump?.Invoke(false);
 
-            ResetAirJumps();
+            //ResetAirJumps();
         }
 
         CheckJumpPressed();
@@ -153,7 +155,7 @@ public class Jump : MonoBehaviour
 
     private void CheckJumpPressed()
     {
-        if (_jump != null && _jump.WasPressedThisFrame())
+        if (_jumpInput != null && _jumpInput.WasPressedThisFrame())
         {
             _desireJump = true;
 
@@ -170,7 +172,7 @@ public class Jump : MonoBehaviour
 
             Destroy(jumpPressIndicator, 0.5f);
         }
-        else if (_jump != null && _jump.WasReleasedThisFrame())
+        else if (_jumpInput != null && _jumpInput.WasReleasedThisFrame())
         {
             _pressingJump = false;
 
@@ -283,7 +285,7 @@ public class Jump : MonoBehaviour
         // NORMAL JUMP
         // -------------------------------------------------
 
-        if (_onGround || _coyoteTimer > 0f || (AllowAirJumps && _airJumps > 0))
+        if (_onGround || _coyoteTimer > 0f || (AllowAirJumps && _playerStamina.GetStamina() > 0))
         {
             // Air jump
             if (!_onGround && AllowAirJumps && _coyoteTimer <= 0f)
@@ -304,9 +306,9 @@ public class Jump : MonoBehaviour
 
         OnAirJump?.Invoke(true);
 
-        _airJumps--;
+        _playerStamina.UseStamina(1);
 
-        OnCurrentAirJumpAmountChanged?.Invoke(_airJumps);
+        //OnCurrentAirJumpAmountChanged?.Invoke(_airJumps);
 
         _desireJump = false;
 

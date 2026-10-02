@@ -14,6 +14,7 @@ public class Dash : MonoBehaviour
 
     [Header("Component References")]
     private Rigidbody2D _playerRigidbody;
+    private Stamina _playerStamina;
     private PlayerGround _playerGround;
     private PlayerMovement _playerMovement;
 
@@ -47,6 +48,7 @@ public class Dash : MonoBehaviour
 
         _playerGround = GetComponent<PlayerGround>();
         _playerMovement = GetComponent<PlayerMovement>();
+        _playerStamina = GetComponent<Stamina>();
     }
 
     private void Start()
@@ -66,7 +68,7 @@ public class Dash : MonoBehaviour
     {
         if (_isDashing) return;
 
-        if (_desireDash && _canDash)
+        if (_desireDash && _canDash && _playerStamina.GetStamina() > 0)
         {
             StartCoroutine(PerformDash());
         }
@@ -101,6 +103,8 @@ public class Dash : MonoBehaviour
 
     private IEnumerator PerformDash()
     {
+        _playerStamina.UseStamina(1);
+
         OnDash?.Invoke(true);
         _canDash = false;
         _isDashing = true;
