@@ -5097,6 +5097,7 @@ GameObject:
   - component: {fileID: 3391504615012039962}
   - component: {fileID: 6951627480648803715}
   - component: {fileID: 2088131157571940614}
+  - component: {fileID: 6973413858203643067}
   m_Layer: 0
   m_Name: PlayerL
   m_TagString: Player
@@ -5627,14 +5628,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73d0475b19ca9a64d995c472724e5d66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _dashForce: 5
-  _dashDuration: 0.1
-  _dashDirection: 2
+  _dashForce: 20
+  _dashDuration: 0.25
   _dashForceMultiplier: 1
-  _canDash: 1
-  _desireDash: 0
-  _pressingDash: 0
-  _isDashing: 0
+--- !u!114 &6973413858203643067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3506124032425798752}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5da47bb080981b94e9393fadb1c9c802, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  SpeedLimit: 0
+  AscendingGravity: 1
+  DescendingGravity: 6.17
 --- !u!1 &3820744740980281269
 GameObject:
   m_ObjectHideFlags: 0

@@ -19,6 +19,7 @@ public class Jump : MonoBehaviour
     private Rigidbody2D _playerRigidbody;
     private PlayerGround _playerGround;
     public Grapple Grapple;
+    private Dash _dash;
     private WallJump _wallJump;
     public Animator PlayerAnimator;
 
@@ -67,6 +68,8 @@ public class Jump : MonoBehaviour
 
         _playerGround = GetComponent<PlayerGround>();
 
+        _dash = GetComponent<Dash>();
+
         _wallJump = GetComponent<WallJump>();
 
         RecalculateJumpPhysics();
@@ -97,7 +100,7 @@ public class Jump : MonoBehaviour
 
         if (_playerRigidbody != null)
         {
-            _playerRigidbody.gravityScale = _defaultGravityScale;
+            SetGravityScale(_defaultGravityScale);
         }
     }
 
@@ -226,7 +229,7 @@ public class Jump : MonoBehaviour
             }
         }
 
-        _playerRigidbody.gravityScale = _gravMultiplier;
+        SetGravityScale(_gravMultiplier);
     }
 
     private void CheckCanJump()
@@ -335,7 +338,7 @@ public class Jump : MonoBehaviour
 
         _playerRigidbody.linearVelocityY = jumpPower;
 
-        _playerRigidbody.gravityScale = _defaultGravityScale;
+        SetGravityScale(_defaultGravityScale);
 
         IsJumping = true;
 
@@ -350,7 +353,7 @@ public class Jump : MonoBehaviour
 
         _playerRigidbody.linearVelocityY = jumpPower * jumpPowerMultiplier;
 
-        _playerRigidbody.gravityScale = _defaultGravityScale;
+        SetGravityScale(_defaultGravityScale);
 
         IsJumping = true;
 
@@ -367,7 +370,7 @@ public class Jump : MonoBehaviour
 
         _playerRigidbody.linearVelocityY = jumpPower * jumpPowerMultiplier;
 
-        _playerRigidbody.gravityScale = _defaultGravityScale;
+        SetGravityScale(_defaultGravityScale);
 
         _isAirJumping = true;
 
@@ -502,5 +505,11 @@ public class Jump : MonoBehaviour
         }
 
         RecalculateJumpPhysics();
+    }
+
+    private void SetGravityScale(float gravityScale)
+    {
+        if (_dash.GetIsDashing()) return;
+        _playerRigidbody.gravityScale = gravityScale;
     }
 }

@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     public Grapple Grapple;
     private WallJump _wallJump;
     private Jump _jump;
+    private Dash _dash;
     private PlayerBodyCollisions _playerCollisions;
 
     public Animator PlayerAnimator;
@@ -30,12 +31,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        // Use the assigned asset instead of InputSystem.actions
         _move = InputActions.FindAction("Move");
         _playerRigidbody = GetComponent<Rigidbody2D>();
         _playerGround = GetComponent<PlayerGround>();
         _wallJump = GetComponent<WallJump>();
         _jump = GetComponent<Jump>();
+        _dash = GetComponent<Dash>();
         _playerCollisions = GetComponent<PlayerBodyCollisions>();
 
     }
@@ -56,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
         if (Grapple.GetIsGrappling()) return;
         if (_wallJump.GetIsWallJumping()) return;
         if(_playerCollisions.GetIsKnockbackActive()) return;
+        if (_dash.GetIsDashing()) return;
         Move();
     }
 
