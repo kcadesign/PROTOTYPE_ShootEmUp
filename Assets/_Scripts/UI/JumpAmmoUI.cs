@@ -20,14 +20,14 @@ public class JumpAmmoUI : MonoBehaviour
 
     private void OnEnable()
     {
-        Jump.OnMaxAirJumpsChanged += Jump_OnMaxAirJumpsChanged;
-        Jump.OnCurrentAirJumpAmountChanged += Jump_OnCurrentAirJumpAmountChanged;
+        //Jump.OnMaxAirJumpsChanged += Jump_OnMaxAirJumpsChanged;
+        //Jump.OnCurrentAirJumpAmountChanged += Jump_OnCurrentAirJumpAmountChanged;
     }
 
     private void OnDisable()
     {
-        Jump.OnMaxAirJumpsChanged -= Jump_OnMaxAirJumpsChanged;
-        Jump.OnCurrentAirJumpAmountChanged -= Jump_OnCurrentAirJumpAmountChanged;
+        //Jump.OnMaxAirJumpsChanged -= Jump_OnMaxAirJumpsChanged;
+        //Jump.OnCurrentAirJumpAmountChanged -= Jump_OnCurrentAirJumpAmountChanged;
     }
 
     private void Start()

@@ -24,14 +24,14 @@ public class Dash : MonoBehaviour
     private int _dashDirection = 1;
     [SerializeField] private float _dashForceMultiplier = 1f;
     private float _dashCooldown = 0.5f;
-    private float _dashCooldownTimer = 0f;
+    //private float _dashCooldownTimer = 0f;
 
     private float _defaultGravityScale;
 
     [Header("State")]
     private bool _canDash = true;
     private bool _desireDash = false;
-    private bool _pressingDash = false;
+    //private bool _pressingDash = false;
     private bool _isDashing = false;
     private bool _onGround;
 
@@ -79,12 +79,12 @@ public class Dash : MonoBehaviour
         if (_dashInput != null && _dashInput.WasPressedThisFrame())
         {
             _desireDash = true;
-            _pressingDash = true;
+            //_pressingDash = true;
         }
         else if (_dashInput != null && _dashInput.WasReleasedThisFrame())
         {
             _desireDash = false;
-            _pressingDash = false;
+            //_pressingDash = false;
         }
     }
 

@@ -7,9 +7,6 @@ public class Jump : MonoBehaviour
     public static event Action<bool> OnAirJump;
     public static event Action<bool> OnPlayerDescending;
 
-    public static event Action<int> OnCurrentAirJumpAmountChanged;
-    public static event Action<int> OnMaxAirJumpsChanged;
-
     [Header("Input References")]
     private HandlePlayerInput _handlePlayerInput;
     private InputActionAsset _inputActions;
@@ -35,8 +32,6 @@ public class Jump : MonoBehaviour
 
     [Header("Optionals")]
     public bool AllowAirJumps;
-    private int _airJumps = 0;
-    public int MaxAirJumps = 1;
 
     [Header("Buffers")]
     public float CoyoteTime = 0.15f;
@@ -79,27 +74,16 @@ public class Jump : MonoBehaviour
 
     private void OnEnable()
     {
-        UIController.OnToggleAirJumpPressed += UIController_OnToggleAirJumpPressed;
         DoubleBoostJump.OnDoubleBoostJump += DoubleBoostJump_OnDoubleBoostJump;
     }
 
     private void OnDisable()
     {
-        UIController.OnToggleAirJumpPressed -= UIController_OnToggleAirJumpPressed;
         DoubleBoostJump.OnDoubleBoostJump -= DoubleBoostJump_OnDoubleBoostJump;
     }
 
     private void Start()
     {
-        if (AllowAirJumps)
-        {
-            _airJumps = MaxAirJumps;
-
-            OnCurrentAirJumpAmountChanged?.Invoke(_airJumps);
-
-            OnMaxAirJumpsChanged?.Invoke(MaxAirJumps);
-        }
-
         if (_playerRigidbody != null)
         {
             SetGravityScale(_defaultGravityScale);
@@ -117,8 +101,6 @@ public class Jump : MonoBehaviour
             _isAirJumping = false;
 
             OnAirJump?.Invoke(false);
-
-            //ResetAirJumps();
         }
 
         CheckJumpPressed();
@@ -261,9 +243,7 @@ public class Jump : MonoBehaviour
 
         if (!_onGround)
         {
-            bool grappleStarted = Grapple.TryStartGrapple();
-
-            if (grappleStarted)
+            if (Grapple.GetIsGrappling())
             {
                 // The grapple consumed the jump input.
 
@@ -279,7 +259,6 @@ public class Jump : MonoBehaviour
 
         // If a grapple has already started,
         // absolutely no jump should happen.
-        if (Grapple.GetIsGrappling()) return;
 
         // -------------------------------------------------
         // NORMAL JUMP
@@ -307,8 +286,6 @@ public class Jump : MonoBehaviour
         OnAirJump?.Invoke(true);
 
         _playerStamina.UseStamina(1);
-
-        //OnCurrentAirJumpAmountChanged?.Invoke(_airJumps);
 
         _desireJump = false;
 
@@ -403,38 +380,31 @@ public class Jump : MonoBehaviour
         }
     }
 
-    private void UIController_OnToggleAirJumpPressed()
-    {
-        AllowAirJumps = !AllowAirJumps;
+    //private void UIController_OnToggleAirJumpPressed()
+    //{
+    //    AllowAirJumps = !AllowAirJumps;
 
-        if (AllowAirJumps)
-        {
-            MaxAirJumps = 1;
+    //    if (AllowAirJumps)
+    //    {
+    //        MaxAirJumps = 1;
 
-            _airJumps = MaxAirJumps;
-        }
-        else
-        {
-            MaxAirJumps = 0;
+    //        _airJumps = MaxAirJumps;
+    //    }
+    //    else
+    //    {
+    //        MaxAirJumps = 0;
 
-            _airJumps = 0;
-        }
+    //        _airJumps = 0;
+    //    }
 
-        OnMaxAirJumpsChanged?.Invoke(MaxAirJumps);
+    //    OnMaxAirJumpsChanged?.Invoke(MaxAirJumps);
 
-        OnCurrentAirJumpAmountChanged?.Invoke(_airJumps);
-    }
+    //    OnCurrentAirJumpAmountChanged?.Invoke(_airJumps);
+    //}
 
     private void DoubleBoostJump_OnDoubleBoostJump()
     {
         SetAirJumpMultiplier(AirJumpMultiplier * 1.25f);
-    }
-
-    public void ResetAirJumps()
-    {
-        _airJumps = MaxAirJumps;
-
-        OnCurrentAirJumpAmountChanged?.Invoke(_airJumps);
     }
 
     private void LimitFallSpeed()
@@ -463,27 +433,6 @@ public class Jump : MonoBehaviour
     public void SetAllowAirJumps(bool allowAirJumps)
     {
         AllowAirJumps = allowAirJumps;
-    }
-
-    public void SetMaxAirJumps(int maxAirJumps)
-    {
-        MaxAirJumps = maxAirJumps;
-    }
-
-    public void IncreaseMaxAirJumps()
-    {
-        MaxAirJumps++;
-
-        OnMaxAirJumpsChanged?.Invoke(MaxAirJumps);
-    }
-
-    public void RenewAirJumps(int renewJumpAmount)
-    {
-        if (_airJumps == MaxAirJumps) return;
-
-        _airJumps += renewJumpAmount;
-
-        OnCurrentAirJumpAmountChanged?.Invoke(_airJumps);
     }
 
     public void SetAirJumpMultiplier(float airJumpMultiplier)

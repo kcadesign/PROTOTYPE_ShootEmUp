@@ -5,6 +5,7 @@ public class HandlePlayerStats : MonoBehaviour
     public PlayerStats PlayerStatsData;
 
     private Jump _playerJump;
+    private Stamina _playerStamina;
     private PlayerHealth _playerHealth;
 
     private void Awake()
@@ -18,12 +19,14 @@ public class HandlePlayerStats : MonoBehaviour
         PlayerStatsData.LoadAllDataFromPrefs();
 
         _playerJump.SetAllowAirJumps(PlayerStatsData.GetCanAirJump());
-        _playerJump.SetMaxAirJumps(PlayerStatsData.GetMaxAirJumps());
+        //_playerJump.SetMaxAirJumps(PlayerStatsData.GetMaxAirJumps());
+        _playerStamina.SetMaxStamina(PlayerStatsData.GetMaxStamina());
         _playerHealth.SetMaxHealth(PlayerStatsData.GetMaxHealth());
 
         PlayerStatsData.SetMaxHealth(_playerHealth.MaxHealth);
         PlayerStatsData.SetCanAirJump(_playerJump.AllowAirJumps);
-        PlayerStatsData.SetMaxAirJumps(_playerJump.MaxAirJumps);
+        PlayerStatsData.SetMaxStamina(_playerStamina.MaxStamina);
+        //PlayerStatsData.SetMaxAirJumps(_playerJump.MaxAirJumps);
     }
 
     private void OnEnable()
@@ -41,7 +44,8 @@ public class HandlePlayerStats : MonoBehaviour
     {
         PlayerStatsData.SetMaxHealth(_playerHealth.MaxHealth);
         PlayerStatsData.SetCanAirJump(_playerJump.AllowAirJumps);
-        PlayerStatsData.SetMaxAirJumps(_playerJump.MaxAirJumps);
+        //PlayerStatsData.SetMaxAirJumps(_playerJump.MaxAirJumps);
+        PlayerStatsData.SetMaxStamina(_playerStamina.MaxStamina);
         PlayerStatsData.SaveAllDataToPrefs();
     }
 }

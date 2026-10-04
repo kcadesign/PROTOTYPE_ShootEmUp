@@ -173,6 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84708dac97a0bf849bae2d69b9078aa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStomp
+  _playerStamina: {fileID: 7765551006314400831}
   JumpScript: {fileID: 417149544334028434}
   GrappleScript: {fileID: 530978034007891282}
   _playerRigidbody: {fileID: 7239616914105786631}
@@ -5545,7 +5546,6 @@ MonoBehaviour:
   AscendingGravity: 1.5
   DescendingGravity: 3
   AllowAirJumps: 1
-  MaxAirJumps: 1
   CoyoteTime: 0.15
   JumpBuffer: 0.15
   SpeedLimit: 13.5
@@ -5611,6 +5611,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   PlayerStatsData: {fileID: 11400000, guid: b2fb527e51a842f44874ab8d4b14c143, type: 2}
   PlayerHealth: {fileID: 4840382361928250791}
+  _playerStamina: {fileID: 0}
   PlayerJump: {fileID: 417149544334028434}
   PlayerMovement: {fileID: 2739125989905732620}
   PlayerGrapple: {fileID: 530978034007891282}
@@ -5643,6 +5644,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3993a1f0a8fd0946b32a37093b92ad2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  MaxStamina: 1
+  _currentStamina: 0
 --- !u!1 &3820744740980281269
 GameObject:
   m_ObjectHideFlags: 0
@@ -5725,6 +5728,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce89cc204ded6e94cabc1b685f39664d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Grapple
+  _handlePlayerInput: {fileID: 6392659400755415772}
+  PlayerStamina: {fileID: 7765551006314400831}
   PlayerGround: {fileID: 7229632425565711507}
   PlayerJump: {fileID: 417149544334028434}
   WallJump: {fileID: 6063420470624327990}
@@ -5732,7 +5737,7 @@ MonoBehaviour:
   LineRenderer: {fileID: 1116446656213502417}
   GrappleTip: {fileID: 6685668286544470289}
   GrappleSpeed: 16
-  LaunchForceMultiplier: 1.25
+  LaunchForceMultiplier: 2.25
   GrappleTolerance: 0.05
 --- !u!1 &4107989209672198658
 GameObject:

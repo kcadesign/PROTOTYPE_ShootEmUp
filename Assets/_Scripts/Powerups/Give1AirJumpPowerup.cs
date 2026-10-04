@@ -5,6 +5,6 @@ public class Give1AirJumpPowerup : PowerupEffect
 {
     public override void Apply(GameObject target)
     {
-        target.GetComponent<Jump>().RenewAirJumps(1);
+        target.GetComponent<Stamina>().RestoreStamina(1);
     }
 }

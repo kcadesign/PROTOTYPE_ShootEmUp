@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerStomp : MonoBehaviour
 {
     [Header("References")]
+    public Stamina _playerStamina;
     public Jump JumpScript;
     public Grapple GrappleScript;
     [SerializeField] private Rigidbody2D _playerRigidbody;
@@ -44,7 +45,7 @@ public class PlayerStomp : MonoBehaviour
                 //Debug.Log("Player stomped on an enemy!");
                 // debug the collision object name
                 JumpScript.DoJump(LaunchMultiplier);
-                JumpScript.RenewAirJumps(1);
+                _playerStamina.RestoreStamina(1);
 
                 Health enemyHealth = collision.GetComponentInParent<Health>();
                 if (enemyHealth != null)

@@ -63,6 +63,17 @@ public class Stamina : MonoBehaviour
         RestoreStamina(1); // Restore the player by 1 to increase current stamina
     }
 
+    public void SetMaxStamina(int amount)
+    {
+        MaxStamina = amount;
+        OnMaxStaminaChanged?.Invoke(MaxStamina);
+        if (_currentStamina > MaxStamina)
+        {
+            _currentStamina = MaxStamina; // Ensure current stamina does not exceed max
+            OnCurrentStaminaChanged?.Invoke(_currentStamina);
+        }
+    }
+
     public void RestoreStamina(int restoreAmount)
     {
         if (_currentStamina == MaxStamina)

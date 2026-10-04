@@ -1,9 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using System;
+using System.Collections;
 
 public class Grapple : MonoBehaviour
 {
     [Header("References")]
+    public HandlePlayerInput _handlePlayerInput;
+    private InputActionAsset _inputActions;
+    private InputAction _grappleInput;
+
+    public Stamina PlayerStamina;
     public PlayerGround PlayerGround;
     public Jump PlayerJump;
     public WallJump WallJump;
@@ -16,6 +24,8 @@ public class Grapple : MonoBehaviour
     private bool _isGrounded;
     private bool _canGrapple;
     private bool _isGrappling;
+    private bool _desireGrapple;
+    private bool _pressingGrapple;
 
     private float _originalGravityScale;
 
@@ -37,6 +47,10 @@ public class Grapple : MonoBehaviour
 
     private void Awake()
     {
+        _inputActions = _handlePlayerInput.InputActions;
+
+        _grappleInput = _inputActions.FindAction("Grapple");
+
         _playerRigidbody = Player.GetComponent<Rigidbody2D>();
         _playerGrappleCollider = GetComponent<CircleCollider2D>();
 
@@ -46,11 +60,10 @@ public class Grapple : MonoBehaviour
 
     private void Update()
     {
-        _isGrounded = PlayerGround.GetOnGround();
-
         UpdateClosestGrapplePoint();
 
-        _canGrapple = CanGrapple();
+        CheckGrapplePressed();
+        CheckCanGrapple();
 
         // Update the rope visually every rendered frame.
         // This does NOT move the player.
@@ -64,9 +77,23 @@ public class Grapple : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!_isGrappling) return;
+        if (!_desireGrapple || !_canGrapple) return;
 
+        StartGrapple();
         UpdateGrappleMovement();
+    }
+
+    private void CheckGrapplePressed()
+    {
+        if (_grappleInput != null && _grappleInput.WasPressedThisFrame())
+        {
+            _desireGrapple = true;
+
+        }
+        else if (_grappleInput != null && _grappleInput.WasReleasedThisFrame())
+        {
+            _desireGrapple = false;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -140,37 +167,37 @@ public class Grapple : MonoBehaviour
     /// <summary>
     /// Returns true if the player can currently start a grapple.
     /// </summary>
-    public bool CanGrapple()
+    public void CheckCanGrapple()
     {
-        if (_isGrounded)
-            return false;
+        if (PlayerStamina.GetStamina() <= 0)
+        {
+            _canGrapple = false;
+            return;
+        }
 
         if (_isGrappling)
-            return false;
+        {
+            _canGrapple = false;
+            return;
+        }
 
         if (_closestGrapplePoint == null)
-            return false;
+        {
+            _canGrapple = false;
+            return;
+        }
 
         if (WallJump != null && WallJump.GetOnWall())
         {
-            return false;
+            _canGrapple = false;
+            return;
         }
 
-        return true;
+        _canGrapple = true;
     }
 
-    /// <summary>
-    /// Starts the grapple state.
-    ///
-    /// IMPORTANT:
-    /// This method does not move the player.
-    /// All Rigidbody movement happens in FixedUpdate().
-    /// </summary>
-    public bool TryStartGrapple()
+    public void StartGrapple()
     {
-        if (!CanGrapple())
-            return false;
-
         // Capture the target when the grapple begins.
         // This prevents the target from changing while
         // the player is being pulled toward it.
@@ -192,13 +219,50 @@ public class Grapple : MonoBehaviour
 
         LineRenderer.SetPosition(1, _grappleTarget);
 
-        return true;
+        StartCoroutine(PerformGrapple());
     }
 
-    /// <summary>
-    /// All grapple movement happens here.
-    /// This is called exclusively from FixedUpdate().
-    /// </summary>
+    private IEnumerator PerformGrapple()
+    {
+        PlayerStamina.UseStamina(1);
+        while (true)
+        {
+            Vector2 currentPosition = _playerRigidbody.position;
+
+            float sqrDistance = (currentPosition - _grappleTarget).sqrMagnitude;
+            float sqrTolerance = GrappleTolerance * GrappleTolerance;
+
+            // We have reached the grapple point.
+            if (sqrDistance <= sqrTolerance)
+                break;
+
+            Vector2 nextPosition = Vector2.MoveTowards(currentPosition, _grappleTarget, GrappleSpeed * Time.fixedDeltaTime);
+
+            _playerRigidbody.MovePosition(nextPosition);
+
+            // Update line renderer start position to follow the player.
+            LineRenderer.SetPosition(0, _playerRigidbody.position);
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        // Make sure we land exactly on the target.
+        _playerRigidbody.MovePosition(_grappleTarget);
+
+        // Restore gravity.
+        _playerRigidbody.gravityScale = _originalGravityScale;
+
+        _isGrappling = false;
+
+        LineRenderer.enabled = false;
+
+        // Launch happens as part of the same
+        // FixedUpdate physics cycle.
+        LaunchPlayer();
+
+        yield break;
+    }
+
     private void UpdateGrappleMovement()
     {
         Vector2 currentPosition = _playerRigidbody.position;
@@ -219,13 +283,6 @@ public class Grapple : MonoBehaviour
         _playerRigidbody.MovePosition(nextPosition);
     }
 
-    /// <summary>
-    /// Finishes the grapple and launches the player.
-    ///
-    /// This is also called from FixedUpdate via
-    /// UpdateGrappleMovement(), so the launch occurs
-    /// within the physics loop.
-    /// </summary>
     private void FinishGrapple()
     {
         // Make sure we land exactly on the target.
@@ -243,7 +300,7 @@ public class Grapple : MonoBehaviour
         LaunchPlayer();
 
         // Restore air jumps after grappling.
-        PlayerJump.ResetAirJumps();
+        //PlayerJump.ResetAirJumps();
     }
 
     private void LaunchPlayer()

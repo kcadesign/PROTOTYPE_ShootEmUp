@@ -5,6 +5,7 @@ public class HandlePlayerLevel : MonoBehaviour
     [Header("Component References")]
     public PlayerStats PlayerStatsData;
     public PlayerHealth PlayerHealth;
+    public Stamina _playerStamina;
     public Jump PlayerJump;
     public PlayerMovement PlayerMovement;
     public Grapple PlayerGrapple;
@@ -42,7 +43,8 @@ public class HandlePlayerLevel : MonoBehaviour
                 Debug.Log($"Player Level Up! Player Level: {level} - Max Health Increased");
                 break;
             case 2:
-                PlayerJump.IncreaseMaxAirJumps();
+                //PlayerJump.IncreaseMaxAirJumps();
+                _playerStamina.IncreaseMaxStamina();
                 Debug.Log($"Player Level Up! Player Level: {level} - Max Jumps Increased");
                 break;
             case 3:
@@ -58,7 +60,8 @@ public class HandlePlayerLevel : MonoBehaviour
                 Debug.Log($"Player Level Up! Player Level: {level} - Max Health Increased");
                 break;
             case 6:
-                PlayerJump.IncreaseMaxAirJumps();
+                //PlayerJump.IncreaseMaxAirJumps();
+                _playerStamina.IncreaseMaxStamina();
                 Debug.Log($"Player Level Up! Player Level: {level} - Max Jumps Increased");
                 break;
             case 7:
@@ -74,7 +77,8 @@ public class HandlePlayerLevel : MonoBehaviour
                 Debug.Log($"Player Level Up! Player Level: {level} - Max Health Increased");
                 break;
             case 10:
-                PlayerJump.IncreaseMaxAirJumps();
+                //PlayerJump.IncreaseMaxAirJumps();
+                _playerStamina.IncreaseMaxStamina();
                 Debug.Log($"Player Level Up! Player Level: {level} - Max Jumps Increased");
                 break;
             default:

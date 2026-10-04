@@ -7,7 +7,8 @@ public class AllowAirJumps : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             collision.GetComponent<Jump>().SetAllowAirJumps(true);
-            collision.GetComponent<Jump>().IncreaseMaxAirJumps();
+            //collision.GetComponent<Jump>().IncreaseMaxAirJumps();
+            collision.GetComponent<Stamina>().IncreaseMaxStamina();
             Collected(true);
             gameObject.SetActive(false);
         }
