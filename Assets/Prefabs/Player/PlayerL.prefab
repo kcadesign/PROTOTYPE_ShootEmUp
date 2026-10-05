@@ -5901,6 +5901,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ghost
   _playerJump: {fileID: 417149544334028434}
+  _playerDash: {fileID: 2088131157571940614}
+  _playerGrapple: {fileID: 530978034007891282}
   _playerRigidbody: {fileID: 7239616914105786631}
   GhostPrefab: {fileID: 3506124032425798752, guid: e50e26e880c4c0043ac6069e624ff921, type: 3}
   MakeGhost: 1

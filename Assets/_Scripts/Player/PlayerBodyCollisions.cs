@@ -7,6 +7,7 @@ public class PlayerBodyCollisions : MonoBehaviour
     public static event Action OnDamageCollision;
     private PlayerMovement _playerMovement;
     private Jump _playerJump;
+    private Dash _playerDash;
     private PlayerHealth _playerHealth;
     public Grapple PlayerGrapple;
     private Rigidbody2D _playerRigidbody;
@@ -54,9 +55,7 @@ public class PlayerBodyCollisions : MonoBehaviour
     {
         if (!collision.IsTouching(_playerBodyCollider)) return;
         // if the player is boost jumping...
-        if (collision.gameObject.CompareTag("Enemy")
-            && _playerJump.GetIsAirJumping()
-            && _playerRigidbody.linearVelocityY > 0)
+        if (collision.gameObject.CompareTag("Enemy") && _playerJump.GetIsAirJumping() && _playerDash.GetIsDashing() && PlayerGrapple.GetIsGrappling())
         {
             if (collision.GetComponent<Health>() != null)
             {
@@ -100,8 +99,7 @@ public class PlayerBodyCollisions : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy") && _playerJump.GetIsAirJumping()
-            /*&& _playerRigidbody.linearVelocityY > 0*/)
+        if (collision.gameObject.CompareTag("Enemy") && _playerJump.GetIsAirJumping() && _playerDash.GetIsDashing() && PlayerGrapple.GetIsGrappling())
         {
             if (collision.gameObject.GetComponent<Health>() != null)
             {

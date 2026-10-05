@@ -5,6 +5,8 @@ using UnityEngine;
 public class Ghost : MonoBehaviour
 {
     public Jump _playerJump;
+    public Dash _playerDash;
+    public Grapple _playerGrapple;
     public Rigidbody2D _playerRigidbody;
     public GameObject GhostPrefab;
 
@@ -13,18 +15,30 @@ public class Ghost : MonoBehaviour
     private float _ghostDelaySeconds;
     public float GhostDecayTime = 0.5f;
 
-
-    // Start is called before the first frame update
     void Start()
     {
         _ghostDelaySeconds = GhostFrequency;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (!_playerJump.GetIsAirJumping() && _playerRigidbody.linearVelocityY < 0) return;
-        if (MakeGhost && _playerJump.GetIsAirJumping() && _playerRigidbody.linearVelocityY > 0)
+        if (_playerJump.GetIsAirJumping() && _playerRigidbody.linearVelocityY > 0)
+        {
+            InstantiateGhost();
+        }
+        else if (_playerDash.GetIsDashing())
+        {
+            InstantiateGhost();
+        }
+        else if (_playerGrapple.GetIsGrappling())
+        {
+            InstantiateGhost();
+        }
+    }
+
+    private void InstantiateGhost()
+    {
+        if (MakeGhost)
         {
             if (_ghostDelaySeconds > 0)
             {
@@ -40,6 +54,5 @@ public class Ghost : MonoBehaviour
                 Destroy(currentGhost, GhostDecayTime);
             }
         }
-
     }
 }
