@@ -113,8 +113,10 @@ public class Dash : MonoBehaviour
         float originalGravityScale = _playerRigidbody.gravityScale;
         _playerRigidbody.gravityScale = 0f;
 
-        // constrain rigidbody to horizontal movement only
-        _playerRigidbody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+        // --------------------------------------------------
+        // FIX - Constraining the Y axis stops the player from being launched
+        //_playerRigidbody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+        // --------------------------------------------------
 
         if (_dashDirection == 1) // Dash to the right
         {
@@ -132,8 +134,8 @@ public class Dash : MonoBehaviour
         _playerRigidbody.gravityScale = originalGravityScale;
         _isDashing = false;
 
-        _playerRigidbody.constraints = RigidbodyConstraints2D.None;
-        _playerRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+        //_playerRigidbody.constraints = RigidbodyConstraints2D.None;
+        //_playerRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
 
         yield return new WaitForSeconds(_dashCooldown);
         _canDash = true;

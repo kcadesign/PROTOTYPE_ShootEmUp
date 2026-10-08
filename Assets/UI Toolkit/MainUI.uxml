@@ -310,5 +310,5 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement name="Transition" class="transition" style="flex-grow: 1; position: absolute; background-color: rgb(255, 77, 255); width: 100%; height: 100%; left: auto; translate: 0% 100%; transition-duration: 2s; transition-timing-function: ease-in-out;"/>
+    <ui:VisualElement name="Transition" class="transition" style="flex-grow: 1; position: absolute; width: 100%; height: 100%; left: auto; translate: 0% 100%; transition-duration: 2s; transition-timing-function: ease-in-out;"/>
 </ui:UXML>

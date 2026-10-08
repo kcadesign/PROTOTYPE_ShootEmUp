@@ -20,7 +20,7 @@ public class HandleDeath : MonoBehaviour
         {
             _isDead = true;
             OnDeath?.Invoke();
-            SignalDeath();
+            //SignalDeath();
             gameObject.SetActive(false);
         }
     }
