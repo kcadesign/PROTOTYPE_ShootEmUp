@@ -12,11 +12,13 @@ public class Stamina : MonoBehaviour
     private void OnEnable()
     {
         PlayerGround.OnGround += PlayerGround_OnGround;
+        HandleDeath.OnEnemyDeath += HandleDeath_OnEnemyDeath;
     }
 
     private void OnDisable()
     {
         PlayerGround.OnGround -= PlayerGround_OnGround;
+        HandleDeath.OnEnemyDeath -= HandleDeath_OnEnemyDeath;
     }
 
     private void PlayerGround_OnGround(bool onGround)
@@ -25,6 +27,11 @@ public class Stamina : MonoBehaviour
         {
             ResetStamina();
         }
+    }
+
+    private void HandleDeath_OnEnemyDeath()
+    {
+        RestoreStamina(1);
     }
 
     private void Start()

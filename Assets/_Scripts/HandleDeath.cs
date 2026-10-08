@@ -20,7 +20,7 @@ public class HandleDeath : MonoBehaviour
         {
             _isDead = true;
             OnDeath?.Invoke();
-            // Handle death logic here (e.g., play animation, disable controls, etc.)
+            SignalDeath();
             gameObject.SetActive(false);
         }
     }

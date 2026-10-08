@@ -23,8 +23,6 @@ public class PlayerBodyCollisions : MonoBehaviour
     [Header("Launch Settings")]
     public float LaunchMultiplier = 1.0f;
 
-    private bool _isPlayerInvincible = false;
-
     private void Awake()
     {
         _playerMovement = GetComponent<PlayerMovement>();
@@ -59,7 +57,8 @@ public class PlayerBodyCollisions : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.IsTouching(_playerBodyCollider)) return;
-        // if the player is boost jumping...
+
+        // if the player collides with an enemy and is invincible
         if (collision.gameObject.CompareTag("Enemy") && _playerInvincibility.GetPlayerInvincible()/*&& _playerJump.GetIsAirJumping() && _playerDash.GetIsDashing() && PlayerGrapple.GetIsGrappling()*/)
         {
             //Debug.Log($"Air jump: {_playerJump.GetIsAirJumping()} | Dash: {_playerDash.GetIsDashing()} | Grapple: {PlayerGrapple.GetIsGrappling()}");
