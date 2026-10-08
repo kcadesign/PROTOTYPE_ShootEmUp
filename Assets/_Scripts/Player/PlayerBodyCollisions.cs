@@ -10,6 +10,7 @@ public class PlayerBodyCollisions : MonoBehaviour
     private Dash _playerDash;
     private PlayerHealth _playerHealth;
     public Grapple PlayerGrapple;
+    private Invincibility _playerInvincibility;
     private Rigidbody2D _playerRigidbody;
     private Collider2D _playerBodyCollider;
     public Shield Shield;
@@ -22,13 +23,17 @@ public class PlayerBodyCollisions : MonoBehaviour
     [Header("Launch Settings")]
     public float LaunchMultiplier = 1.0f;
 
+    private bool _isPlayerInvincible = false;
+
     private void Awake()
     {
         _playerMovement = GetComponent<PlayerMovement>();
         _playerJump = GetComponent<Jump>();
+        _playerDash = GetComponent<Dash>();
         _playerHealth = GetComponent<PlayerHealth>();
         _playerRigidbody = GetComponent<Rigidbody2D>();
         _playerBodyCollider = GetComponent<Collider2D>();
+        _playerInvincibility = GetComponent<Invincibility>();
     }
 
     private void OnEnable()
@@ -55,8 +60,10 @@ public class PlayerBodyCollisions : MonoBehaviour
     {
         if (!collision.IsTouching(_playerBodyCollider)) return;
         // if the player is boost jumping...
-        if (collision.gameObject.CompareTag("Enemy") && _playerJump.GetIsAirJumping() && _playerDash.GetIsDashing() && PlayerGrapple.GetIsGrappling())
+        if (collision.gameObject.CompareTag("Enemy") && _playerInvincibility.GetPlayerInvincible()/*&& _playerJump.GetIsAirJumping() && _playerDash.GetIsDashing() && PlayerGrapple.GetIsGrappling()*/)
         {
+            //Debug.Log($"Air jump: {_playerJump.GetIsAirJumping()} | Dash: {_playerDash.GetIsDashing()} | Grapple: {PlayerGrapple.GetIsGrappling()}");
+
             if (collision.GetComponent<Health>() != null)
             {
                 Debug.Log("Player DEALT damage - Collided with: " + collision.gameObject.name);
@@ -99,8 +106,9 @@ public class PlayerBodyCollisions : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy") && _playerJump.GetIsAirJumping() && _playerDash.GetIsDashing() && PlayerGrapple.GetIsGrappling())
+        if (collision.gameObject.CompareTag("Enemy") && _playerInvincibility.GetPlayerInvincible()/*&& _playerJump.GetIsAirJumping() && _playerDash.GetIsDashing() && PlayerGrapple.GetIsGrappling()*/)
         {
+            //Debug.Log($"Air jump: {_playerJump.GetIsAirJumping()} | Dash: {_playerDash.GetIsDashing()} | Grapple: {PlayerGrapple.GetIsGrappling()}");
             if (collision.gameObject.GetComponent<Health>() != null)
             {
                 collision.gameObject.GetComponent<Health>().Damage(1);

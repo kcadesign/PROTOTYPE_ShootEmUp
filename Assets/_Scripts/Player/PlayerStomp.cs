@@ -39,7 +39,7 @@ public class PlayerStomp : MonoBehaviour
 
         if (_stompZoneCollider.IsTouching(collision))
         {
-            if (collision.TryGetComponent(out WeakPoint weakPoint) && !GrappleScript.GetIsGrappling() && _playerRigidbody.linearVelocityY < 0f)
+            if (collision.TryGetComponent(out WeakPoint weakPoint) /*&& !GrappleScript.GetIsGrappling()*/ && _playerRigidbody.linearVelocityY <= 0.1f)
             {
                 Debug.Log("Player Stomp Collided with: " + collision.gameObject.name);
                 //Debug.Log("Player stomped on an enemy!");

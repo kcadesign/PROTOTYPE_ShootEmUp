@@ -5099,6 +5099,7 @@ GameObject:
   - component: {fileID: 6951627480648803715}
   - component: {fileID: 2088131157571940614}
   - component: {fileID: 7765551006314400831}
+  - component: {fileID: 1902959518929684087}
   m_Layer: 0
   m_Name: PlayerL
   m_TagString: Player
@@ -5646,6 +5647,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   MaxStamina: 1
   _currentStamina: 0
+--- !u!114 &1902959518929684087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3506124032425798752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f76bc42d27ecb6489fb625630050f53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  PlayerGrapple: {fileID: 530978034007891282}
 --- !u!1 &3820744740980281269
 GameObject:
   m_ObjectHideFlags: 0
@@ -5737,7 +5751,7 @@ MonoBehaviour:
   LineRenderer: {fileID: 1116446656213502417}
   GrappleTip: {fileID: 6685668286544470289}
   GrappleSpeed: 16
-  LaunchForceMultiplier: 2.25
+  LaunchForceMultiplier: 2
   GrappleTolerance: 0.05
 --- !u!1 &4107989209672198658
 GameObject:

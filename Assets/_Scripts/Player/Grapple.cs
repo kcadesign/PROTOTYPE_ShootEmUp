@@ -305,7 +305,8 @@ public class Grapple : MonoBehaviour
 
     private void LaunchPlayer()
     {
-        PlayerJump.DoJump(LaunchForceMultiplier);
+        PlayerJump.DoAirJump(LaunchForceMultiplier);
+        //PlayerJump.DoJump(LaunchForceMultiplier);
     }
 
     public bool GetGrapplePointAvailable()
