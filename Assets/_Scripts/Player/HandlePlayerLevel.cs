@@ -4,10 +4,10 @@ public class HandlePlayerLevel : MonoBehaviour
 {
     [Header("Component References")]
     public PlayerStats PlayerStatsData;
-    public PlayerHealth PlayerHealth;
-    public Stamina _playerStamina;
-    public Jump PlayerJump;
-    public PlayerMovement PlayerMovement;
+    private PlayerHealth _playerHealth;
+    private Stamina _playerStamina;
+    private Jump _playerJump;
+    private PlayerMovement _playerMovement;
     public Grapple PlayerGrapple;
 
     private int _playerLevel;
@@ -16,8 +16,21 @@ public class HandlePlayerLevel : MonoBehaviour
     public float MoveSpeedIncrease = 2f;
     public float GrappleRangeIncrease = 1f;
 
+    private void Awake()
+    {
+        _playerHealth = GetComponent<PlayerHealth>();
+        _playerStamina = GetComponent<Stamina>();
+        _playerJump = GetComponent<Jump>();
+        _playerMovement = GetComponent<PlayerMovement>();
+    }
+
     private void OnEnable()
     {
+        if (_playerStamina == null)
+        {
+            Debug.LogError("Player Stamina reference is not assigned in the inspector.");
+        }
+
         int targetLevel = PlayerStatsData.GetPlayerLevel();
 
         if (_playerLevel != targetLevel)
@@ -39,24 +52,23 @@ public class HandlePlayerLevel : MonoBehaviour
         switch (level)
         {
             case 1:
-                PlayerHealth.IncreaseMaxHealth();
-                Debug.Log($"Player Level Up! Player Level: {level} - Max Health Increased");
-                break;
-            case 2:
-                //PlayerJump.IncreaseMaxAirJumps();
                 _playerStamina.IncreaseMaxStamina();
                 Debug.Log($"Player Level Up! Player Level: {level} - Max Jumps Increased");
+                break;
+            case 2:
+                _playerHealth.IncreaseMaxHealth();
+                Debug.Log($"Player Level Up! Player Level: {level} - Max Health Increased");
                 break;
             case 3:
                 PlayerGrapple.IncreaseGrappleRange(GrappleRangeIncrease);
                 Debug.Log($"Player Level Up! Player Level: {level} - Grapple Range Increased");
                 break;
             case 4:
-                PlayerMovement.IncreaseMoveSpeed(MoveSpeedIncrease);
+                _playerMovement.IncreaseMoveSpeed(MoveSpeedIncrease);
                 Debug.Log($"Player Level Up! Player Level: {level} - Move Speed Increased");
                 break;
             case 5:
-                PlayerHealth.IncreaseMaxHealth();
+                _playerHealth.IncreaseMaxHealth();
                 Debug.Log($"Player Level Up! Player Level: {level} - Max Health Increased");
                 break;
             case 6:
@@ -69,11 +81,11 @@ public class HandlePlayerLevel : MonoBehaviour
                 Debug.Log($"Player Level Up! Player Level: {level} - Grapple Range Increased");
                 break;
             case 8:
-                PlayerMovement.IncreaseMoveSpeed(MoveSpeedIncrease);
+                _playerMovement.IncreaseMoveSpeed(MoveSpeedIncrease);
                 Debug.Log($"Player Level Up! Player Level: {level} - Move Speed Increased");
                 break;
             case 9:
-                PlayerHealth.IncreaseMaxHealth();
+                _playerHealth.IncreaseMaxHealth();
                 Debug.Log($"Player Level Up! Player Level: {level} - Max Health Increased");
                 break;
             case 10:
