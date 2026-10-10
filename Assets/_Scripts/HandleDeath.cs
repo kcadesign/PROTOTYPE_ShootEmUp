@@ -5,6 +5,7 @@ using System;
 public class HandleDeath : MonoBehaviour
 {
     public UnityEvent OnDeath;
+    public UnityEvent OnCollateralDamage;
     public static event Action OnEnemyDeath;
     private bool _isDead = false;
     private Health _health;
@@ -40,5 +41,13 @@ public class HandleDeath : MonoBehaviour
     public void SignalDeath()
     {
         OnEnemyDeath?.Invoke();
+    }
+
+    public void CollateralDamage()
+    {
+        Debug.Log("Collateral damage received by " + gameObject.name);
+        _isDead = true;
+        OnCollateralDamage?.Invoke();
+        gameObject.SetActive(false);
     }
 }

@@ -243,6 +243,7 @@ public class PlayerExperienceManager : MonoBehaviour
                 yield return null;
             }
         }
+        //ResetStoredExp();
         StoreRunExp();
         PlayerStatsData.SetStoredExp(_storedExp);
         ResetRunExp();
@@ -258,6 +259,11 @@ public class PlayerExperienceManager : MonoBehaviour
     private void StoreRunExp()
     {
         _storedExp += _runExp;
+    }
+
+    private void ResetStoredExp()
+    {
+        _storedExp = 0;
     }
 
     private IEnumerator AnimateBarFill(float fromvalue, float toValue)

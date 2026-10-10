@@ -18,20 +18,20 @@ MonoBehaviour:
   _maxHealth: 3
   _currentCurrency: 0
   _runTotalCurrency: 0
-  _lifetimeTotalCurrency: 2
+  _lifetimeTotalCurrency: 0
   _playerLevel: 0
   _runExp: 0
-  _storedExp: 34
-  _totalExp: 34
+  _storedExp: 17
+  _totalExp: 17
   _expBarLowValue: 0
   _expBarHighValue: 50
-  _expBarFillValue: 34
+  _expBarFillValue: 17
   _runEnemiesKilled: 0
-  _lifetimeEnemiesKilled: 34
+  _lifetimeEnemiesKilled: 17
   _comboLevel: 0
   _runBestComboLevel: 0
   _lifetimeBestComboLevel: 2
   _runHighestLevel: 0
   _lifetimeHighestLevel: 1
-  _runLength: 46.625595
-  _timerAsText: 00:46
+  _runLength: 26.13493
+  _timerAsText: 00:26
