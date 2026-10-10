@@ -12,15 +12,6 @@ public class PlayerExperienceManager : MonoBehaviour
     public PlayerStats PlayerStatsData;
 
     [Header("Experience Settings")]
-    //public AnimationCurve ExperienceCurve;
-
-    //private int _currentLevel;
-    //private int _totalXP;
-    //private int _previousLevelXP;
-    //private int _nextLevelXP;
-
-    //private float _XPBarTargetFillAmount;
-    //private float _XPBarCurrentFillAmount;
     public float XPBarFillSpeed = 0.5f;
 
     private int _currentLevel;
@@ -28,7 +19,7 @@ public class PlayerExperienceManager : MonoBehaviour
     private int _storedExp;
     private int _totalExp;
     private float _barValue = 0;
-    private int _expToLevel = 50;
+    private int _expToLevel = 40;
     private int _levelUpRemainder = 0;
     public float ExpToLevelGrowth = 1.15f;
 
@@ -110,78 +101,6 @@ public class PlayerExperienceManager : MonoBehaviour
         }
     }
 
-    //private void Start()
-    //{
-    //    // Ensure local level/thresholds match PlayerStatsData at startup
-    //    _currentLevel = PlayerStatsData.GetPlayerLevel();
-    //    UpdateLevel();
-    //}
-
-    //public void AddExperience()
-    //{
-    //    _totalXP = PlayerStatsData.GetTotalXP();
-    //    CheckForLevelUp();
-    //    UpdateInterface();
-    //}
-
-    //private void CheckForLevelUp()
-    //{
-    //    // Make sure thresholds are initialized before checking
-    //    if (_nextLevelXP <= 0)
-    //        UpdateLevel();
-
-    //    while (_nextLevelXP > 0 && _totalXP >= _nextLevelXP)
-    //    {
-    //        PlayerStatsData.IncreasePlayerLevel();
-    //        _currentLevel = PlayerStatsData.GetPlayerLevel();
-    //        UpdateLevel();
-    //    }
-    //}
-
-    //private void UpdateLevel()
-    //{
-    //    _previousLevelXP = (int)ExperienceCurve.Evaluate(_currentLevel);
-    //    _nextLevelXP = (int)ExperienceCurve.Evaluate(_currentLevel + 1);
-    //    UpdateInterface();
-    //}
-
-    //private void UpdateInterface()
-    //{
-    //    int lowValue = _totalXP - _previousLevelXP;
-    //    int highValue = _nextLevelXP - _previousLevelXP;
-
-    //    // Safety: avoid negative/zero range
-    //    if (highValue <= 0) highValue = 1;
-    //    lowValue = Mathf.Clamp(lowValue, 0, highValue);
-
-    //    PlayerStatsData.SetLowXPValue(lowValue);
-    //    PlayerStatsData.SetHighXPValue(highValue);
-
-    //    _XPBarTargetFillAmount = (float)lowValue / (float)highValue;
-    //    Debug.Log(_XPBarTargetFillAmount);
-
-    //    // move towards target fill amount smoothly
-    //    StartCoroutine(XPBarFillCoroutine(_XPBarTargetFillAmount));
-    //}
-
-    //private IEnumerator XPBarFillCoroutine(float targetFillAmount)
-    //{
-    //    while (_XPBarCurrentFillAmount < targetFillAmount)
-    //    {
-    //        _XPBarCurrentFillAmount = Mathf.MoveTowards(_XPBarCurrentFillAmount, targetFillAmount, Time.deltaTime * XPBarFillSpeed);
-    //        PlayerStatsData.SetCurrentXPValue(_XPBarCurrentFillAmount);
-    //        yield return null;
-    //    }
-    //    _XPBarCurrentFillAmount = targetFillAmount;
-
-    //}
-
-    //private IEnumerator DelayXPTally(float delay)
-    //{
-    //    yield return new WaitForSeconds(delay);
-    //    AddExperience();
-    //}
-
     private void Start()
     {
         _storedExp = PlayerStatsData.GetStoredExp();
@@ -201,53 +120,55 @@ public class PlayerExperienceManager : MonoBehaviour
         PlayerStatsData.SetStoredExp(_storedExp);
         _barValue = PlayerStatsData.GetExpBarFillValue();
 
-        if ((_storedExp + _runExp) >= _expToLevel)
+        // Calculate the total XP available, including XP from this run.
+        int remainingExp = _storedExp + _runExp;
+
+        // Keep levelling up while enough XP remains.
+        while (remainingExp >= _expToLevel)
         {
-            // Move bar fill towards maximum
+            // Animate the bar to the current level's XP requirement.
             while (_barValue < _expToLevel)
             {
-                float fillValue = Mathf.MoveTowards(_barValue, _expToLevel, Time.deltaTime * XPBarFillSpeed);
-                _barValue = fillValue;
-                PlayerStatsData.SetExpBarFillValue(fillValue);
+                _barValue = Mathf.MoveTowards(_barValue, _expToLevel, Time.deltaTime * XPBarFillSpeed);
+
+                PlayerStatsData.SetExpBarFillValue(_barValue);
                 yield return null;
             }
+
             yield return new WaitForSeconds(1f);
+
+            // Subtract the XP required for this level.
+            remainingExp -= _expToLevel;
+
+            // Reset the bar for the next level.
             _barValue = 0;
             PlayerStatsData.SetExpBarFillValue(_barValue);
 
+            // Apply the level-up.
             LevelUp();
 
-            _levelUpRemainder = (_storedExp + _runExp) - _expToLevel;
-            Debug.Log($"Level Up! Remainder: {_levelUpRemainder}");
-
+            // Increase the XP requirement for the next level.
             _expToLevel = Mathf.RoundToInt(_expToLevel * ExpToLevelGrowth);
             PlayerStatsData.SetHighExpValue(_expToLevel);
+        }
 
-            while (_barValue < _levelUpRemainder)
-            {
-                float fillValue = Mathf.MoveTowards(_barValue, _levelUpRemainder, Time.deltaTime * XPBarFillSpeed);
-                _barValue = fillValue;
-                PlayerStatsData.SetExpBarFillValue(fillValue);
-                yield return null;
-            }
-            _storedExp = _levelUpRemainder;
-            _levelUpRemainder = 0;
-        }
-        else if ((_storedExp + _runExp) < _expToLevel)
+        // Animate any remaining XP into the bar.
+        while (_barValue < remainingExp)
         {
-            while (_barValue < (_storedExp + _runExp))
-            {
-                float fillValue = Mathf.MoveTowards(_barValue, (_storedExp + _runExp), Time.deltaTime * XPBarFillSpeed);
-                _barValue = fillValue;
-                PlayerStatsData.SetExpBarFillValue(fillValue);
-                yield return null;
-            }
+            _barValue = Mathf.MoveTowards(_barValue, remainingExp, Time.deltaTime * XPBarFillSpeed);
+
+            PlayerStatsData.SetExpBarFillValue(_barValue);
+            yield return null;
         }
-        //ResetStoredExp();
-        StoreRunExp();
+
+        // Save the remaining XP for the next run.
+        _storedExp = remainingExp;
+
         PlayerStatsData.SetStoredExp(_storedExp);
+
         ResetRunExp();
         PlayerStatsData.ResetRunExp();
+
         OnExpTallied?.Invoke();
     }
 
