@@ -21,6 +21,7 @@ public class PlayerStats : ScriptableObject
 
     [Header("Experience")]
     [SerializeField] private int _playerLevel = 0;
+    [SerializeField] private int _playerPercievedLevel = 1;
     [SerializeField] private int _runExp = 0;
     [SerializeField] private int _storedExp = 0;
     [SerializeField] private int _totalExp = 0;
@@ -112,6 +113,7 @@ public class PlayerStats : ScriptableObject
     public void IncreasePlayerLevel()
     {
         _playerLevel++;
+        _playerPercievedLevel++;
     }
 
     public int GetRunExp() { return _runExp; }
@@ -153,6 +155,7 @@ public class PlayerStats : ScriptableObject
     {
         _expBarHighValue = highValue;
     }
+    public int GetHighExpValue() { return _expBarHighValue; }
     public void SetExpBarFillValue(float value)
     {
         _expBarFillValue = value;

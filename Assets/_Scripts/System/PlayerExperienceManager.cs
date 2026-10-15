@@ -19,15 +19,16 @@ public class PlayerExperienceManager : MonoBehaviour
     private int _storedExp;
     private int _totalExp;
     private float _barValue = 0;
-    private int _expToLevel = 40;
-    private int _levelUpRemainder = 0;
+    public int InitialExpRequirement = 10;
+    private int _expToLevel = 0;
+    //private int _levelUpRemainder = 0;
     public float ExpToLevelGrowth = 1.15f;
 
     private void Awake()
     {
         //PlayerStatsData.ResetCurrentXP();
         Debug.Log($"Player Experience Manager: OnEnable - Current Level: {_currentLevel}, Total Exp: {_totalExp}, Stored Exp: {_storedExp}, Run Exp: {_runExp}");
-        Debug.Log($"Player Stats Data: OnEnableCurrent Level: {PlayerStatsData.GetPlayerLevel()}, Total Exp: {PlayerStatsData.GetTotalExp()}, Stored Exp: {PlayerStatsData.GetStoredExp()}, Run Exp: {PlayerStatsData.GetRunExp()}");
+        Debug.Log($"Player Stats Data: OnEnable - Current Level: {PlayerStatsData.GetPlayerLevel()}, Total Exp: {PlayerStatsData.GetTotalExp()}, Stored Exp: {PlayerStatsData.GetStoredExp()}, Run Exp: {PlayerStatsData.GetRunExp()}");
     }
 
     private void OnEnable()
@@ -87,7 +88,7 @@ public class PlayerExperienceManager : MonoBehaviour
             case HandleGameState.GameState.RunEnd:
                 break;
             case HandleGameState.GameState.XPTally:
-                StartCoroutine(DelayXPTally(3f));
+                StartCoroutine(DelayXPTally(2f));
                 break;
             case HandleGameState.GameState.GameRestart:
                 ResetRunValues();
@@ -104,6 +105,16 @@ public class PlayerExperienceManager : MonoBehaviour
     private void Start()
     {
         _storedExp = PlayerStatsData.GetStoredExp();
+        if (PlayerStatsData.GetPlayerLevel() == 1)
+        {
+            _expToLevel = InitialExpRequirement;
+        }
+        else
+        {
+            _expToLevel = Mathf.RoundToInt(InitialExpRequirement * Mathf.Pow(ExpToLevelGrowth, PlayerStatsData.GetPlayerLevel()));
+        }
+
+        Debug.Log("Player Level: " + PlayerStatsData.GetPlayerLevel() + ", Exp to Level: " + _expToLevel);
     }
 
     private IEnumerator DelayXPTally(float delay)
