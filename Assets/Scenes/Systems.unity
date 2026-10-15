@@ -423,7 +423,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   ChaserPrefab: {fileID: 5750847392312031157, guid: 058351c100648a54ba6f5ec5dd83892a, type: 3}
-  SpawnPosition: {x: 0, y: -12, z: 0}
+  SpawnPosition: {x: 0, y: -12, z: 10}
 --- !u!1 &2035703670
 GameObject:
   m_ObjectHideFlags: 0
