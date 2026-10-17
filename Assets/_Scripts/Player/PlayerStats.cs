@@ -268,6 +268,7 @@ public class PlayerStats : ScriptableObject
         _runTotalCurrency = 0;
         _lifetimeTotalCurrency = 0;
         _playerLevel = 0;
+        _playerPercievedLevel = 1;
         _runExp = 0;
         _storedExp = 0;
         _totalExp = 0;

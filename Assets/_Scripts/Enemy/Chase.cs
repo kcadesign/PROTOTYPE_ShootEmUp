@@ -8,6 +8,8 @@ public class Chase : MonoBehaviour
     public float FollowSpeed = 2f;
     public float CreepSpeed = 1f;
 
+    private bool _isBossFight = false;
+
     private Vector3 _initialPosition;
 
     private HandleGameState.GameState _currentGameState;
@@ -23,21 +25,29 @@ public class Chase : MonoBehaviour
     private void OnEnable()
     {
         HandleGameState.OnGameStateChanged += HandleGameState_OnGameStateChanged;
+        SignalBossLevel.OnExitBossLevel += SignalBossLevel_OnExitBossLevel;
     }
 
     private void OnDisable()
     {
         HandleGameState.OnGameStateChanged -= HandleGameState_OnGameStateChanged;
+        SignalBossLevel.OnExitBossLevel -= SignalBossLevel_OnExitBossLevel;
     }
 
     private void HandleGameState_OnGameStateChanged(HandleGameState.GameState state)
     {
         _currentGameState = state;
+    }
 
+    private void SignalBossLevel_OnExitBossLevel()
+    {
+        _isBossFight = false;
     }
 
     private void FixedUpdate()
     {
+        Debug.Log("Boss Fight Status: " + _isBossFight);
+
         switch (_currentGameState)
         {
             case HandleGameState.GameState.PreGameMenu:
@@ -45,15 +55,29 @@ public class Chase : MonoBehaviour
             case HandleGameState.GameState.Transition:
                 break;
             case HandleGameState.GameState.Gameplay:
-                if (_player != null)
+                if (!_isBossFight)
                 {
-                    MoveTowardsPlayer();
+                    if (_player != null)
+                    {
+                        MoveTowardsPlayer(FollowSpeed);
+                    }
+                    else if (_player == null)
+                    {
+                        FindPlayer();
+                    }
+                    Creep(CreepSpeed);
                 }
-                else if (_player == null)
+                else if (_isBossFight)
                 {
-                    FindPlayer();
+                    if (_player != null)
+                    {
+                        PauseChaserMovement();
+                    }
+                    else if (_player == null)
+                    {
+                        FindPlayer();
+                    }
                 }
-                Creep();
                 break;
             case HandleGameState.GameState.LevelStart:
                 transform.position = _initialPosition; // Reset position to initial position
@@ -63,10 +87,13 @@ public class Chase : MonoBehaviour
             case HandleGameState.GameState.Shop:
                 break;
             case HandleGameState.GameState.LevelEnd:
+                MoveTowardsPlayer(0);
+                Creep(0);
                 break;
             case HandleGameState.GameState.ChoosePowerup:
                 break;
             case HandleGameState.GameState.BossFight:
+                _isBossFight = true;
                 break;
             case HandleGameState.GameState.RunEnd:
                 break;
@@ -94,18 +121,29 @@ public class Chase : MonoBehaviour
         }
     }
 
-    private void MoveTowardsPlayer()
+    private void MoveTowardsPlayer(float followSpeed)
     {
         float desiredY = _player.transform.position.y + DistanceOffset;
         // Prevent downward movement: choose the higher of current Y position and desired Y position
         float targetY = Mathf.Max(transform.position.y, desiredY);
 
         Vector3 targetPosition = new Vector3(transform.position.x, targetY, transform.position.z);
-        transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * FollowSpeed);
+        transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * followSpeed);
     }
 
-    private void Creep()
+    private void Creep(float creepSpeed)
     {
-        gameObject.transform.Translate(Vector2.up * CreepSpeed * Time.deltaTime);
+        gameObject.transform.Translate(Vector2.up * creepSpeed * Time.deltaTime);
+    }
+
+    public void PauseChaserMovement()
+    {
+        MoveTowardsPlayer(0);
+        Creep(0);
+    }
+
+    public void SetBossFight(bool isBossFight)
+    {
+        _isBossFight = isBossFight;
     }
 }

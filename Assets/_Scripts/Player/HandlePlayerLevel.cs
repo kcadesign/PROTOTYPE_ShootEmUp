@@ -43,7 +43,7 @@ public class HandlePlayerLevel : MonoBehaviour
         }
         else if (_playerLevel == targetLevel)
         {
-            Debug.Log($"Player level is {_playerLevel} on enable. No level up detected.");
+            Debug.Log($"Player level is {_playerLevel + 1} on enable. No level up detected.");
         }
     }
 

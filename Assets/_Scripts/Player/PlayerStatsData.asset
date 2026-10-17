@@ -19,7 +19,8 @@ MonoBehaviour:
   _currentCurrency: 0
   _runTotalCurrency: 0
   _lifetimeTotalCurrency: 0
-  _playerLevel: 1
+  _playerLevel: 0
+  _playerPercievedLevel: 1
   _runExp: 0
   _storedExp: 0
   _totalExp: 0

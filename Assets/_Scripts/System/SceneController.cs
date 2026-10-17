@@ -127,7 +127,7 @@ public class SceneController : MonoBehaviour
             if (firstLevelScene.IsValid())
                 SceneManager.SetActiveScene(firstLevelScene);
 
-            Debug.Log("First level activated.");
+            Debug.Log("Level activated.");
             OnLevelLoaded?.Invoke();
         }
         catch (Exception ex)

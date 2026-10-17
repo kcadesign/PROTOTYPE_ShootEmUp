@@ -38,14 +38,35 @@ public class SpawnChaser : MonoBehaviour
                 }
             }
         }
-        else if (state == HandleGameState.GameState.LevelEnd)
+        else if (state == HandleGameState.GameState.BossFight)
         {
-            if (_chaser != null)
+            if (_chaser == null)
             {
-                Debug.Log("Level ended. Deactivating chaser.");
-                _chaser.SetActive(false);
+                Debug.Log("Chaser not found. Spawning chaser at spawn position.");
+                InstantiateChaser();
+                _chaser.GetComponent<Chase>().SetBossFight(true);
+            }
+            else if (_chaser != null)
+            {
+                Debug.Log("Chaser already exists. Moving chaser to spawn position.");
+                _chaser.transform.position = SpawnPosition;
+
+                if (!_chaser.activeSelf)
+                {
+                    Debug.Log("Chaser inactive. Setting active now and resetting health.");
+                    _chaser.SetActive(true);
+                }
             }
         }
+        //else if (state == HandleGameState.GameState.LevelEnd)
+        //{
+        //    if (_chaser != null)
+        //    {
+        //        //Debug.Log("Level ended. Deactivating chaser.");
+        //        //_chaser.SetActive(false);
+        //        //_chaser.GetComponent<Chase>().PauseChaserMovement();
+        //    }
+        //}
         else if (state == HandleGameState.GameState.PreGameMenu)
         {
             if (_chaser != null)

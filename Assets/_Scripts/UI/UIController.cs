@@ -311,21 +311,21 @@ public class UIController : MonoBehaviour
 
     private void Level2Button_Clicked()
     {
-        OnLevelSelected?.Invoke("02BoostJumps");
+        OnLevelSelected?.Invoke("Level_GenerationTest1-2");
         StartCoroutine(Transition(_HUDPanel, TransitionLength, TransitionHoldLength));
         Debug.Log("Level 2 button clicked");
     }
 
     private void Level3Button_Clicked()
     {
-        OnLevelSelected?.Invoke("03Grapple");
+        OnLevelSelected?.Invoke("Level_GenerationTest1-3");
         StartCoroutine(Transition(_HUDPanel, TransitionLength, TransitionHoldLength));
         Debug.Log("Level 3 button clicked");
     }
 
     private void Level4Button_Clicked()
     {
-        OnLevelSelected?.Invoke("04Enemies");
+        OnLevelSelected?.Invoke("Level_World1Boss");
         StartCoroutine(Transition(_HUDPanel, TransitionLength, TransitionHoldLength));
         Debug.Log("Level 4 button clicked");
     }
