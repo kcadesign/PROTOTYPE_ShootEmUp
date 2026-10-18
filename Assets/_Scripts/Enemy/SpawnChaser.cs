@@ -4,33 +4,36 @@ public class SpawnChaser : MonoBehaviour
 {
     public GameObject ChaserPrefab;
     private GameObject _chaser;
-    public Vector3 SpawnPosition;
+    public Vector3 DefaultSpawnPosition;
+    public Vector3 BossLevelSpawnPosition;
     //private Collider2D _playerCollider;
+
+    private bool _isBossFight = false;
 
     private void OnEnable()
     {
         HandleGameState.OnGameStateChanged += HandleGameState_OnGameStateChanged;
+        SignalBossLevel.OnExitBossLevel += SignalBossLevel_OnExitBossLevel;
     }
 
     private void OnDisable()
     {
         HandleGameState.OnGameStateChanged -= HandleGameState_OnGameStateChanged;
+        SignalBossLevel.OnExitBossLevel -= SignalBossLevel_OnExitBossLevel;
     }
 
     private void HandleGameState_OnGameStateChanged(HandleGameState.GameState state)
     {
         if (state == HandleGameState.GameState.LevelStart)
         {
-            if (_chaser == null)
+            if (_chaser == null && !_isBossFight)
             {
                 Debug.Log("Chaser not found. Spawning chaser at spawn position.");
-                InstantiateChaser();
+                InstantiateChaser(DefaultSpawnPosition);
             }
-            else if (_chaser != null)
+            else if (_chaser != null && !_isBossFight)
             {
-                Debug.Log("Chaser already exists. Moving chaser to spawn position.");
-                _chaser.transform.position = SpawnPosition;
-
+                _chaser.GetComponent<Chase>().SetStartPosition(DefaultSpawnPosition);
                 if (!_chaser.activeSelf)
                 {
                     Debug.Log("Chaser inactive. Setting active now and resetting health.");
@@ -40,16 +43,17 @@ public class SpawnChaser : MonoBehaviour
         }
         else if (state == HandleGameState.GameState.BossFight)
         {
+            SetBossFight(true);
             if (_chaser == null)
             {
                 Debug.Log("Chaser not found. Spawning chaser at spawn position.");
-                InstantiateChaser();
+                InstantiateChaser(BossLevelSpawnPosition);
                 _chaser.GetComponent<Chase>().SetBossFight(true);
             }
             else if (_chaser != null)
             {
                 Debug.Log("Chaser already exists. Moving chaser to spawn position.");
-                _chaser.transform.position = SpawnPosition;
+                _chaser.GetComponent<Chase>().SetStartPosition(BossLevelSpawnPosition);
 
                 if (!_chaser.activeSelf)
                 {
@@ -77,10 +81,20 @@ public class SpawnChaser : MonoBehaviour
         }
     }
 
-    private void InstantiateChaser()
+    private void SignalBossLevel_OnExitBossLevel()
     {
-        _chaser = Instantiate(ChaserPrefab, SpawnPosition, Quaternion.identity);
+        SetBossFight(false);
+    }
+
+    private void InstantiateChaser(Vector3 spawnPosition)
+    {
+        _chaser = Instantiate(ChaserPrefab, spawnPosition, Quaternion.identity);
         // set the chaser to not destroy on load so it persists across scenes
         DontDestroyOnLoad(_chaser);
+    }
+
+    private void SetBossFight(bool isBossFight)
+    {
+        _isBossFight = isBossFight;
     }
 }

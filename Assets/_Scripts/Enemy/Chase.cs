@@ -10,7 +10,7 @@ public class Chase : MonoBehaviour
 
     private bool _isBossFight = false;
 
-    private Vector3 _initialPosition;
+    private Vector3 _startPosition;
 
     private HandleGameState.GameState _currentGameState;
 
@@ -18,7 +18,7 @@ public class Chase : MonoBehaviour
     {
         // find the player in the scene by searching for the "Player" tag
         FindPlayer();
-        _initialPosition = transform.position;
+        _startPosition = transform.position;
         DontDestroyOnLoad(gameObject);
     }
 
@@ -46,7 +46,7 @@ public class Chase : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log("Boss Fight Status: " + _isBossFight);
+        //Debug.Log("Boss Fight Status: " + _isBossFight);
 
         switch (_currentGameState)
         {
@@ -80,7 +80,6 @@ public class Chase : MonoBehaviour
                 }
                 break;
             case HandleGameState.GameState.LevelStart:
-                transform.position = _initialPosition; // Reset position to initial position
                 break;
             case HandleGameState.GameState.GamePaused:
                 break;
@@ -145,5 +144,10 @@ public class Chase : MonoBehaviour
     public void SetBossFight(bool isBossFight)
     {
         _isBossFight = isBossFight;
+    }
+
+    public void SetStartPosition(Vector3 position)
+    {
+        _startPosition = position;
     }
 }
