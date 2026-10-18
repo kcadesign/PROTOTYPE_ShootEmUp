@@ -33,7 +33,7 @@ public class SpawnChaser : MonoBehaviour
             }
             else if (_chaser != null && !_isBossFight)
             {
-                _chaser.GetComponent<Chase>().SetStartPosition(DefaultSpawnPosition);
+                _chaser.GetComponent<Chase>().SetPosition(DefaultSpawnPosition);
                 if (!_chaser.activeSelf)
                 {
                     Debug.Log("Chaser inactive. Setting active now and resetting health.");
@@ -53,7 +53,7 @@ public class SpawnChaser : MonoBehaviour
             else if (_chaser != null)
             {
                 Debug.Log("Chaser already exists. Moving chaser to spawn position.");
-                _chaser.GetComponent<Chase>().SetStartPosition(BossLevelSpawnPosition);
+                _chaser.GetComponent<Chase>().SetPosition(BossLevelSpawnPosition);
 
                 if (!_chaser.activeSelf)
                 {
