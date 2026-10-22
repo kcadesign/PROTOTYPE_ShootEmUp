@@ -22,7 +22,6 @@ public class PlayerGround : MonoBehaviour
 
     private void Update()
     {
-        // Use the correct Rigidbody2D property and a small epsilon to avoid noise
         if (_playerRigidbody.linearVelocityY > 0.01f)
         {
             _onGround = false;
@@ -47,13 +46,12 @@ public class PlayerGround : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        //Draw the ground colliders on screen for debug purposes
+        //Draw the ground rays on screen for debug purposes
         if (_onGround) { Gizmos.color = Color.green; } else { Gizmos.color = Color.red; }
         //Gizmos.DrawLine(transform.position + colliderOffset, transform.position + colliderOffset + Vector3.down * groundLength);
         Gizmos.DrawLine(transform.position + colliderOffset + Vector3.left * RayGap, transform.position + colliderOffset + Vector3.left * RayGap + Vector3.down * groundLength);
         Gizmos.DrawLine(transform.position + colliderOffset + Vector3.right * RayGap, transform.position + colliderOffset + Vector3.right * RayGap + Vector3.down * groundLength);
     }
 
-    //Send ground detection to other scripts
     public bool GetOnGround() { return _onGround; }
 }
