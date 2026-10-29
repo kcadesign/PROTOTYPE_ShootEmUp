@@ -7,6 +7,7 @@ public class HandleDeath : MonoBehaviour
     public UnityEvent OnDeath;
     public UnityEvent OnCollateralDamage;
     public static event Action OnEnemyDeath;
+    public static event Action OnBossDeath;
     private bool _isDead = false;
     private Health _health;
 
@@ -41,6 +42,11 @@ public class HandleDeath : MonoBehaviour
     public void SignalDeath()
     {
         OnEnemyDeath?.Invoke();
+    }
+
+    public void SignalBossDeath()
+    {
+        OnBossDeath?.Invoke();
     }
 
     public void CollateralDamage()

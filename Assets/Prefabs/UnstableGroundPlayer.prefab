@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 7420743487598296955}
   - component: {fileID: 5338793694391469060}
   m_Layer: 3
-  m_Name: UnstableGround
+  m_Name: UnstableGroundPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -298,8 +298,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 279aaa4a9df424342a4c35a192b23eb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  PlayerActivated: 0
   ActiveRender: {fileID: 9117935766188597666}
   InactiveRender: {fileID: 3360919845464017877}
+  HorizontalFrequency: 25
+  HorizontalMagnitude: 0.1
   CollapseDelay: 3
   RespawnDelay: 3
 --- !u!1 &9117935766188597666

@@ -49,19 +49,14 @@ public class PlayerBodyCollisions : MonoBehaviour
         MultiplyLaunchMultiplier(1.5f);
         Debug.Log("Launch multiplier increased to: " + LaunchMultiplier);
     }
-    // --------------------------------------------------------------------------------
-    // FIX: Where is the separation between this collision script and the stomp script?
-    // This script should be called handle player body collisions and only deal with things touching the player body
-    // The stomp script should only deal with collisions with the stomp zone
-    // --------------------------------------------------------------------------------
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.IsTouching(_playerBodyCollider)) return;
 
         // if the player collides with an enemy and is invincible
-        if (collision.gameObject.CompareTag("Enemy") && _playerInvincibility.GetPlayerInvincible()/*&& _playerJump.GetIsAirJumping() && _playerDash.GetIsDashing() && PlayerGrapple.GetIsGrappling()*/)
+        if (collision.gameObject.CompareTag("Enemy") && _playerInvincibility.GetPlayerInvincible())
         {
-            //Debug.Log($"Air jump: {_playerJump.GetIsAirJumping()} | Dash: {_playerDash.GetIsDashing()} | Grapple: {PlayerGrapple.GetIsGrappling()}");
 
             if (collision.GetComponent<Health>() != null)
             {
@@ -71,11 +66,11 @@ public class PlayerBodyCollisions : MonoBehaviour
                 _playerJump.DoJump(LaunchMultiplier);
             }
         }
-        else if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Obstacle"))
+        else if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Obstacle") || collision.gameObject.CompareTag("Boss"))
         {
             if (_playerHealth != null)
             {
-                if (!Shield.GetIsShieldActive())
+                if (!Shield.GetIsShieldActive() || !GetIsKnockbackActive())
                 {
                     Debug.Log("Player RECEIVED damage - Collided with TRIGGER: " + collision.gameObject.name);
                     _playerHealth.Damage(1);
@@ -105,9 +100,8 @@ public class PlayerBodyCollisions : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy") && _playerInvincibility.GetPlayerInvincible()/*&& _playerJump.GetIsAirJumping() && _playerDash.GetIsDashing() && PlayerGrapple.GetIsGrappling()*/)
+        if (collision.gameObject.CompareTag("Enemy") && _playerInvincibility.GetPlayerInvincible())
         {
-            //Debug.Log($"Air jump: {_playerJump.GetIsAirJumping()} | Dash: {_playerDash.GetIsDashing()} | Grapple: {PlayerGrapple.GetIsGrappling()}");
             if (collision.gameObject.GetComponent<Health>() != null)
             {
                 collision.gameObject.GetComponent<Health>().Damage(1);
@@ -118,7 +112,7 @@ public class PlayerBodyCollisions : MonoBehaviour
         {
             if (_playerHealth != null)
             {
-                if (!Shield.GetIsShieldActive())
+                if (!Shield.GetIsShieldActive() || !GetIsKnockbackActive())
                 {
                     Debug.Log("Player RECEIVED damage - Collided with COLLIDER: " + collision.gameObject.name);
                     _playerHealth.Damage(1);
