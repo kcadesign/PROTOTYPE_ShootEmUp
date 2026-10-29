@@ -45,18 +45,18 @@ public class Stamina : MonoBehaviour
     {
         if (_currentStamina <= 0)
         {
-            Debug.Log($"{gameObject.name} is out of stamina.");
+            //Debug.Log($"{gameObject.name} is out of stamina.");
             return; // Already at 0 stamina, do nothing
         }
         else if (_currentStamina != 0)
         {
             _currentStamina -= amount;
-            Debug.Log($"{gameObject.name} used {amount} stamina. Current stamina: {_currentStamina}");
+            //Debug.Log($"{gameObject.name} used {amount} stamina. Current stamina: {_currentStamina}");
             OnCurrentStaminaChanged?.Invoke(_currentStamina);
 
             if (_currentStamina <= 0)
             {
-                Debug.Log($"{gameObject.name} is out of stamina.");
+                //Debug.Log($"{gameObject.name} is out of stamina.");
                 return; // Already at 0 stamina, do nothing
             }
         }

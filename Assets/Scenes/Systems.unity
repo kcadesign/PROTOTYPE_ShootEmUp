@@ -559,7 +559,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5338903947281834151, guid: decce682802c0a947841d2e20f7822ff, type: 3}
       propertyPath: InitialExpRequirement
-      value: 25
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 5338903947281834151, guid: decce682802c0a947841d2e20f7822ff, type: 3}
       propertyPath: ExperienceCurve.m_Curve.Array.data[1].time
