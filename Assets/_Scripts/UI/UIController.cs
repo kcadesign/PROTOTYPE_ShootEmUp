@@ -158,6 +158,7 @@ public class UIController : MonoBehaviour
         _resumeButton.clicked += ResumeButton_Clicked;
 
         LevelEnd.OnPlayerEnterLevelEnd += LevelEnd_OnPlayerEnterLevelEnd;
+        HandleDeath.OnBossDeath += HandleDeath_OnBossDeath;
         SceneController.OnNoMoreLevels += SceneController_OnNoMoreLevels;
         PlayerExperienceManager.OnExpTallied += PlayerExperienceManager_OnExpTallied;
     }
@@ -195,6 +196,7 @@ public class UIController : MonoBehaviour
         _resumeButton.clicked -= ResumeButton_Clicked;
 
         LevelEnd.OnPlayerEnterLevelEnd -= LevelEnd_OnPlayerEnterLevelEnd;
+        HandleDeath.OnBossDeath -= HandleDeath_OnBossDeath;
         SceneController.OnNoMoreLevels -= SceneController_OnNoMoreLevels;
         PlayerExperienceManager.OnExpTallied -= PlayerExperienceManager_OnExpTallied;
     }
@@ -437,6 +439,11 @@ public class UIController : MonoBehaviour
     }
 
     private void LevelEnd_OnPlayerEnterLevelEnd()
+    {
+        StartCoroutine(Transition(_boonChoicePanel, TransitionLength, TransitionHoldLength));
+    }
+
+    private void HandleDeath_OnBossDeath()
     {
         StartCoroutine(Transition(_boonChoicePanel, TransitionLength, TransitionHoldLength));
     }

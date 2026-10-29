@@ -42,6 +42,7 @@ public class SceneController : MonoBehaviour
         UIController.OnSceneReloadRequested += UIController_OnSceneReloadRequested;
 
         LevelEnd.OnPlayerEnterLevelEnd += LevelEnd_OnPlayerEnterLevelEnd;
+        HandleDeath.OnBossDeath += HandleDeath_OnBossDeath;
     }
 
     private void OnDisable()
@@ -57,6 +58,8 @@ public class SceneController : MonoBehaviour
         UIController.OnSceneReloadRequested -= UIController_OnSceneReloadRequested;
 
         LevelEnd.OnPlayerEnterLevelEnd -= LevelEnd_OnPlayerEnterLevelEnd;
+        HandleDeath.OnBossDeath -= HandleDeath_OnBossDeath;
+
     }
 
     private void Start()
@@ -283,6 +286,16 @@ public class SceneController : MonoBehaviour
     }
 
     private void LevelEnd_OnPlayerEnterLevelEnd()
+    {
+        GetNextSceneToLoad();
+    }
+
+    private void HandleDeath_OnBossDeath()
+    {
+        GetNextSceneToLoad();
+    }
+
+    private void GetNextSceneToLoad()
     {
         int nextSceneIndex;
         // if the current scene is the last level, unload the current scene and return to the main menu
