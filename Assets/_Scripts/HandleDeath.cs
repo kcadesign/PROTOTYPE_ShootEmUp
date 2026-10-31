@@ -34,7 +34,10 @@ public class HandleDeath : MonoBehaviour
 
     public void InstantiatePrefab(GameObject prefab)
     {
-        Vector3 spawnPosition = transform.position;
+        Camera camera = Camera.main;
+        Vector3 spawnPosition =
+            transform.position - camera.transform.forward * 15f;
+
         // instantiate a prefab outside of its parent heirarchy
         Instantiate(prefab, spawnPosition, Quaternion.identity, null);
     }
