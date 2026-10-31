@@ -204,7 +204,12 @@ public class UIController : MonoBehaviour
     private void Start()
     {
         StartCoroutine(Transition(_mainMenuPanel, TransitionLength, TransitionHoldLength));
-        GetComponent<UIDocument>().rootVisualElement.Q<VisualElement>("StartButton").Focus();
+        SetButtonFocus("StartButton");
+    }
+
+    private void SetButtonFocus(string buttonName)
+    {
+        GetComponent<UIDocument>().rootVisualElement.Q<VisualElement>(buttonName).Focus();
     }
 
     private void Update()
@@ -242,6 +247,7 @@ public class UIController : MonoBehaviour
                 break;
             case HandleGameState.GameState.GamePaused:
                 _canPause = true;
+                SetButtonFocus("ResumeButton");
                 break;
             case HandleGameState.GameState.Shop:
                 _canPause = false;
@@ -251,6 +257,7 @@ public class UIController : MonoBehaviour
                 break;
             case HandleGameState.GameState.ChoosePowerup:
                 _canPause = false;
+                SetButtonFocus("Choice1Button");
                 break;
             case HandleGameState.GameState.BossFight:
                 _canPause = true;
