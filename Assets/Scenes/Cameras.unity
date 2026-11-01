@@ -445,9 +445,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbd344118eae2554abc9bf706f087120, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  AngleChangeSpeed: 2
-  MaxPanAngle: 15
-  MaxPanDistance: 10
+  AngleChangeSpeed: 1.5
+  MaxPanAngle: 25
+  MaxPanDistance: 15
 --- !u!114 &1415812927
 MonoBehaviour:
   m_ObjectHideFlags: 0

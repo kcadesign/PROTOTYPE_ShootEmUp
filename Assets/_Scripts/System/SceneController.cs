@@ -21,7 +21,7 @@ public class SceneController : MonoBehaviour
     private int _nextSceneToLoad = 0;
     private bool _isSceneToLoad = false;
 
-    private string _firstLevel = "Level_GenerationTest1-1";
+    private string _firstLevel = "Level_World1-1";
 
     private void Awake()
     {

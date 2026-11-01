@@ -104,8 +104,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0}
-  m_Size: {x: 3.93, y: 6.99}
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 5.792656, y: 9.172604}
   m_Direction: 0
 --- !u!114 &1235604207316207909
 MonoBehaviour:
@@ -208,7 +208,7 @@ Transform:
   m_GameObject: {fileID: 4390408791876866348}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 6, z: 0}
+  m_LocalPosition: {x: 0, y: 8, z: 0}
   m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -450,7 +450,7 @@ Transform:
   m_GameObject: {fileID: 8374165489493415467}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.5, y: -2.5, z: 0}
+  m_LocalPosition: {x: 7, y: -4, z: 0}
   m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -622,7 +622,7 @@ Transform:
   m_GameObject: {fileID: 9030633222458658042}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.5, y: -2.5, z: 0}
+  m_LocalPosition: {x: -7, y: -4, z: 0}
   m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -774,15 +774,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 0909977aa3aa00d4bb20c276d8d1cc29, type: 3}
       propertyPath: m_LocalScale.x
-      value: 9.2
+      value: 12.78708
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0909977aa3aa00d4bb20c276d8d1cc29, type: 3}
       propertyPath: m_LocalScale.y
-      value: 9.2
+      value: 12.78708
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0909977aa3aa00d4bb20c276d8d1cc29, type: 3}
       propertyPath: m_LocalScale.z
-      value: 9.2
+      value: 12.78708
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0909977aa3aa00d4bb20c276d8d1cc29, type: 3}
       propertyPath: m_LocalPosition.x
@@ -891,7 +891,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.4
+  m_Radius: 0.4007476
 --- !u!114 &5550599163677770819
 MonoBehaviour:
   m_ObjectHideFlags: 0
