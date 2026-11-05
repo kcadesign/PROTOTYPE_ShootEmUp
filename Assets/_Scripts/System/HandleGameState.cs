@@ -36,6 +36,8 @@ public class HandleGameState : MonoBehaviour
         SceneController.OnLevelLoaded += SceneController_OnLevelLoaded;
         SignalBossLevel.OnEnterBossLevel += SignalBossLevel_OnEnterBossLevel;
         HandleDeath.OnBossDeath += HandleDeath_OnBossDeath;
+        SignalDemoEnd.OnEnterDemoEnd += SignalDemoEnd_OnEnterDemoEnd;
+        SignalDemoEnd.OnExitDemoEnd += SignalDemoEnd_OnExitDemoEnd;
         HandlePlayerDeath.OnPlayerDeath += HandlePlayerDeath_OnPlayerDeath;
         UIController.OnMainMenuButtonPressed += UIController_OnMainMenuButtonPressed;
         UIController.OnRetryButtonPressed += UIController_OnRetryButtonPressed;
@@ -52,6 +54,8 @@ public class HandleGameState : MonoBehaviour
         SceneController.OnLevelLoaded -= SceneController_OnLevelLoaded;
         SignalBossLevel.OnEnterBossLevel -= SignalBossLevel_OnEnterBossLevel;
         HandleDeath.OnBossDeath -= HandleDeath_OnBossDeath;
+        SignalDemoEnd.OnEnterDemoEnd -= SignalDemoEnd_OnEnterDemoEnd;
+        SignalDemoEnd.OnExitDemoEnd -= SignalDemoEnd_OnExitDemoEnd;
         HandlePlayerDeath.OnPlayerDeath -= HandlePlayerDeath_OnPlayerDeath;
         UIController.OnMainMenuButtonPressed -= UIController_OnMainMenuButtonPressed;
         UIController.OnRetryButtonPressed -= UIController_OnRetryButtonPressed;
@@ -83,6 +87,17 @@ public class HandleGameState : MonoBehaviour
     {
         UpdateGameState(GameState.LevelEnd);
         UpdateGameState(GameState.ChoosePowerup);
+    }
+
+    private void SignalDemoEnd_OnEnterDemoEnd()
+    {
+        UpdateGameState(GameState.GameFinished);
+    }
+
+    private void SignalDemoEnd_OnExitDemoEnd()
+    {
+        //UpdateGameState(GameState.GameRestart);
+        //UpdateGameState(GameState.PreGameMenu);
     }
 
     private void HandlePlayerDeath_OnPlayerDeath()

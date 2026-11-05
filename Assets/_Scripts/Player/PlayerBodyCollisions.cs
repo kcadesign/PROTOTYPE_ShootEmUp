@@ -19,6 +19,8 @@ public class PlayerBodyCollisions : MonoBehaviour
     public float KnockbackDuration = 0.5f;
     public float KnockbackPower = 5f;
     private bool _isKnockbackActive = false;
+    public float InvulnerableDuration = 2.0f;
+    private bool _isInvulnerable = false;
 
     [Header("Launch Settings")]
     public float LaunchMultiplier = 1.0f;
@@ -70,7 +72,8 @@ public class PlayerBodyCollisions : MonoBehaviour
         {
             if (_playerHealth != null)
             {
-                if (!Shield.GetIsShieldActive() || !GetIsKnockbackActive())
+                bool protectedFromDamage = Shield.GetIsShieldActive() || GetIsKnockbackActive() || GetIsInvulnerable();
+                if (!protectedFromDamage)
                 {
                     Debug.Log("Player RECEIVED damage - Collided with TRIGGER: " + collision.gameObject.name);
                     _playerHealth.Damage(1);
@@ -112,7 +115,8 @@ public class PlayerBodyCollisions : MonoBehaviour
         {
             if (_playerHealth != null)
             {
-                if (!Shield.GetIsShieldActive() || !GetIsKnockbackActive())
+                bool protectedFromDamage = Shield.GetIsShieldActive() || GetIsKnockbackActive() || GetIsInvulnerable();
+                if (!protectedFromDamage)
                 {
                     Debug.Log("Player RECEIVED damage - Collided with COLLIDER: " + collision.gameObject.name);
                     _playerHealth.Damage(1);
@@ -137,6 +141,7 @@ public class PlayerBodyCollisions : MonoBehaviour
     private IEnumerator Knockback(float duration, float power, Vector2 direction)
     {
         _isKnockbackActive = true;
+        StartCoroutine(Invulnerable(InvulnerableDuration));
         _playerMovement.DisableMovementInput();
 
         _playerRigidbody.linearVelocity = Vector2.zero;
@@ -154,9 +159,23 @@ public class PlayerBodyCollisions : MonoBehaviour
         _isKnockbackActive = false;
     }
 
+    private IEnumerator Invulnerable(float duration)
+    {
+        _isInvulnerable = true;
+        Debug.Log("Player is now invulnerable");
+        yield return new WaitForSeconds(duration);
+        _isInvulnerable = false;
+        Debug.Log("Player is no longer invulnerable");
+    }
+
     public bool GetIsKnockbackActive()
     {
         return _isKnockbackActive;
+    }
+
+    public bool GetIsInvulnerable()
+    {
+        return _isInvulnerable;
     }
 
     public void MultiplyLaunchMultiplier(float amount)

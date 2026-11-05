@@ -23,6 +23,7 @@ public class HandleDeath : MonoBehaviour
             _isDead = true;
             OnDeath?.Invoke();
             //SignalDeath();
+            //Debug.Log(gameObject.name + " has been disabled.");
             gameObject.SetActive(false);
         }
     }
